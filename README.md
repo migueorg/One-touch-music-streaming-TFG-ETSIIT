@@ -1,10 +1,10 @@
-# Trabajo de Fin de Grado: *Título*
+# Trabajo de Fin de Grado: *Sistema de streaming por contacto usando dispositivos de bajo coste*
 
-**Este sería el README de tu proyecto. Consulta las [instrucciones de
+Consulta las [instrucciones de
 instalación](INSTALL.md)
 
-### Autor(a): Nombre
-### Tutor(a)(es): Nombre(s)
+### Autor: Miguel Ángel Martín Rodríguez
+### Tutor: Juan Julián Merelo Guervós
 ___
 
 La documentación de este proyecto está realizada con `LaTeX`, por lo
