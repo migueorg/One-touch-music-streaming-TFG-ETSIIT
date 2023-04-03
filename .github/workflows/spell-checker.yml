@@ -3,7 +3,7 @@ name: Procesado del informe LaTeX
 on:
   push:
     paths:
-      - 'docs/**'
+      - 'doc/**'
 jobs:
   spell-checker:
     runs-on: ubuntu-latest
@@ -15,7 +15,7 @@ jobs:
         uses: ChiefGokhlayeh/textidote-action@v5.3.1
         id: lint
         with:
-          root_file: docs/proyecto.tex
+          root_file: doc/proyecto.tex
           args: --check es --dict .github/workflows/dico.txt --ignore sh:seclen,sh:stacked,sh:nonp,sh:nobreak,lt:es:SPACE_UNITIES,lt:es:MIN_MESES --remove-macros begin,addtolength
 
       - name: Upload TeXtidote report
