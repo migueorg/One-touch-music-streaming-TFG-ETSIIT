@@ -309,3 +309,5 @@ typings/
 # emacs
 *~
 
+#macOS Files
+.DS_*
