@@ -1,5 +1,4 @@
 name: Procesado del informe LaTeX
-#run-name: Analizando sintáctica y ortográficamente
 on:
   push:
     paths:
