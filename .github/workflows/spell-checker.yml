@@ -27,6 +27,7 @@ jobs:
         if: ${{ steps.lint.outputs.num_warnings != 0 }}
         run: 'echo "::error file=main.tex::num_warnings: ${{ steps.lint.outputs.num_warnings }}"; exit 1;'
   compile-latex:
+    needs: spell-checker
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
