@@ -37,3 +37,6 @@ releases
 Milestones
 iso
 .iso
+geek
+DIY
+audiófila
