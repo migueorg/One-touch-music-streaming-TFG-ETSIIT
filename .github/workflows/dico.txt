@@ -26,6 +26,7 @@ Merelo
 Guervós
 User
 Journeys
+journeys
 user
 story
 Source
