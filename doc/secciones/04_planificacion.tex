@@ -44,9 +44,47 @@ búsqueda anterior para finalmente seleccionar uno son:
 Tras buscar \emph{Spell Checkers} que cumplan los requisitos de búsqueda son:
 
 \begin{itemize}
-    \item 
+    \item \href{https://github.com/marketplace/actions/textidote-action}{TeXtidote Action}
 \end{itemize}
 
+Desafortunadamente, solo he podido encontrar un \emph{Spell Checker} que
+cumpliese todos los requisitos de búsqueda previamente establecidos. Ya que otros
+encontrados \textbf{no cumplían algunos de los requisitos}:
+\begin{itemize}
+    \item \href{https://github.com/marketplace/actions/cspell-action}{cspell-action} Pensado principalmente para código no para documentos LaTeX. Nada de español.
+    \item \href{https://github.com/marketplace/actions/spell-checker-action}{Spell Checker Action}: Compatible únicamente con inglés. No está centrado en LaTeX. 
+    \item \href{https://github.com/valentjn/vscode-ltex}{VSCode LTeX}: No dispone de GitHub Action.
+    \item \href{https://github.com/erodner/latex-checks}{LaTeX-Checks}: No dispone de GitHub Action. Solo para inglés y alemán.
+\end{itemize}
+
+\subsubsection{Proceso de selección y estudio}
+Dado que solo hay un corrector ortográfico a analizar, el proceso de estudio y
+decisión entre las alternativas no es estrictamente necesario, pero igualmente
+se realizará según los criterios de selección previamente establecidos para ver
+en que lugar queda: 
+
+\begin{todolist}
+    \item[\done] Debe tener una comunidad activa por si es necesario hacer
+    alguna pregunta o consulta en el futuro. Cumple este requisito pues se
+    mantiene activo en GitHub resolviendo los issues y PR de la comunidad.
+    \item[\done] Los informes sobre los fallos existentes debe ser lo más
+    legibles y fácil de entender posible. Cumple este requisito pues genera un
+    reporte en html con los problemas resaltados en colores llamativos.
+    \item[\done] Se valorará que ofrezca posibles correcciones. Cumple este
+    requisito pues en dicho reporte al poner el cursor encima te sugiere
+    correcciones.
+    \item [\done] Se valorará la posibilidad de excluir palabras del analisis.
+    Cumple el requisito aunque bastante raspado, ya que permite excluir palabras
+    mediante un diccionario de palabras excluidas, pero no permite excluir una
+    única aparición puntual de la misma.
+\end{todolist}
+
+\subsubsection{Conclusión}
+Finalmente, dado que es la única alternativa que se ajusta completamente a los
+requisitos de búsqueda y además cumple en mayor o menor medida con los
+requisitos de selección establecidos, se ha implementado esta solución como
+GitHub Action en el repositorio, para asegurar la calidad del documento
+entregable.
 
 \section{Temporización}
 
