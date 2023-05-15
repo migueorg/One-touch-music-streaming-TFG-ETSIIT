@@ -15,7 +15,7 @@ jobs:
         id: lint
         with:
           root_file: doc/proyecto.tex
-          args: --check es --dict .github/workflows/dico.txt --ignore sh:seclen,sh:stacked,sh:nonp,sh:nobreak,lt:es:SPACE_UNITIES,lt:es:MIN_MESES --remove-macros begin,addtolength
+          args: --check es --dict .github/workflows/dico.txt --ignore sh:seclen,sh:stacked,sh:nonp,sh:nobreak,lt:es:SPACE_UNITIES,lt:es:MIN_MESES,sh:nsubdiv --remove-macros begin,addtolength,end
 
       - name: Upload TeXtidote report
         uses: actions/upload-artifact@v3

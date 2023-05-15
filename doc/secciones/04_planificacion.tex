@@ -2,6 +2,89 @@
 
 \section{Metodología utilizada}
 
+\subsection{Corrector Ortográfico}
+Para poder asegurar la calidad, no solo del código, sino también del documento
+entregable en cuanto a calidad gramatical y ortográfica se refiere, se ha
+implementado un corrector que verificará en todo momento que cualquier adición a
+la documentación está libre de faltas. 
+
+Para elegir dicho corrector entre todas las posibles alternativas que existen
+de la misma, se ha seguido un proceso de selección:
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Deben de incluir el idioma español. No todos los \emph{spell checkers}
+    incluyen el idioma español, y si lo incluyen suelen ser de manera muy
+    limitada y no tan completa como el idioma base en el que fueron programados.
+    \item Deben poderse añadir como \emph{GitHub Action} al repositorio para así
+    integrarlos en forma de test, y solamente pase si el texto está correcto.
+    \item Debe ser compatible con LaTeX.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Los criterios bajo los cuales evaluaremos los candidatos encontrados en la
+búsqueda anterior para finalmente seleccionar uno son:
+\begin{itemize}
+    \item Debe tener una comunidad activa por si es necesario hacer alguna
+    pregunta o consulta en el futuro.
+    \item Los informes sobre los fallos existentes deben ser lo más legible y
+    fácil de entender posible.
+    \item Se valorará que ofrezca posibles correcciones.
+    \item Se valorará la posibilidad de excluir palabras del análisis. 
+
+\end{itemize}
+
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+Tras buscar \emph{Spell Checkers} que cumplan los requisitos de búsqueda son:
+
+\begin{itemize}
+    \item \href{https://github.com/marketplace/actions/textidote-action}{TeXtidote Action}
+\end{itemize}
+
+Desafortunadamente, únicamente he podido encontrar un \emph{Spell Checker} que
+cumpliese todos los requisitos de búsqueda previamente establecidos. Ya que otros
+encontrados \textbf{no cumplían algunos de los requisitos}:
+\begin{itemize}
+    \item \href{https://github.com/marketplace/actions/cspell-action}{cspell-action} Pensado principalmente para código no para documentos LaTeX. Nada de español.
+    \item \href{https://github.com/marketplace/actions/spell-checker-action}{Spell Checker Action}: Compatible únicamente con inglés. No está centrado en LaTeX. 
+    \item \href{https://github.com/valentjn/vscode-ltex}{VSCode LTeX}: No dispone de GitHub Action.
+    \item \href{https://github.com/erodner/latex-checks}{LaTeX-Checks}: No dispone de GitHub Action. Solo para inglés y alemán.
+\end{itemize}
+
+\subsubsection{Proceso de selección y estudio}
+Dado que solo hay un corrector ortográfico a analizar, el proceso de estudio y
+decisión entre las alternativas no es estrictamente necesario, pero igualmente
+se realizará según los criterios de selección previamente establecidos para ver
+en que lugar queda: 
+
+\begin{todolist}
+    \item[\xcmark] Debe tener una comunidad activa por si es necesario hacer
+    alguna pregunta o consulta en el futuro. Cumple este requisito pues se
+    mantiene activo en GitHub resolviendo los issues y PR de la comunidad.
+    \item[\xcmark] Los informes sobre los fallos existentes deben ser lo más
+    legible y fácil de entender posible. Cumple este requisito pues genera un
+    reporte en HTML con los problemas resaltados en colores llamativos.
+    \item[\xcmark] Se valorará que ofrezca posibles correcciones. Cumple este
+    requisito pues en dicho reporte al poner el cursor encima te sugiere
+    revisiones.
+    \item[\xcmark] Se valorará la posibilidad de excluir palabras del análisis.
+    Cumple el requisito aunque bastante raspado, ya que permite excluir palabras
+    mediante un diccionario de palabras excluidas, pero no permite excluir una
+    única aparición puntual de la misma.
+\end{todolist}
+
+\subsubsection{Conclusión}
+Finalmente, dado que es la única alternativa que se ajusta completamente a los
+requisitos de búsqueda y además cumple en mayor o menor medida con los
+requisitos de selección establecidos, se ha implementado esta solución como
+GitHub Action en el repositorio, para asegurar la calidad del documento
+entregable.
 
 \section{Temporización}
 
