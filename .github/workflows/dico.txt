@@ -26,6 +26,7 @@ Merelo
 Guervós
 User
 Journeys
+journeys
 user
 story
 Source
@@ -37,6 +38,9 @@ releases
 Milestones
 iso
 .iso
+geek
+DIY
+audiófila
 PR
 Action
 spell
