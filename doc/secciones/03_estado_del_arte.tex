@@ -110,7 +110,7 @@ dispositivos \emph{iOS} ya disponen de una solución exclusiva para ellos, se
 busca compensar a los usuarios de \emph{Android} que no han tenido ningún tipo
 de posibilidad, brindándoles una solución exclusiva para ellos.
 
-Abordar el problema del empleo del chip \emph{Apple U1} ha sido la más
+Abordar el problema del empleo del chip \emph{Apple U1} ha sido la decisión más
 complicada, pues es el que permite simplificar la tarea con un simple gesto, y
 así mismo, es un chip fabricado en exclusiva para el ecosistema de \emph{Apple}.
 Si bien es cierto, en \emph{Android} el fabricante \emph{Samsung} recientemente
@@ -154,15 +154,59 @@ alternativa viable para emplearla en lugar del ya estudiado \emph{UWB}. El únic
 inconveniente que encontramos es que será necesario emplear hardware lector de
 NFC en el dispositivo Linux que haga de altavoz.
 
+Durante el desarrollo del proyecto se va a emplear una placa Raspberry Pi para
+usarse como altavoz ya que esta es capaz de ejecutar Linux y adicionalmente
+proporciona acceso a módulos NFC gracias a su interfáz GPIO (INSERTAR AQUÍ
+REFERENCIA AL GPIO).
 
-A continuación detallaré que planteamientos se han propuesto para abordar el
+A continuación detallaré que planteamientos se han ido proponiendo para abordar el
 problema a solucionar, así como ventajas e inconvenientes de cada uno.
 
 \subsection{Proyecto como aplicación final}
 
 Los primeros pasos para afrontar este proyecto se hicieron proponiendo crear dos
 aplicaciones reproductoras de audio, una para Android y otra para Linux. Ambas
-tendrían acceso a una misma biblioteca compartida de archivos .mp3 que estaría
-en red, por lo que ambos reproductores tendrían conocimiento y acceso a la misma
-colección de audio. En dicha biblioteca todos los elementos estaría asociados a
-un identificador, por lo que  
+tendrían acceso a una misma biblioteca compartida de archivos MP3, la cual
+estaría en red, por lo que ambos reproductores tendrían conocimiento y acceso a
+la misma colección de audio. En dicha biblioteca todos los elementos estaría
+asociados a un identificador, por lo que cuando el móvil y el altavoz se
+comunicasen a través del NFC, se transferiría el identificador de la repoducción
+actual, así como el segundo actual. De esta forma el altavoz sabría que elemento
+de la biblioteca reproducir y en que segundo comenzar.
+
+El problema de esta solución era que la biblioteca dependedía del usuario final,
+por lo que conllevaba andar añadiendo canciones y podcast manualmente, como si
+de 2008 se tratase... Por tanto perjudicaba más de lo que aprtaba.
+
+\subsection{Proyecto como servicio - Google Cast}
+
+Tras dar unos pasos atrás se acabó replanteando el proyecto como un servicio en
+vez de como una aplicación final destinada a usuarios finales. De esta manera el
+proyecto estaría enfocado a otros desarrolladores que tuviesen una aplicación de
+reproducción y/o biblioteca de audio y quisiesen dotar a su aplicación con la
+funcionalidad específica de enviar audio con un solo toque. De esta forma se
+solucionaba el problema del planteamiento anterior sobre tener que añadir la
+biblioteca manualmente.
+
+Para enfocarlo como un servicio se optó por utilizar el protocolo \emph{Google
+Cast} (INSERTAR AQUÍ REFERENCIA AL GOOGLE CAST), de forma que el altavoz fuese
+un servidor de \emph{Google Cast}, y el servicio en \emph{Android} estuviese a
+la espera de una interacción NFC para conectarse mediante \emph{Cast} al
+servidor con el que se hubiese comunicado.
+
+El problema que se encntró en este enfoque una vez comenzado a indagar con más
+profundidad es que Google no permite utilizar dispositivos ``no genuinos'' como
+servidores de \emph{Google Cast}. Esto significa que solo permite dotar de
+servidor \emph{Cast} a los dispositivos licenciados por \emph{Google} como
+pueden ser los \emph{Google Chromecast, Google Home, etc}. Por lo que hubo que
+deshechar ese protocolo de transmisión y buscar otra alternativa libre.
+
+\subsection{Proyecto como servicio - HLS/WebRTC/RTSP}
+
+Al desechar el uso de Google Cast hubo que bajar un nivel de abstracción para
+buscar alternativas libres y desarrollar un Google Cast propio que permitiese
+envoar el audio a un servidor. Tras el estudio de las APIs de \emph{Android} se
+optó por emplear la API existente en \emph{Android 10 (SDK29)} llamada
+\emph{AudioPlaybackCapture}, la cual permite capturar el audio interno de
+\emph{Android} y enviarlo a través de cualquier protocolo de streaming como
+puede ser \emph{HLS, WebRTC o RTSP}.  
