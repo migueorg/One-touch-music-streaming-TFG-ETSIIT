@@ -65,3 +65,14 @@ Wideband
 802.15.4a
 802.15.4z
 Handoff
+AudioPlaybackCapture
+HLS
+WebRTC
+RTSP
+CAST
+GPIO
+Low
+Energy
+source
+skills
+HOME
