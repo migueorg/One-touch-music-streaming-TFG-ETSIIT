@@ -50,20 +50,19 @@ del \emph{iPhone} continúe en el \emph{HomePod} simplemente con acercar el
 seleccionar nada. Todo de forma transparente para el usuario y en cuestión de
 segundos. 
 
-Para ello \emph{Apple} emplea un chip propio llamado \emph{Apple U1} (INSERTAR
-AQUÍ REFERENCIA AL APPLE U1) en ambos dispositivos (\emph{iPhone} y
-\emph{HomePod}), el cual es un chip que dota a los dispositivos de conectividad
-a través de \emph{UWB (Ultra Wideband)} (INSERTAR AQUÍ REFERENCIA AL UWB). Este
-chip trabaja en una radiofrecuencia entre los 6 y 8GHz, permitiendo así una
-comunicación de bajo alcance, muy bajo consumo, pero alto ancho de banda a
-partir de los estándares IEEE 802.15.4a y IEEE 802.15.4z, y es usado para
-determinar una precisión espacial entre los dispositivos que la porten. Gracias
-a esto, tanto \emph{iPhone} como \emph{HomePod} saben que están apuntándose el
-uno al otro, para, acto seguido mediante \emph{Apple Handoff} (INSERTAR AQUÍ
-REFERENCIA AL Apple Handoff) comunicarse a través de \emph{bluetooth} y
-\emph{wifi}, y de esta forma conocer la canción que se estaba reproduciendo en
-el \emph{iPhone} y compartir la reproducción a través de \emph{AirPlay}
-(INSERTAR AQUÍ REFERENCIA AL AirPlay).
+Para ello \emph{Apple} emplea un chip propio llamado \emph{Apple U1} \cite{U1}
+en ambos dispositivos (\emph{iPhone} y \emph{HomePod}), el cual es un chip que
+dota a los dispositivos de conectividad a través de \emph{UWB (Ultra Wideband)}
+\cite{UWB}. Este chip trabaja en una radiofrecuencia entre los 6 y 8GHz,
+permitiendo así una comunicación de bajo alcance, muy bajo consumo, pero alto
+ancho de banda a partir de los estándares IEEE 802.15.4a y IEEE 802.15.4z
+\cite{IEEE_802-15-4}, y es usado para determinar una precisión espacial entre
+los dispositivos que la porten. Gracias a esto, tanto \emph{iPhone} como
+\emph{HomePod} saben que están apuntándose el uno al otro, para, acto seguido
+mediante \emph{Apple Handoff} \cite{Handoff} comunicarse a través de
+\emph{bluetooth} y \emph{wifi}, y de esta forma conocer la canción que se estaba
+reproduciendo en el \emph{iPhone} y compartir la reproducción a través de
+\emph{AirPlay} \cite{AirPlay}.
 
 El problema de esto es que se emplean chips específicos de \emph{Apple}, que
 además solo vienen incluidos en los \emph{iPhone 11} y superior; por lo que
@@ -85,19 +84,19 @@ uso de chips de \emph{UWB}.\\
 
 Uno de los primeros temas que se valoró al comenzar el proyecto fue sobre que
 hardware hacerlo funcionar, pues si bien lo ideal sería emplear altavoces ya
-existentes como pueden ser los \emph{Google Home} (INSERTAR AQUÍ REFERENCIA AL
-GOOGLE HOME), o los \emph{Amazon Echo} (INSERTAR AQUÍ REFERENCIA AL AMAZON
-ECHO); estos no son programables a bajo nivel. Simplemente, permiten el
-desarrollo de atajos o \emph{skills} para su asistente virtual, por lo que se
-alejaba bastante del resultado final existente en los \emph{Apple HomePod}, el
-cual se unificaba todo con un simple gesto de proximidad. Es por esto que, con
-el fin de simplificar el proceso de desarrollo, se optó por programar sobre
-Linux, y que cualquier hardware que pueda correr Linux simule el altavoz tipo
-\emph{Apple HomePod}, \emph{Google Home} o \emph{Amazon Echo}; con la diferencia
-que en este caso sería completamente de código abierto. Esto a su vez permitiría
-que el altavoz se ejecutase sobre cualquier PC con Linux, o sobre cualquier
-placa de desarrollo que permita Linux, abriendo un gran abanico de posibilidades
-hardware compatibles. 
+existentes como pueden ser los \emph{Google Nest} \cite{google-nest}, o los
+\emph{Amazon Echo} \cite{amazon-echo}; estos no son
+programables a bajo nivel. Simplemente, permiten el desarrollo de atajos o
+\emph{skills} para su asistente virtual, por lo que se alejaba bastante del
+resultado final existente en los \emph{Apple HomePod}, el cual se unificaba todo
+con un simple gesto de proximidad. Es por esto que, con el fin de simplificar el
+proceso de desarrollo, se optó por programar sobre Linux, y que cualquier
+hardware que pueda correr Linux simule el altavoz tipo \emph{Apple HomePod},
+\emph{Google Home} o \emph{Amazon Echo}; con la diferencia que en este caso
+sería completamente de código abierto. Esto a su vez permitiría que el altavoz
+se ejecutase sobre cualquier PC con Linux, o sobre cualquier placa de desarrollo
+que permita Linux, abriendo un gran abanico de posibilidades hardware
+compatibles. 
 
 En la parte de reproducción móvil se trabajará sobre Android por varios motivos;
 el primero es que buscamos una filosofía lo más \emph{open source} posible, y
@@ -133,10 +132,10 @@ provocaría que se activase en ocasiones en las que realmente no queremos.
 
 Alternativamente, existe otra tecnología que históricamente se ha empleado para
 fines similares al \emph{UWB}, dado que en el entorno doméstico y comercial, es
-conocido como su propio antecesor. Esta tecnología es el \emph{BLE} (INSERTAR
-AQUÍ REFERENCIA AL BLE). El BLE \emph{(Bluetooth Low Energy)} es una derivación
-del propio \emph{Bluetooth} tradicional, pero enfocado en un bajo consumo de
-energía, sacrificando el alcance y velocidad. La cual permite varias clases de
+conocido como su propio antecesor. Esta tecnología es el \emph{BLE} \cite{BLE}.
+El BLE \emph{(Bluetooth Low Energy)} es una derivación del propio
+\emph{Bluetooth} tradicional, pero enfocado en un bajo consumo de energía,
+sacrificando el alcance y velocidad. La cual permite varias clases de
 funcionamiento dentro de \emph{BLE}, donde la clase 4 del mismo (el más bajo)
 establece un alcance de medio metro. Sin embargo, medio metro me sigue
 pareciendo demasiado como para que pueda activarse involuntariamente; además de
@@ -146,19 +145,18 @@ sean necesarios en la propia comunicación. Haciendo que esta tecnología quede
 descartada.
 
 Finalmente en el análisis de las alternativas al \emph{UWB} llegué al estudio
-del \emph{NFC} (INSERTAR AQUÍ REFERENCIA AL NFC), el cual si bien no está tan
-expandido como el Bluetooth, a día de hoy ya es raro encontrar móviles que
-carezcan de esta tecnología. El NFC tiene un alcance que va desde escasos
-milímetros hasta no más de 20cm, no requiere tiempo de descubrimiento pues en
-cuanto existe el contacto se inicia la comunicación, lo cual lo convierte en una
-alternativa viable para emplearla en lugar del ya estudiado \emph{UWB}. El único
-inconveniente que encontramos es que será necesario añadir hardware lector de
-NFC en el dispositivo Linux que haga de altavoz.
+del \emph{NFC} \cite{NFC}, el cual si bien no está tan expandido como el
+Bluetooth, a día de hoy ya es raro encontrar móviles que carezcan de esta
+tecnología. El NFC tiene un alcance que va desde escasos milímetros hasta no más
+de 20cm, no requiere tiempo de descubrimiento pues en cuanto existe el contacto
+se inicia la comunicación, lo cual lo convierte en una alternativa viable para
+emplearla en lugar del ya estudiado \emph{UWB}. El único inconveniente que
+encontramos es que será necesario añadir hardware lector de NFC en el
+dispositivo Linux que haga de altavoz.
 
 Durante el desarrollo del proyecto se va a utilizar una placa Raspberry Pi que
 simulará al altavoz, ya que, esta es capaz de ejecutar Linux y adicionalmente
-proporciona acceso a módulos NFC gracias a su interfaz GPIO (INSERTAR AQUÍ
-REFERENCIA AL GPIO).
+proporciona acceso a módulos NFC gracias a su interfaz GPIO \cite{GPIO}.
 
 A continuación detallaré que planteamientos se han ido planteando para abordar el
 problema a solucionar, así como ventajas e inconvenientes de cada uno.
@@ -190,7 +188,7 @@ solucionaría el problema del planteamiento anterior sobre tener que añadir la
 biblioteca manualmente.
 
 Para enfocarlo como un servicio se optó por utilizar el protocolo \emph{Google
-Cast} (INSERTAR AQUÍ REFERENCIA AL GOOGLE CAST), de forma que el altavoz fuese
+Cast} \cite{google-cast}, de forma que el altavoz fuese
 un servidor de \emph{Google Cast}, y el servicio en \emph{Android} estuviese a
 la espera de una interacción NFC para conectarse mediante \emph{Cast} al
 servidor con el que se hubiese comunicado.
