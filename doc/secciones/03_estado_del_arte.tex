@@ -52,12 +52,14 @@ segundos.
 
 Para ello \emph{Apple} emplea un chip propio llamado \emph{Apple U1} \cite{U1}
 en ambos dispositivos (\emph{iPhone} y \emph{HomePod}), el cual es un chip que
-dota a los dispositivos de conectividad a través de \emph{UWB (Ultra Wideband)}
-\cite{UWB}. Este chip trabaja en una radiofrecuencia entre los 6 y 8GHz,
+dota a los dispositivos de conectividad a través de
+\href{https://en.wikipedia.org/wiki/Ultra-wideband}{\emph{UWB (Ultra
+Wideband)}}. Este chip trabaja en una radiofrecuencia entre los 6 y 8GHz,
 permitiendo así una comunicación de bajo alcance, muy bajo consumo, pero alto
-ancho de banda a partir de los estándares IEEE 802.15.4a y IEEE 802.15.4z
-\cite{IEEE_802-15-4}, y es usado para determinar una precisión espacial entre
-los dispositivos que la porten. Gracias a esto, tanto \emph{iPhone} como
+ancho de banda a partir de los estándares
+\href{https://es.wikipedia.org/wiki/IEEE_802.15#Grupo_de_trabajo_4_(WPAN_de_baja_velocidad)}{IEEE
+802.15.4a y IEEE 802.15.4z}, y es usado para determinar una precisión espacial
+entre los dispositivos que la porten. Gracias a esto, tanto \emph{iPhone} como
 \emph{HomePod} saben que están apuntándose el uno al otro, para, acto seguido
 mediante \emph{Apple Handoff} \cite{Handoff} comunicarse a través de
 \emph{bluetooth} y \emph{wifi}, y de esta forma conocer la canción que se estaba
@@ -132,7 +134,8 @@ provocaría que se activase en ocasiones en las que realmente no queremos.
 
 Alternativamente, existe otra tecnología que históricamente se ha empleado para
 fines similares al \emph{UWB}, dado que en el entorno doméstico y comercial, es
-conocido como su propio antecesor. Esta tecnología es el \emph{BLE} \cite{BLE}.
+conocido como su propio antecesor. Esta tecnología es el
+\href{https://en.wikipedia.org/wiki/Bluetooth_Low_Energy}{BLE}.
 El BLE \emph{(Bluetooth Low Energy)} es una derivación del propio
 \emph{Bluetooth} tradicional, pero enfocado en un bajo consumo de energía,
 sacrificando el alcance y velocidad. La cual permite varias clases de
@@ -145,18 +148,21 @@ sean necesarios en la propia comunicación. Haciendo que esta tecnología quede
 descartada.
 
 Finalmente en el análisis de las alternativas al \emph{UWB} llegué al estudio
-del \emph{NFC} \cite{NFC}, el cual si bien no está tan expandido como el
-Bluetooth, a día de hoy ya es raro encontrar móviles que carezcan de esta
-tecnología. El NFC tiene un alcance que va desde escasos milímetros hasta no más
-de 20cm, no requiere tiempo de descubrimiento pues en cuanto existe el contacto
-se inicia la comunicación, lo cual lo convierte en una alternativa viable para
-emplearla en lugar del ya estudiado \emph{UWB}. El único inconveniente que
-encontramos es que será necesario añadir hardware lector de NFC en el
-dispositivo Linux que haga de altavoz.
+del \href{https://es.wikipedia.org/wiki/Comunicaci%C3%B3n_de_campo_cercano}{NFC}, 
+el cual si bien no está tan expandido como el \emph{Bluetooth}, a día de hoy ya es raro
+encontrar móviles que carezcan de esta tecnología. El \emph{NFC} tiene un alcance que
+va desde escasos milímetros hasta no más de 20cm, no requiere tiempo de
+descubrimiento pues en cuanto existe el contacto se inicia la comunicación, lo
+cual lo convierte en una alternativa viable para emplearla en lugar del ya
+estudiado \emph{UWB}. El único inconveniente que encontramos es que será
+necesario añadir hardware lector de \emph{NFC} en el dispositivo Linux que haga de
+altavoz.
 
 Durante el desarrollo del proyecto se va a utilizar una placa Raspberry Pi que
 simulará al altavoz, ya que, esta es capaz de ejecutar Linux y adicionalmente
-proporciona acceso a módulos NFC gracias a su interfaz GPIO \cite{GPIO}.
+proporciona acceso a módulos NFC gracias a su interfaz
+\href{https://es.wikipedia.org/wiki/GPIO}{GPIO}.
+
 
 A continuación detallaré que planteamientos se han ido planteando para abordar el
 problema a solucionar, así como ventajas e inconvenientes de cada uno.
