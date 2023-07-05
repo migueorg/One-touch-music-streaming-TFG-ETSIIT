@@ -104,14 +104,15 @@ compatibles.
 En la parte de reproducción móvil se trabajará sobre Android por varios motivos;
 el primero es que buscamos una filosofía lo más \emph{open source} posible, y
 esta se ajusta mejor con la filosofía que tiene \emph{Android} como sistema
-operativo móvil. La segunda es que las API que permiten el reenvío de audio son
-más permisivas en \emph{Android} que en \emph{iOS}, ya que estos últimos están
-muy enfocados en la seguridad y privacidad; haciendo que el trabajo con audio
-interno del propio sistema operativo sea una tarea mucho más complicada y
-compleja. Por último y un poco más a nivel personal, es que dado que los
-dispositivos \emph{iOS} ya disponen de una solución exclusiva para ellos, se
-busca compensar a los usuarios de \emph{Android} que no han tenido ningún tipo
-de posibilidad, brindándoles una solución exclusiva para ellos.
+operativo móvil. La segunda es que las API que permiten el reenvío de audio
+\cite{api-audio-capture} son más permisivas en \emph{Android} que en \emph{iOS},
+ya que estos últimos están muy enfocados en la seguridad y privacidad; haciendo
+que el trabajo con audio interno del propio sistema operativo sea una tarea
+mucho más complicada y compleja. Por último y un poco más a nivel personal, es
+que dado que los dispositivos \emph{iOS} ya disponen de una solución exclusiva
+para ellos, se busca compensar a los usuarios de \emph{Android} que no han
+tenido ningún tipo de posibilidad, brindándoles una solución exclusiva para
+ellos.
 
 Abordar el problema del empleo del chip \emph{Apple U1} ha sido la decisión más
 complicada, pues es el que permite simplificar la tarea con un simple gesto, y
@@ -214,7 +215,7 @@ Al desechar el uso de Google Cast hubo que bajar un nivel de abstracción para
 buscar alternativas libres y desarrollar un Google Cast propio que permitiese
 enviar el audio a un servidor. Tras el estudio de las API de \emph{Android} se
 optó por emplear la API existente en \emph{Android 10 (SDK29)} llamada
-\emph{AudioPlaybackCapture}, la cual permite capturar el audio interno de
+\emph{AudioPlaybackCapture} \cite{api-audio-capture}, la cual permite capturar el audio interno de
 \emph{Android}, para posteriormente enviarlo a través de cualquier protocolo de
 streaming como puede ser \emph{HLS, WebRTC o RTSP}. Para decantarnos por un
 protocolo se realizará un proceso de selección más adelante
