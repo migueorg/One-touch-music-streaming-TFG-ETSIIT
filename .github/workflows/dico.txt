@@ -60,6 +60,7 @@ Of
 Things
 big
 techs
+tech
 UWB
 Wideband
 802.15.4a
