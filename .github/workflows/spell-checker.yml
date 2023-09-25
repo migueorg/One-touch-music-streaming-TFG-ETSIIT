@@ -1,0 +1,45 @@
+name: Procesado del informe LaTeX
+on:
+  push:
+    paths:
+      - 'doc/**'
+jobs:
+  spell-checker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      
+      - name: TeXtidote Action
+        uses: ChiefGokhlayeh/textidote-action@v5.3.1
+        id: lint
+        with:
+          root_file: doc/proyecto.tex
+          args: --check es --dict .github/workflows/dico.txt --ignore sh:seclen,sh:stacked,sh:nonp,sh:nobreak,lt:es:SPACE_UNITIES,lt:es:MIN_MESES,sh:nsubdiv --remove-macros begin,addtolength,end
+
+      - name: Upload TeXtidote report
+        uses: actions/upload-artifact@v3
+        with:
+          name: textidote_report
+          path: report.html
+
+      - name: Throw error if linter warnings exist
+        if: ${{ steps.lint.outputs.num_warnings != 0 }}
+        run: 'echo "::error file=main.tex::num_warnings: ${{ steps.lint.outputs.num_warnings }}"; exit 1;'
+  compile-latex:
+    needs: spell-checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - uses: xu-cheng/latex-action@v2
+        with:
+          working_directory: doc/
+          root_file: proyecto.tex
+
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: doc/proyecto.pdf

@@ -2,3 +2,83 @@
 
 El software libre y sus licencias \cite{gplv3} ha permitido llevar a cabo una expansión del
 aprendizaje de la informática sin precedentes.
+
+\section{Análisis de las posibles soluciones al problema propuesto}
+
+Si intentamos solucionar el problema introducido al principio del documento
+usando las alternativas existentes actualmente nos vamos a encontrar con
+soluciones poco amigables con el usuario, poco eficaces, soluciones de código
+privativo y/o demasiado caras.
+
+Usaré el siguiente ejemplo práctico para testear las soluciones actuales y
+evaluar el estado del arte: Si llegamos a casa del trabajo, y hemos vuelto
+escuchando un podcast en nuestros auriculares inalámbricos mientras andábamos;
+al llegar a casa y ponernos a preparar la comida nos gustaría poder seguir
+escuchando el podcast por el mismo minuto en el que íbamos pero en los altavoces
+de casa. 
+
+\subsection{Solución tradicional}
+Para hacer esto, simplemente podríamos conectar el móvil al altavoz mediante el
+\emph{jack} de 3.5, sin embargo, los móviles actualmente carecen de dicho puerto
+(salvo pocas excepciones). 
+
+\subsection{Solución asistente de voz}
+Otra opción sería emplear cualquiera de los asistentes de voz como lo son
+(\emph{Alexa, Google Assistant, Siri}) y pedirle que reproduzca el podcast que
+estábamos escuchando, el problema de esto es que tendremos que recordar el
+nombre concreto del podcast, tenemos que ponernos a hablarle al asistente lo
+cual rompe la sensación de integración y continuidad, y este tiene que ser capaz
+de entendernos correctamente, lo cual no pasa siempre. Adicionalmente,
+requeriríamos de un altavoz inteligente con micrófono activo de cualquiera de las
+marcas mencionadas anteriormente, el cual debería incorporar dicho asistente de
+voz. 
+
+\subsection{Solución \emph{big tech}}
+Otra opción más, la cual es compatible con la mayoría de altavoces con
+asistentes integrados, sería la de tener el altavoz en red y mandar el podcast
+desde el móvil a través de protocolos como \emph{Google Cast, AirPlay o Spotify
+Connect}, lo cual es una de las opciones más rápidas y sencillas, pero implica
+tener que estar navegando a través de aplicaciones e interfaces hasta llegar a
+la opción de enviar contenido. Y en el caso de que tengamos muchos altavoces en
+red, tendremos que elegir de entre una lista amplia de dispositivos, al cual
+queremos enviar dicho contenido. De nuevo, este último caso, aún siendo el más
+factible, rompe mucho con la sensación de integración y continuidad de la que
+hablé anteriormente. 
+
+\subsection{Solución \emph{Apple}} Sin embargo, \emph{Apple} sí que tiene una
+solución para esto integrada en su ecosistema. Para los usuarios que tengan un
+\emph{iPhone} y un \emph{HomePod} \cite{HomePod}, permiten que la reproducción
+del \emph{iPhone} continúe en el \emph{HomePod} simplemente con acercar el
+\emph{iPhone} al \emph{HomePod}, sin la necesidad de navegar por interfaces ni
+seleccionar nada. Todo de forma transparente para el usuario y en cuestión de
+segundos. 
+
+Para ello \emph{Apple} emplea un chip propio llamado \emph{Apple U1} \cite{U1}
+en ambos dispositivos (\emph{iPhone} y \emph{HomePod}), el cual es un chip que
+dota a los dispositivos de conectividad a través de
+\href{https://en.wikipedia.org/wiki/Ultra-wideband}{\emph{UWB (Ultra
+Wideband)}}. Este chip trabaja en una radiofrecuencia entre los 6 y 8GHz,
+permitiendo así una comunicación de bajo alcance, muy bajo consumo, pero alto
+ancho de banda a partir de los estándares
+\href{https://es.wikipedia.org/wiki/IEEE_802.15#Grupo_de_trabajo_4_(WPAN_de_baja_velocidad)}{IEEE
+802.15.4a y IEEE 802.15.4z}, y es usado para determinar una precisión espacial
+entre los dispositivos que la porten. Gracias a esto, tanto \emph{iPhone} como
+\emph{HomePod} saben que están apuntándose el uno al otro, para, acto seguido
+mediante \emph{Apple Handoff} \cite{Handoff} comunicarse a través de
+\emph{bluetooth} y \emph{wifi}, y de esta manera conocer la canción que se estaba
+reproduciendo en el \emph{iPhone} y compartir la reproducción a través de
+\emph{AirPlay} \cite{AirPlay}.
+
+El problema de esta solución es que no es de código abierto, en la que además se emplean
+tecnologías propias inaccesibles para cualquier usuario ajeno al ecosistema de Apple.
+
+\section{Conclusión tras estudiar el mercado}
+Tras repasar todas las posibilidades existentes para solventar el problema
+actualmente, vemos que la solución más elegante es la que tiene \emph{Apple}. El
+problema es que esa solución es de código privativo, además de estar en un
+ecosistema muy cerrado, siendo exclusiva de algunos dispositivos \emph{Apple}.
+Si queremos disfrutar de la automatización y transparencia que se aprecia en
+esta solución no encontramos nada similar ni cercano. Es por eso que nace la
+necesidad de crear este proyecto, persiguiendo un resultado similar al que
+proporciona \emph{Apple}, pero enfocado en dispositivos \emph{Android} con
+tecnologías más comunes y baratas.

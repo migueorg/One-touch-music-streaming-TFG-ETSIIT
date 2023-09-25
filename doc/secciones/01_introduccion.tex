@@ -1,3 +1,125 @@
 \chapter{Introducción}
 
-Este proyecto es software libre, y está liberado con la licencia \cite{gplv3}.
+Este proyecto es software libre, y está liberado con la licencia \cite{gplv3}.\\
+
+Puede encontrarse en el siguiente repositorio:
+\url{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/}, en el
+cual se ha desarrollado desde el principio en abierto.
+
+\section{Descripción del problema}
+En los tiempos en los que estamos, cada vez es más normal escuchar música o
+podcasts de fondo mientras hacemos otras tareas de nuestro día a día. Escuchamos
+contenido mientras trabajamos, vamos en el coche, de camino al trabajo, de
+vuelta a casa, mientras cocinamos, limpiamos, hay quienes también escuchan algún
+tipo de podcast, ruido blanco o sonido para irse a dormir, entre muchos otros
+más escenarios. 
+
+A su vez, en el contexto informático en el que estamos, también le hemos dado la
+espalda a los cables siempre que nos sea posible. Los auriculares inalámbricos
+son un obligatorio en el día a día de muchas personas, facilitando así la
+integración de la música en cada vez más contextos diferentes de nuestra vida.
+Sin embargo, aún teniendo en cuenta los avances en el campo del \emph{IoT}
+\footnote{Del inglés ``Internet Of Things'', es decir, ``Internet de las cosas'', es
+la agrupación e interconexión de dispositivos y objetos a través de una red
+(bien sea privada o Internet, la red de redes), dónde todos ellos podrían ser
+visibles e interaccionar. \cite{IoT}}, no es tan fácil mantener esa sensación de
+integración y continuidad respecto a la escucha de música. Ya que si queremos
+seguir escuchando en algún altavoz inteligente la misma canción o podcast que
+veníamos escuchando en el móvil, tendremos que empezar a interactuar con menús,
+dictar comandos (que no siempre funcionan) al asistente virtual; o alguna otra
+alternativa compleja o cara.\\
+
+\section{Motivación}
+Por tanto, una vez puestos en contexto, la motivación de este proyecto es la de
+poder brindar dicha sensación de continuidad con un ecosistema abierto, tanto
+para el móvil emisor como para el altavoz receptor. Esto hará que el coste para
+disfrutar de dicha funcionalidad sea notablemente más bajo que la vía existente
+actual usando el ecosistema de \emph{Apple}. Este coste limitará la versión
+mínima del \emph{JDK} de \emph{Android} que se utilizará para el proyecto en
+basándonos en el coste de dispositivos compatibles y funciones requeridas para
+llevar a cabo la funcionalidad.
+
+Así mismo, este proyecto mantiene como principales objetivos (entre otros que se
+comentarán con más detalle a continuación) la facilidad de utilización,
+simpleza, accesibilidad y funcionamiento automático e independiente; atributos
+que la actual solución comercial posee.
+
+Esto se hará creando un servicio dotado por un emisor y un receptor de audio, el
+cual sea capaz de enviar el sonido a dicho receptor. En el receptor se podrá
+conectar altavoces de un tercero, ya sea por cable, jack, \emph{Bluetooth} o
+cualquier vía que sea compatible con el dispositivo en donde se instale el
+receptor.
+
+\section{Objetivos}
+\begin{itemize}
+    \item Se deberá poder transmitir o mandar el sonido que se esté
+    reproduciendo en el dispositivo móvil hasta el dispositivo que haga de
+    altavoz o receptor.
+    \item La comunicación entre ambos dispositivos (móvil y altavoz) deberá de
+    llevarse a cabo en menos de 3 segundos para poder mantener la sensación de
+    continuidad de la que hemos hablado antes. Más de 3 segundos puede hacer
+    creer al usuario que el servicio no está funcionando.
+    \item Facilidad de uso y sencillez a la hora de compartir el contenido del
+    reproductor al altavoz. El proceso de envío de sonido desde el Android hasta
+    el altavoz ha de poder realizarse sin interactuar con menús.
+\end{itemize}
+
+\section{Personajes y viajes de usuario}
+Un personaje que tienen el problema presentado anteriormente y que, por tanto,
+será quién usarán la aplicación para solventarlo es:
+
+Miguel, 52 años, es un contable al que le gusta la tecnología y tiene
+su casa llena de ordenadores viejos, equipos de música antiguos, altavoces,
+etc. Se ha ido adaptando a los cambios de la tecnología con los años, y como
+tal tiene su casa llena de altavoces inteligentes de los que se
+comercializan a día de hoy; aun así, echa de menos la calidad de los equipos
+de antaño. Otro inconveniente que ve es que al tener tantos altavoces
+inteligentes conectados en red, cuando va a enviar el contenido al que tiene
+enfrente tiene que elegir entre una extensa lista en la cual, en ocasiones,
+le cuesta ubicarse; en especial cuando vuelve de trabajar escuchando un
+podcast, el cual desea terminarlo mientras prepara la comida. Sin embargo,
+ese proceso de continuar escuchando su podcast justo por donde iba en un
+altavoz inteligente cuando llega a casa es bastante tosco y molesto, pues le
+requiere tener que navegar entre los menús de compartir contenido y
+seleccionar el altavoz que tiene más cerca entre los tantos de su casa.
+Usando este proyecto Miguel desea poder continuar su escucha en sus antiguos
+(pero mejores) altavoces con solo acercar el móvil al dispositivo que haga
+de receptor.
+
+
+
+\section{Historias de usuario}
+A partir de los personajes y los user story presentados anteriormente, podemos
+extraer ciertas funcionalidades del proyecto que el público destino espera
+obtener o poder hacer. Estas funcionalidades clave tienen forma de las
+siguientes historias de usuario:
+
+\begin{enumerate}
+    \item
+    \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/issues/10}{HU1}:
+    Como usuario que busca la mayor automatización y transparencia con la
+    tecnología quiero poder seguir escuchando mi reproducción actual manteniendo
+    el mismo momento de escucha sin tener que interactuar con ningún menú al
+    enviar hacia mis propios altavoces y equipos viejos, con una inversión baja.
+    \item
+    \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/issues/14}{HU2}:
+    Como programador que desea incorporar esta funcionalidad a mi aplicación de
+    reproducción de audio, quiero conocer las decisiones que se han tomado al
+    desarrollar el proyecto para poder entender por qué se han empleado ciertas
+    plataformas y componentes y asegurar que no añado fallos de diseño a mi
+    aplicación ni decisiones sin fundamento.
+\end{enumerate}
+
+
+\section{Milestones}
+Los productos mínimamente viables o \emph{releases} que se irán haciendo durante el
+desarrollo se han estimado que serán los siguientes:
+
+\begin{enumerate}
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/1}{M0}: Repositorio y documentación funcional sobre la que empezar a programar.
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/2}{M1}: Aplicando Domain Driven Design
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/3}{M2}: Captar audio interno dispositivo emisor
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/4}{M3}: Despliegue y configuración inicial del servidor (receptor)
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/5}{M4}: Comunicación entre dispositivo móvil y receptor
+    \item \href{https://github.com/migueorg/One-touch-music-streaming-TFG-ETSIIT/milestone/10}{M5}: Memoria entregable para el tribunal.
+\end{enumerate}
