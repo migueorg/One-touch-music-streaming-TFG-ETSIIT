@@ -151,3 +151,31 @@ los siguientes criterios de selección:
     malloc, calloc, free, etc. Por lo que se aleja mucho de la simplicidad o
     facilidad para el manejo. Debido a esto, no supera el requisito.
 \end{todolist}
+
+\subsubsection{C++: LibLogicalAccess}
+
+\begin{todolist}
+    \item [\xcmark] El último \emph{commit} del repositorio de
+    \href{https://github.com/liblogicalaccess/liblogicalaccess}{GitHub} fue en
+    marzo de 2023, y los \emph{issues} y \emph{pull request} se mantienen todos
+    atendidos, por lo que denota que se mantiene activo y con soporte del
+    desarrollador. Por tanto, cumple este requisito.
+    \item [\xcmark] Utiliza la wiki de GitHub a modo de documentación, teniendo
+    documentado el proceso de instalación y algunos ejemplos en hardware
+    concreto. Además, posee una \href{https://liblogicalaccess.com/}{web oficial}
+    en la que tienen publicado el Doxygen. Podemos decir que cumple dicho requisito,
+    aunque comparando con algunas otras alternativas vistas, no es la más
+    completa.
+    \item Para instalar la librería hay que emplear un software llamado
+    \href{https://conan.io/}{conan}, el cual es un gestor de paquetes para C y
+    C++ tras clonar y compilar el repositorio con conan. Adicionalmente, este
+    software se instala a través de pip, por lo que habría que instalar también
+    pip, ya que con una instalación de gcc no se instala. Por tanto, no considero
+    que sea una instalación necesariamente simple, por lo que no cumple este
+    requisito.
+    \item [\xcmark] A pesar de que C++ tiene la STL la cual simplifica mucho el manejo de
+    datos con las clases ya hechas y la automatización de la memoria dinámica
+    que se hace dentro de la misma, el manejo de datos no es la tarea más simple
+    dentro de C++. Sin embargo, aunque sea por los pelos o ``cogido con pinzas'',
+    daré como cumplido este requisito.
+\end{todolist}
