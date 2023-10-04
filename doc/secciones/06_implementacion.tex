@@ -117,3 +117,37 @@ los siguientes criterios de selección:
     usar, especialmente como se está viendo últimamente para el manejo de datos,
     por lo que este requisito lo cumple de manera sobrada.
 \end{todolist}
+
+\subsubsection{C: libnfc}
+
+\begin{todolist}
+    \item [\xcmark] El último \emph{commit} del repositorio de
+    \href{https://github.com/nfc-tools/libnfc}{GitHub} fue en febrero de 2023,
+    por lo que podríamos decir que si mantiene el soporte, sin embargo,
+    revisando los \emph{issues} y los \emph{pull request} están en su mayoría
+    desatendidos desde hace años. Y de hecho los \emph{commits} de los últimos años son
+    simplemente de fusionar algunos PR aceptados, por lo que da la sensación que
+    el soporte que recibe es el de comprobar cada ciertos meses los \emph{pull
+    request} activos y aprobarlos si son cambios que no requieren mucha
+    intervención. Sin embargo, aún sabiendo esto, interpretaré como que recibe
+    soporte, ya que en cierto modo es así.
+    \item Posee cierta documentación muy básica en el README del repositorio, y
+    adicionalmente tienen \href{nfc-tools.org}{una web} en la que se supone que
+    tienen una comunidad, una wiki detallada, etc. Pero esta web no responde en
+    el momento de hacer el estudio, por lo que se entiende que la web ha sido
+    abandonada, por tanto, no cumple este requisito.
+    \item Para instalar la librería primero hay que clonar el repositorio,
+    ejecutar el \emph{script} de configuración y una vez generados los archivos
+    de configuración, compilar con \emph{make}, para después finalmente ejecutar otro
+    \emph{make install}. Una vez completado el \emph{makefile} hay que copiar los binarios
+    resultantes a cierta ruta y configurar el \emph{path}. Aunque son unos pasos
+    no muy complicados que cualquier estudiante del grado podría superar, no es
+    un proceso rápido o sencillo si lo comparamos con el de la librería de
+    Python la cual se instalaba automáticamente con pip. Por tanto, considero que
+    no supera este requisito.
+    \item C no es un lenguaje especialmente simple a la hora de tratar con
+    datos, pues no dispone de una STL como es el caso de C++ en el que se
+    simplifique el trabajo con vectores etc. Habría que hacerlo manualmente con
+    malloc, calloc, free, etc. Por lo que se aleja mucho de la simplicidad o
+    facilidad para el manejo. Debido a esto, no supera el requisito.
+\end{todolist}
