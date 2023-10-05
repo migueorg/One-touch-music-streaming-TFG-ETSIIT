@@ -7,8 +7,11 @@ mejoras que se han ido incorporando al software a lo largo de su desarrollo.\\
 \section{Selección del lenguaje de programación}
 
 Dentro del proyecto se ven involucrados más de un dispositivo, ya que coexisten
-dispositivo móvil y receptor, los cuales no se podrán programar usando el mismo
-lenguaje, o no tendrá por qué ser lo más adecuado.
+dispositivo móvil y receptor. Ambos podrían llegar a programarse usando el mismo
+lenguaje, lo cual sería ventajoso, puesto que, se unificaría el \emph{toolchain} e
+incluso se podría ahorrar código. Pero dado que existen requisitos o
+dependencias más prioritarias (las cuales serán detalladas en los requisitos de
+búsqueda y selección), la elección se dejará a juicio del proceso de selección.
 
 \subsection{Dispositivo móvil}
 
@@ -18,12 +21,48 @@ descartamos \emph{iOS} en la introducción del problema, por ser un sistema
 operativo más cerrado y buscar centrarnos en un sistema operativo abierto, el
 sistema operativo móvil sobre el que se centrará el proyecto será \emph{Android}.
 
-Si queremos programar para \emph{Android}, las opciones son más bien escasas.
-Teniendo como opciones \emph{Kotlin} y \emph{Java}. Por lo que siguiendo las
-recomendaciones de \emph{Android}, el mejor camino para programar aplicaciones
-nativas más seguras, concisas y estructuradas es \textbf{\emph{Kotlin}}. El cual está
-pensado para sustituir a \emph{Java} como lenguaje en aplicaciones
-\emph{Android} nativas.
+Si queremos programar en \emph{Android} primero debemos decidir si queremos hacer una
+aplicación nativa, híbrida o generada \cite{nativo-hibrido-generado}. Las
+aplicaciones nativas se programan en lenguajes con soporte nativo por el sistema
+operativo, por lo que tienen un aspecto más similar al propio sistema operativo,
+y un mejor rendimiento, sin embargo, requieren de más esfuerzo de desarrollo. Las
+aplicaciones híbridas son aplicaciones web que se ejecutan en un navegador web
+simulando ser una aplicación nativa, por lo que la interfaz no suele tener un
+aspecto tan uniforme al sistema y el rendimiento suele ser notablemente
+inferior. Y las generadas son aplicaciones que se programan en un lenguaje no
+nativo, pero que mediante un \emph{framework} son traducidas a lenguajes nativos, sin
+embargo, al depender de traducción el rendimiento no llega a ser el mismo que el
+de una aplicación nativa.
+
+A la hora de elegir qué usar para este proyecto entre los tres tipos de
+aplicaciones mencionados, la interfaz gráfica no es algo a tener en cuenta, ya
+que, no vamos a hacer una aplicación como tal, sino un servicio para que otras
+aplicaciones implementen. Sin embargo, sí que tenemos que tener en cuenta el
+rendimiento así como el acceso y manejo con el sistema operativo o con
+componentes hardware de más bajo nivel, como es el \emph{NFC}. Para estos casos las
+aplicaciones nativas son una mejor elección, ya que, al existir menos capas entre
+la aplicación y el sistema operativo, obtienen un mejor rendimiento, y facilitan
+la comunicación con componentes hardware de bajo nivel. Lo cual nos lleva a
+optar por una aplicación nativa.
+
+Para programar una aplicación nativa existen varios lenguajes que lo permiten
+\cite{lenguajes-nativos}, sin embargo, dado que vamos a requerir de comunicación
+con elementos hardware como es el lector \emph{NFC}, vamos a optar por lenguajes
+que tengan una documentación extensa y detallada en cuanto a desarrollo móvil y
+comunicación con \emph{Android}, reduciendo estos lenguajes nativos a \emph{Java} y
+\emph{Kotlin}, puesto que, son para los que existe más bibliografía y ejemplos
+relacionados con este sistema operativo móvil.
+
+Finalmente, para optar por uno u otro, \emph{Google} lo tiene claro, ya que desde 2019
+están enfocados en \emph{Kotlin} y buscan que sea el principal lenguaje de \emph{Android}
+\cite{prioridad-kotlin}. De hecho como ellos mismos explicaron, desde 2019 cada
+vez que desarrollan una \emph{API} o contenido nuevo lo hacen teniendo en mente
+el uso con \emph{Kotlin}, por lo que este lenguaje será el más indicado si lo que
+pretendemos es usar alguna \emph{API} que se comunique con el \emph{NFC} del
+sistema \emph{Android}.
+
+Así que, teniendo todo esto en cuenta, el lenguaje utilizado para el
+dispositivo móvil será \textbf{\emph{Kotlin}}
 
 \subsection{Dispositivo receptor}
 
@@ -33,13 +72,13 @@ facilitará enormemente el desarrollo.
 
 \subsubsection{Criterios de búsqueda}
 
-Dado que el uso de \emph{Linux} no es algo limitante a la hora de elegir lenguaje de
+Dado que correr \emph{Linux} no es algo limitante a la hora de elegir lenguaje de
 programación, el principal factor que fijará el criterio de búsqueda es la
 compatibilidad con librerías NFC actualizadas.
 
 \begin{itemize}
     \item Debe de ser compatible con librerías NFC.
-    \item Debe ser un lenguaje usado previamente en alguno de los años del grado.
+    \item Debe ser un lenguaje tocado previamente en alguno de los años del grado.
 \end{itemize}
 
 \subsubsection{Criterios de selección}
