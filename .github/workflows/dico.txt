@@ -106,3 +106,10 @@ conan
 gcc
 toolchain
 framework
+headless
+apt
+yum
+default
+jre
+SDKMAN
+runtime

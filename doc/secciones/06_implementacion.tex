@@ -64,7 +64,7 @@ sistema \emph{Android}.
 Así que, teniendo todo esto en cuenta, el lenguaje utilizado para el
 dispositivo móvil será \textbf{\emph{Kotlin}}
 
-\subsection{Dispositivo receptor}
+\subsection{Dispositivo receptor: módulo NFC}
 
 Este dispositivo utilizará \emph{Linux}, ya que es el sistema operativo que está
 presente en casi la totalidad de placas de desarrollo y mini PC que lo cual
@@ -205,7 +205,7 @@ los siguientes criterios de selección:
     en la que tienen publicado el Doxygen. Podemos decir que cumple dicho requisito,
     aunque comparando con algunas otras alternativas vistas, no es la más
     completa.
-    \item Para instalar la librería hay que emplear un software llamado
+    \item Para instalar la librería hay que utilizar un software llamado
     \href{https://conan.io/}{conan}, el cual es un gestor de paquetes para C y
     C++ tras clonar y compilar el repositorio con conan. Adicionalmente, este
     software se instala a través de pip, por lo que habría que instalar también
@@ -224,4 +224,98 @@ los siguientes criterios de selección:
 Tras valorar mediante los criterios de selección los lenguajes principales
 encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Python con la librería nfcpy}. Por lo que este
-será el lenguaje empleado en la parte del receptor.
+será el lenguaje empleado para el módulo NFC en la parte del receptor.
+
+\subsection{Dispositivo receptor: módulo audio streaming}
+
+Este dispositivo es el mismo que el que ejecutará el módulo de NFC, sin embargo,
+para reproducir el audio en streaming se tendrán unos requisitos diferentes que
+para el estudio anterior, por lo que será necesario un proceso de selección
+nuevo con los nuevos criterios.
+
+\subsubsection{Criterios de búsqueda}
+
+Para capturar y enviar el audio desde la parte de Android se emplean bibliotecas
+de Java. Por lo que el lenguaje que se emplee para el audio en streaming debería
+ser compatible con esas bibliotecas, ya que de esta forma se reduciría bastante
+el tiempo de programación pues con los conceptos y funciones aprendidos para la
+parte del dispositivo Android, cubriríamos también los del receptor. A su vez al
+utilizar las mismas bibliotecas se reducirían los posibles errores o
+incompatibilidades. Por lo que los criterios de búsqueda serán:
+
+\begin{itemize}
+    \item Debe de tener compatibilidad nativa con las mismas librerías empleadas en la parte del dispositivo Android.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Las propuestas encontradas bajo los criterios de búsqueda serán evaluadas bajo
+los siguientes criterios de selección:
+
+\begin{itemize}
+    \item Se valorará la sencillez en cuanto instalación del lenguaje en modo \emph{headless}.
+    \item Se valorará la simpleza en cuanto a ejecución de los archivos ejecutables.
+\end{itemize}
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+\begin{itemize}
+    \item \href{https://www.java.com/es/}{Java}.
+    \item \href{https://kotlinlang.org/}{Kotlin}.
+\end{itemize}
+
+Ambos lenguajes soportan nativamente las bibliotecas de Java, ya que Kotlin tiene
+compatibilidad nativa con Java al ejecutarse también en una JVM.
+
+\subsubsection{Proceso de selección y estudio}
+
+\subsubsection{Java}
+
+\begin{todolist}
+    \item[\xcmark] Java es un lenguaje muy extendido y conocido, así como
+    antiguo, por lo que al llevar tanto tiempo usándose y por
+    \href{https://www.stackscale.com/es/blog/lenguajes-programacion-mas-populares/}{una
+    cantidad tan grande de usuarios} ha hecho que esté disponible para su
+    descarga e instalación en casi la totalidad de repositorios de cada
+    distribución (apt, yum, etc.). Por lo que el proceso de descarga, instalación
+    y configuración del path queda simplificado a un simple ``apt install
+    default-jre'' en el cual incluso se puede especificar fácilmente si se
+    necesita alguna versión en particular. Satisfaciendo de forma sobrada este
+    requisito.
+    \item[\xcmark] Para la ejecución de código en Java gracias a la JVM basta
+    con ejecutar el comando ``java'' seguido del archivo con el código, sin
+    necesidad de añadir flags ni generar binarios para su posterior ejecución
+    manual. Por lo que cumple este requisito.
+\end{todolist}
+
+\subsubsection{Kotlin}
+
+\begin{todolist}
+    \item Para instalar Kotlin, dado que es un lenguaje mucho más moderno que
+    Java, aún no ha sido añadido a los repositorios que vienen por defecto en
+    las distribuciones Linux. Por lo que para instalarlo habrá que descargar los
+    binarios pre compilados accesibles oficialmente desde GitHub o instalarlo
+    desde un repositorio de terceros llamado \emph{SDKMAN} el cual si trae el
+    paquete de Kotlin en su catálogo, pero que para usarlo es necesario
+    instalarlo previamente también. Por lo que si bien estos pasos no son
+    complicados, al ponerlo en comparación con Java, este queda en peor lugar,
+    por lo que no cumple este requisito.
+    \item A pesar de que al igual que Java, utiliza la JVM para funcionar, a la hora
+    de compilar y ejecutar código
+    \href{https://stackoverflow.com/a/69030563}{vemos} que el proceso puede
+    variar dependiendo de si es código nativo de Kotlin o si no lo es. Por lo
+    que hay que tener en cuenta si añadir el \emph{runtime} para que se pueda ejecutar
+    o no, entre otros flags, para generar el ejecutable que posteriormente
+    podemos ejecutar. Por lo que al igual que en el requisito de antes, aunque
+    no es un proceso complicado y que de hecho está bastante simplificado, si lo
+    comparamos con el otro lenguaje analizado, el proceso de Java sigue teniendo
+    un proceso más simple para ejecutar el código. Por lo que Kotlin tampoco
+    cumple este requisito. 
+\end{todolist}
+
+\subsubsection{Conclusión}
+
+Tras valorar mediante los criterios de selección los lenguajes principales
+encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
+satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
+empleado para el módulo de audio en streaming en la parte del receptor.
