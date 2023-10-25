@@ -4,3 +4,224 @@ La implementación del software se ha dividido en hitos. Estos han sido definido
 y cada uno de ellos contiene un grupo de \textit{issues} que se corresponden con las distintas
 mejoras que se han ido incorporando al software a lo largo de su desarrollo.\\
 
+\section{Selección del lenguaje de programación}
+
+Dentro del proyecto se ven involucrados más de un dispositivo, ya que coexisten
+dispositivo móvil y receptor. Ambos podrían llegar a programarse usando el mismo
+lenguaje, lo cual sería ventajoso, puesto que, se unificaría el \emph{toolchain} e
+incluso se podría ahorrar código. Pero dado que existen requisitos o
+dependencias más prioritarias (las cuales serán detalladas en los requisitos de
+búsqueda y selección), la elección se dejará a juicio del proceso de selección.
+
+\subsection{Dispositivo móvil}
+
+En este aspecto no tenemos mucho donde elegir. Si hablamos de dispositivos
+móviles estamos hablando de \emph{Android} e \emph{iOS}. Y puesto que ya
+descartamos \emph{iOS} en la introducción del problema, por ser un sistema
+operativo más cerrado y buscar centrarnos en un sistema operativo abierto, el
+sistema operativo móvil sobre el que se centrará el proyecto será \emph{Android}.
+
+Si queremos programar en \emph{Android} primero debemos decidir si queremos hacer una
+aplicación nativa, híbrida o generada \cite{nativo-hibrido-generado}. Las
+aplicaciones nativas se programan en lenguajes con soporte nativo por el sistema
+operativo, por lo que tienen un aspecto más similar al propio sistema operativo,
+y un mejor rendimiento, sin embargo, requieren de más esfuerzo de desarrollo. Las
+aplicaciones híbridas son aplicaciones web que se ejecutan en un navegador web
+simulando ser una aplicación nativa, por lo que la interfaz no suele tener un
+aspecto tan uniforme al sistema y el rendimiento suele ser notablemente
+inferior. Y las generadas son aplicaciones que se programan en un lenguaje no
+nativo, pero que mediante un \emph{framework} son traducidas a lenguajes nativos, sin
+embargo, al depender de traducción el rendimiento no llega a ser el mismo que el
+de una aplicación nativa.
+
+A la hora de elegir qué usar para este proyecto entre los tres tipos de
+aplicaciones mencionados, la interfaz gráfica no es algo a tener en cuenta, ya
+que, no vamos a hacer una aplicación como tal, sino un servicio para que otras
+aplicaciones implementen. Sin embargo, sí que tenemos que tener en cuenta el
+rendimiento así como el acceso y manejo con el sistema operativo o con
+componentes hardware de más bajo nivel, como es el \emph{NFC}. Para estos casos las
+aplicaciones nativas son una mejor elección, ya que, al existir menos capas entre
+la aplicación y el sistema operativo, obtienen un mejor rendimiento, y facilitan
+la comunicación con componentes hardware de bajo nivel. Lo cual nos lleva a
+optar por una aplicación nativa.
+
+Para programar una aplicación nativa existen varios lenguajes que lo permiten
+\cite{lenguajes-nativos}, sin embargo, dado que vamos a requerir de comunicación
+con elementos hardware como es el lector \emph{NFC}, vamos a optar por lenguajes
+que tengan una documentación extensa y detallada en cuanto a desarrollo móvil y
+comunicación con \emph{Android}, reduciendo estos lenguajes nativos a \emph{Java} y
+\emph{Kotlin}, puesto que, son para los que existe más bibliografía y ejemplos
+relacionados con este sistema operativo móvil.
+
+Finalmente, para optar por uno u otro, \emph{Google} lo tiene claro, ya que desde 2019
+están enfocados en \emph{Kotlin} y buscan que sea el principal lenguaje de \emph{Android}
+\cite{prioridad-kotlin}. De hecho como ellos mismos explicaron, desde 2019 cada
+vez que desarrollan una \emph{API} o contenido nuevo lo hacen teniendo en mente
+el uso con \emph{Kotlin}, por lo que este lenguaje será el más indicado si lo que
+pretendemos es usar alguna \emph{API} que se comunique con el \emph{NFC} del
+sistema \emph{Android}.
+
+Así que, teniendo todo esto en cuenta, el lenguaje utilizado para el
+dispositivo móvil será \textbf{\emph{Kotlin}}
+
+\subsection{Dispositivo receptor}
+
+Este dispositivo utilizará \emph{Linux}, ya que es el sistema operativo que está
+presente en casi la totalidad de placas de desarrollo y mini PC que lo cual
+facilitará enormemente el desarrollo. 
+
+\subsubsection{Criterios de búsqueda}
+
+Dado que correr \emph{Linux} no es algo limitante a la hora de elegir lenguaje de
+programación, el principal factor que fijará el criterio de búsqueda es la
+compatibilidad con librerías NFC actualizadas.
+
+\begin{itemize}
+    \item Debe de ser compatible con librerías NFC.
+    \item Debe ser un lenguaje tocado previamente en alguno de los años del grado.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Las propuestas encontradas bajo los criterios de búsqueda serán evaluadas bajo
+los siguientes criterios de selección:
+
+\begin{itemize}
+    \item La librería debe estar mantenida o recibir actualizaciones cada poco tiempo.
+    \item Debe de tener documentación extensa en la que se valorarán los ejemplos ya hechos.
+    \item La instalación de la misma debe de ser lo más simple posible.
+    \item Se valorará muy positivamente la facilidad o simplicidad del lenguaje a la hora de manejar los datos a enviar o recibir con el NFC.
+\end{itemize}
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+\begin{itemize}
+    \item Java: \href{https://github.com/grundid/nfctools}{nfctools}. Si bien al
+    hablar de Java esperaba que existiese una gran cantidad de librerías, no han
+    sido tantas las encontradas. Siendo la mayoría librerías comerciales para
+    lectores NFC concretos.
+    \item Python: \href{https://github.com/nfcpy/nfcpy}{nfcpy}. Al igual que con
+    Java, la búsqueda ha devuelto menos librerías de las esperadas. Aunque en
+    este caso casi todas las entradas y proyectos existentes con NFC en Python
+    apuntaban a esta librería.
+    \item C: \href{https://github.com/nfc-tools/libnfc}{libnfc}. 
+    \item C++: \href{https://github.com/liblogicalaccess/liblogicalaccess}{LibLogicalAccess}.
+\end{itemize}
+
+\subsubsection{Proceso de selección y estudio}
+
+\subsubsection{Java: nfctools}
+
+\begin{todolist}
+    \item El repositorio de \href{https://github.com/grundid/nfctools}{GitHub}
+    no ha recibido actualización desde 2014. Si bien algún colaborador ha
+    seguido trabajando en su propia rama del proyecto algún tiempo, los cambios
+    ni siquiera han sido fusionados con \emph{master} e incluso esa rama más
+    actualizada lleva 3 años sin un \emph{commit}. Por lo que este requisito no lo
+    cumple dicha librería, y, por tanto, tampoco Java.
+    \item Esta librería no tiene documentación más que el
+    \href{https://github.com/grundid/nfctools/blob/master/README}{README de
+    GitHub} y la \href{https://www.grundid.de/nfc/index.html}{web del proyecto},
+    la cual hace más de portal inicial que de documentación. Por lo que no
+    cumple este requisito.
+    \item Al no tener documentación hace que el proceso de instalación requiera
+    de intentos a ciegas, investigación y avances según prueba y error. Por lo
+    que no cumple este requisito.
+    \item[\xcmark] Java es un lenguaje con el que se puede trabajar y manejar
+    los datos de forma medianamente fácil, ya que dispone de clases hechas que
+    automatizan y facilitan parte del proceso. Aunque igualmente si se compara
+    con otros lenguajes habrá alternativas que simplifiquen aún más el proceso.
+    Sin embargo, considero este requisito como válido.
+\end{todolist}
+
+\subsubsection{Python: nfcpy}
+
+\begin{todolist}
+    \item [\xcmark] El último \emph{commit} en el repositorio de
+    \href{https://github.com/nfcpy/nfcpy}{GitHub} fue en marzo de 2022 cuando
+    lanzó el último \emph{release}. Mientras que la última actividad del principal
+    contribuidor de la organización que lleva el repositorio fue a finales de
+    agosto contestando issues; por lo que podemos decir que aunque no de manera
+    continuada o diaria, la librería sigue recibiendo soporte y está activa, por
+    lo que cumple este requisito.
+    \item [\xcmark] Posee
+    \href{https://nfcpy.readthedocs.io/en/latest/index.html}{readthedocs} en
+    donde se detallan los primeros pasos, instalación, ejemplos, etc. Es
+    bastante completa y concisa por lo que también satisface con creces este
+    requisito.
+    \item [\xcmark] Para instalarlo basta con emplear pip, ya que está publicado en
+    \href{https://pypi.org/project/nfcpy/}{PyPi}. Por lo que se instala de una
+    forma rápida y sencilla.
+    \item[\xcmark] Python es uno de los lenguajes más simples y sencillos de
+    usar, especialmente como se está viendo últimamente para el manejo de datos,
+    por lo que este requisito lo cumple de manera sobrada.
+\end{todolist}
+
+\subsubsection{C: libnfc}
+
+\begin{todolist}
+    \item [\xcmark] El último \emph{commit} del repositorio de
+    \href{https://github.com/nfc-tools/libnfc}{GitHub} fue en febrero de 2023,
+    por lo que podríamos decir que si mantiene el soporte, sin embargo,
+    revisando los \emph{issues} y los \emph{pull request} están en su mayoría
+    desatendidos desde hace años. Y de hecho los \emph{commits} de los últimos años son
+    simplemente de fusionar algunos PR aceptados, por lo que da la sensación que
+    el soporte que recibe es el de comprobar cada ciertos meses los \emph{pull
+    request} activos y aprobarlos si son cambios que no requieren mucha
+    intervención. Sin embargo, aún sabiendo esto, interpretaré como que recibe
+    soporte, ya que en cierto modo es así.
+    \item Posee cierta documentación muy básica en el README del repositorio, y
+    adicionalmente tienen \href{nfc-tools.org}{una web} en la que se supone que
+    tienen una comunidad, una wiki detallada, etc. Pero esta web no responde en
+    el momento de hacer el estudio, por lo que se entiende que la web ha sido
+    abandonada, por tanto, no cumple este requisito.
+    \item Para instalar la librería primero hay que clonar el repositorio,
+    ejecutar el \emph{script} de configuración y una vez generados los archivos
+    de configuración, compilar con \emph{make}, para después finalmente ejecutar otro
+    \emph{make install}. Una vez completado el \emph{makefile} hay que copiar los binarios
+    resultantes a cierta ruta y configurar el \emph{path}. Aunque son unos pasos
+    no muy complicados que cualquier estudiante del grado podría superar, no es
+    un proceso rápido o sencillo si lo comparamos con el de la librería de
+    Python la cual se instalaba automáticamente con pip. Por tanto, considero que
+    no supera este requisito.
+    \item C no es un lenguaje especialmente simple a la hora de tratar con
+    datos, pues no dispone de una STL como es el caso de C++ en el que se
+    simplifique el trabajo con vectores etc. Habría que hacerlo manualmente con
+    malloc, calloc, free, etc. Por lo que se aleja mucho de la simplicidad o
+    facilidad para el manejo. Debido a esto, no supera el requisito.
+\end{todolist}
+
+\subsubsection{C++: LibLogicalAccess}
+
+\begin{todolist}
+    \item [\xcmark] El último \emph{commit} del repositorio de
+    \href{https://github.com/liblogicalaccess/liblogicalaccess}{GitHub} fue en
+    marzo de 2023, y los \emph{issues} y \emph{pull request} se mantienen todos
+    atendidos, por lo que denota que se mantiene activo y con soporte del
+    desarrollador. Por tanto, cumple este requisito.
+    \item [\xcmark] Utiliza la wiki de GitHub a modo de documentación, teniendo
+    documentado el proceso de instalación y algunos ejemplos en hardware
+    concreto. Además, posee una \href{https://liblogicalaccess.com/}{web oficial}
+    en la que tienen publicado el Doxygen. Podemos decir que cumple dicho requisito,
+    aunque comparando con algunas otras alternativas vistas, no es la más
+    completa.
+    \item Para instalar la librería hay que emplear un software llamado
+    \href{https://conan.io/}{conan}, el cual es un gestor de paquetes para C y
+    C++ tras clonar y compilar el repositorio con conan. Adicionalmente, este
+    software se instala a través de pip, por lo que habría que instalar también
+    pip, ya que con una instalación de gcc no se instala. Por tanto, no considero
+    que sea una instalación necesariamente simple, por lo que no cumple este
+    requisito.
+    \item [\xcmark] A pesar de que C++ tiene la STL la cual simplifica mucho el manejo de
+    datos con las clases ya hechas y la automatización de la memoria dinámica
+    que se hace dentro de la misma, el manejo de datos no es la tarea más simple
+    dentro de C++. Sin embargo, aunque sea por los pelos o ``cogido con pinzas'',
+    daré como cumplido este requisito.
+\end{todolist}
+
+\subsubsection{Conclusión}
+
+Tras valorar mediante los criterios de selección los lenguajes principales
+encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
+satisface todos los criterios es \textbf{Python con la librería nfcpy}. Por lo que este
+será el lenguaje empleado en la parte del receptor.
