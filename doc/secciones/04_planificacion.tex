@@ -101,6 +101,93 @@ requisitos de selección establecidos, se ha implementado esta solución como
 GitHub Action en el repositorio, para asegurar la calidad del documento
 entregable.
 
+\subsection{Test Unitarios: Java y Kotlin}
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Se buscarán test runners que sean compatibles con Java y Kotlin.
+    Puesto que vamos a trabajar con dos lenguajes distintos pero que a su vez
+    comparten muchas similitudes y bibliotecas, con el fin de ahorrar en tener
+    que invertir tiempo en aprender y comprender dos frameworks de testing
+    diferentes, buscaremos uno que se pueda incluir en ambos lenguajes,
+    ahorrando de esta manera tiempo y código. 
+    \item Se buscará que no estén centrados en BDD ya que algunos test runners
+    están centrados en dicho enfoque y basan su sintaxis en el \emph{Scenario,
+    Given, When y Then}, lo cual se aleja del enfoque DDD empleado en este proyecto.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Los criterios bajo los cuales evaluaremos los candidatos encontrados en la
+búsqueda anterior para finalmente seleccionar el que más se adecúe son:
+\begin{itemize}
+    \item Se valorará el nivel de documentación que tenga así como de los
+    ejemplos y tutoriales hechos por la comunidad.
+    \item Se tendrá en cuenta la compatibilidad con IDEs.
+\end{itemize}
+
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+Tras buscar \emph{test runners} que cumplan los requisitos de búsqueda encontramos:
+
+\begin{itemize}
+    \item \href{https://junit.org/junit5/}{JUnit}
+    \item \href{https://testng.org/doc/index.html}{TestNG}
+\end{itemize}
+
+Otros \emph{test runners} encontrados pero que no cumplían los requisitos de búsqueda son:
+\begin{itemize}
+    \item \href{https://spockframework.org/}{Spock}: Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}, aunque se puede añadir gracias a Groovy.
+    \item \href{https://cucumber.io/}{Cucumber} Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}.
+    \item \href{https://github.com/karatelabs/karate}{Karate} Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}.
+\end{itemize}
+
+
+\subsubsection{Proceso de selección y estudio}
+
+\subsubsection{JUnit}
+
+\begin{todolist}
+    \item[\xcmark] Se valorará el nivel de documentación que tenga así como de
+    los ejemplos y tutoriales hechos por la comunidad: Comple encarecidamente
+    este requisito ya que es el \emph{test runner} por excelencia en Java, por
+    tanto es el más usado y el que más ejemplos, tutoriales y documentación
+    posee.
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDEs: Cumple este
+    requisito sin problemas ya que existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{este plugin para
+    Visual Studio Code} que lo hace compatible y además
+    \href{https://www.jetbrains.com/help/idea/junit.html}{viene de fabrica con
+    IntelliJ IDEA}
+\end{todolist}
+
+
+\subsubsection{TestNG}
+
+\begin{todolist}
+    \item Se valorará el nivel de documentación que tenga así como de los
+    ejemplos y tutoriales hechos por la comunidad: A pesar de que hay bastante
+    bibliografía y ejemplos, no está al nivel de JUnit y de hecho incluso la
+    página oficial tiene un aspecto más antiguo y descuidado que el de JUnit.
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDEs: Cumple este
+    requisito sin problemas ya que existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{este plugin para
+    Visual Studio Code} que lo hace compatible y además
+    \href{https://www.jetbrains.com/help/idea/testng.html}{viene de fabrica con
+    IntelliJ IDEA}
+\end{todolist}
+
+
+Por lo que tras valorar mediante los criterios de selección los \emph{test
+runners} principales encontrados según los criterios de búsqueda, podemos ver
+que el que satisface todos los criterios es \textbf{JUnit}. Por lo que este será
+el \emph{test runner} empleado para Java y para Kotlin.
+
+
 \section{Temporización}
 
 \section{Seguimiento del desarrollo}
