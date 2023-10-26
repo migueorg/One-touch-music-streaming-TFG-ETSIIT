@@ -90,8 +90,8 @@ en que lugar queda:
     revisiones.
     \item[\xcmark] Se valorará la posibilidad de excluir palabras del análisis.
     Cumple el requisito aunque bastante raspado, ya que permite excluir palabras
-    mediante un diccionario de palabras excluidas, pero no permite excluir una
-    única aparición puntual de la misma.
+    mediante un diccionario de palabras excluidas, sin embargo, no permite
+    excluir una única aparición puntual de la misma.
 \end{todolist}
 
 \subsubsection{Conclusión}
@@ -101,7 +101,7 @@ requisitos de selección establecidos, se ha implementado esta solución como
 GitHub Action en el repositorio, para asegurar la calidad del documento
 entregable.
 
-\subsection{Test Unitarios: Java y Kotlin}
+\subsection{Test runner: Java y Kotlin}
 
 \subsubsection{Criterios de búsqueda}
 
@@ -109,12 +109,12 @@ Los criterios a través de los cuales buscaremos los candidatos para
 posteriormente evaluar si cumplen los requisitos de selección:
 \begin{itemize}
     \item Se buscarán test runners que sean compatibles con Java y Kotlin.
-    Puesto que vamos a trabajar con dos lenguajes distintos pero que a su vez
+    Puesto que vamos a trabajar con dos lenguajes distintos, pero que a su vez
     comparten muchas similitudes y bibliotecas, con el fin de ahorrar en tener
     que invertir tiempo en aprender y comprender dos frameworks de testing
     diferentes, buscaremos uno que se pueda incluir en ambos lenguajes,
     ahorrando de esta manera tiempo y código. 
-    \item Se buscará que no estén centrados en BDD ya que algunos test runners
+    \item Se buscará que no estén centrados en BDD, ya que, algunos test runners
     están centrados en dicho enfoque y basan su sintaxis en el \emph{Scenario,
     Given, When y Then}, lo cual se aleja del enfoque DDD empleado en este proyecto.
 \end{itemize}
@@ -126,7 +126,7 @@ búsqueda anterior para finalmente seleccionar el que más se adecúe son:
 \begin{itemize}
     \item Se valorará el nivel de documentación que tenga así como de los
     ejemplos y tutoriales hechos por la comunidad.
-    \item Se tendrá en cuenta la compatibilidad con IDEs.
+    \item Se tendrá en cuenta la compatibilidad con IDE.
 \end{itemize}
 
 
@@ -139,7 +139,7 @@ Tras buscar \emph{test runners} que cumplan los requisitos de búsqueda encontra
     \item \href{https://testng.org/doc/index.html}{TestNG}
 \end{itemize}
 
-Otros \emph{test runners} encontrados pero que no cumplían los requisitos de búsqueda son:
+Otros \emph{test runners} encontrados, pero que no cumplían los requisitos de búsqueda son:
 \begin{itemize}
     \item \href{https://spockframework.org/}{Spock}: Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}, aunque se puede añadir gracias a Groovy.
     \item \href{https://cucumber.io/}{Cucumber} Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}.
@@ -153,15 +153,15 @@ Otros \emph{test runners} encontrados pero que no cumplían los requisitos de b�
 
 \begin{todolist}
     \item[\xcmark] Se valorará el nivel de documentación que tenga así como de
-    los ejemplos y tutoriales hechos por la comunidad: Comple encarecidamente
-    este requisito ya que es el \emph{test runner} por excelencia en Java, por
-    tanto es el más usado y el que más ejemplos, tutoriales y documentación
+    los ejemplos y tutoriales hechos por la comunidad: Cumple encarecidamente
+    este requisito, ya que, es el \emph{test runner} por excelencia en Java, por
+    tanto, es el más usado y el que más ejemplos, tutoriales y documentación
     posee.
-    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDEs: Cumple este
-    requisito sin problemas ya que existe
-    \href{https://code.visualstudio.com/docs/java/java-testing}{este plugin para
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDE: Cumple este
+    requisito sin problemas, puesto que, existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{esta extensión para
     Visual Studio Code} que lo hace compatible y además
-    \href{https://www.jetbrains.com/help/idea/junit.html}{viene de fabrica con
+    \href{https://www.jetbrains.com/help/idea/junit.html}{viene por defecto con
     IntelliJ IDEA}
 \end{todolist}
 
@@ -173,11 +173,11 @@ Otros \emph{test runners} encontrados pero que no cumplían los requisitos de b�
     ejemplos y tutoriales hechos por la comunidad: A pesar de que hay bastante
     bibliografía y ejemplos, no está al nivel de JUnit y de hecho incluso la
     página oficial tiene un aspecto más antiguo y descuidado que el de JUnit.
-    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDEs: Cumple este
-    requisito sin problemas ya que existe
-    \href{https://code.visualstudio.com/docs/java/java-testing}{este plugin para
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDE: Cumple este
+    requisito sin problemas, pues, existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{esta extensión para
     Visual Studio Code} que lo hace compatible y además
-    \href{https://www.jetbrains.com/help/idea/testng.html}{viene de fabrica con
+    \href{https://www.jetbrains.com/help/idea/testng.html}{viene por defecto con
     IntelliJ IDEA}
 \end{todolist}
 
@@ -186,6 +186,60 @@ Por lo que tras valorar mediante los criterios de selección los \emph{test
 runners} principales encontrados según los criterios de búsqueda, podemos ver
 que el que satisface todos los criterios es \textbf{JUnit}. Por lo que este será
 el \emph{test runner} empleado para Java y para Kotlin.
+
+
+\subsection{Biblioteca de aserciones: Java y Kotlin}
+
+La elección de una biblioteca de aserciones no es excluyente de prescindir de
+otras, ya que, puede haber conjuntamente más de una a la vez en un mismo
+proyecto. Por lo que se empleará la resulte más conveniente según lo que se esté
+testeando. Así pues este proceso de selección no buscará quedarse con una sola
+opción, sino consultar las existentes para tenerlas en conocimiento y poder
+optar por una o por otra en el momento en el que se necesiten.
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Bibliotecas de aserciones que sean compatibles con JUnit (el
+    \emph{test runner} que estamos usando)
+\end{itemize}
+
+\subsubsection{Resultados tras la búsqueda}
+
+Las diferentes opciones que se han encontrado compatibles con nuestros criterios
+de búsqueda son:
+
+\begin{itemize}
+    \item La biblioteca que proporciona JUnit: Básica y con una sintaxis poco
+    natural. Pero suficiente para cosas simples o sencillas.
+    \item \href{https://github.com/assertj/assertj}{AssertJ}: Mucho más completa
+    que la que incorpora JUnit, con sintaxis mucho más natural y con la
+    posibilidad de crear tus propias aserciones. Es una de las más empleadas.
+    \item \href{http://www.awaitility.org/}{Awaitility}: Se centra en brindar y
+    facilitar los test de manera legible para sistemas asíncronos.
+    \item \href{https://site.mockito.org/}{Mockito}: Utilizado por excelencia para
+    ``mockear'', tiene la ventaja de que se adapta tanto a escenarios simples
+    como para escenarios más complejos y avanzados o específicos. Se suele
+    añadir en conjunto a AssertJ y es otro de los más frecuentados por la comunidad.
+    \item \href{https://github.com/voodoodyne/subethasmtp}{Wiser}: Librería de
+    uso exclusivo para ``mockear'' un servidor SMTP. 
+    \item \href{https://github.com/marschall/memoryfilesystem}{Memoryfilesystem}
+    y \href{https://github.com/google/jimfs}{Jimfs}: Librerías para
+    ``mockear'' entrada y salida de memoria. 
+    \item \href{https://wiremock.org/docs/overview/}{WireMock}: Librería para
+    ``mockear'' servidores HTTP
+    \item \href{https://testcontainers.com/}{Testcontainers}: Framework muy
+    interesante para ``mockear'' cualquier cosa que pueda ejecutarse en un
+    contendor Docker. 
+\end{itemize}
+
+Se han añadido librerías para ``mockear'' a pesar de no ser bibliotecas de
+aserciones como tal, pero que pueden ser requeridas igualmente según lo que se
+esté testeando. Igualmente, existirán más librerías y frameworks específicos para hacer
+\emph{mocks} más concretos según necesidad.
+
 
 
 \section{Temporización}
