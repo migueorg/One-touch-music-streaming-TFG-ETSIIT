@@ -396,12 +396,60 @@ Tras buscar \emph{test runners} que cumplan los requisitos de búsqueda encontra
     este requisito.
 \end{todolist}
 
-
+\subsubsection{Conclusión}
 
 Tras analizar los posibles test runners encontrados, vemos que pocos de ellos
 cumplen varios de los requisitos establecidos, siendo Pytest el que más cumple
 de todos, por lo que ha sido el elegido finalmente a pesar de no cumplir el
 100\% de los requisitos.
+
+
+\subsection{Biblioteca de aserciones: Python}
+
+Al igual que para la biblioteca de aserciones de Java y Kotlin, en este proceso
+de selección no se limitará las bibliotecas a usar, sino que se mostrarán las
+bondades de cada una para hacer una elección según las necesidades del momento.
+
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Bibliotecas de aserciones que sean compatibles con Pytest (el
+    \emph{test runner} que estamos usando)
+\end{itemize}
+
+\subsubsection{Resultados tras la búsqueda}
+
+Las diferentes opciones que se han encontrado compatibles con nuestros criterios
+de búsqueda son:
+
+\begin{itemize}
+    \item La biblioteca que proporciona Unittest: Al igual que pasaba con la que
+    proporcionaba JUnit para Java, es muy básica y con una sintaxis poco
+    natural. Pero suficiente para cosas simples o sencillas y con bastante buen
+    soporte y documentación.
+    \item \href{https://github.com/dgilland/verify}{Verify}: Tiene una sintaxis
+    intuitiva y que pretende ser lo más natural posible, pero lleva sin recibir
+    soporte desde 2017 y su documentación es bastante escasa y deja que desear.
+    \item \href{https://github.com/assertpy/assertpy}{AssertPy}: Es la más empleada
+    en Python con diferencia, tiene una sintaxis fácil de entender y sencilla.
+    Tiene buen soporte y buena documentación.
+    \item \href{https://github.com/google/pytruth}{PyTruth} Tiene una sintaxis
+    muy simple y fácil de entender. Sin embargo, está abandonada y no tiene
+    documentación.
+    \item \href{https://github.com/grappa-py/grappa}{Grappa} Trata de imitar lo
+    más posible la sintaxis del lenguaje natural, por lo que se hace muy fácil
+    de comprender. Sin embargo, también está abandonada.
+\end{itemize}
+
+\subsubsection{Conclusión}
+
+Debido a las múltiples ventajas en cuanto a facilidad, soporte y documentación
+de AssertPy, por defecto se utilizará dicha librería excepto si se da el caso de
+necesitar ``mockear'' algún dispositivo externo y encontrar una librería que sea
+más adecuada para dicho caso concreto.
 
 
 \section{Temporización}
