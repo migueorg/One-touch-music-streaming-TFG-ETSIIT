@@ -136,3 +136,11 @@ WireMock
 Testcontainers
 IDE
 Memoryfilesystem
+fixtures
+Pytest
+pytest
+Nose2
+Unittest
+unittest
+friendly
+issue
