@@ -244,7 +244,11 @@ utilizar las mismas bibliotecas se reducirían los posibles errores o
 incompatibilidades. Por lo que los criterios de búsqueda serán:
 
 \begin{itemize}
-    \item Debe de tener compatibilidad nativa con las mismas librerías empleadas en la parte del dispositivo Android.
+    \item Debe de tener compatibilidad nativa con las mismas librerías empleadas
+    en la parte del dispositivo Android.
+    \item No se tendrán en cuenta las variantes de otros lenguajes de
+    programación que traducen en tiempo real el código a Java (Jython, JGo,
+    JRuby, etc.)
 \end{itemize}
 
 \subsubsection{Criterios de selección}
@@ -253,8 +257,9 @@ Las propuestas encontradas bajo los criterios de búsqueda serán evaluadas bajo
 los siguientes criterios de selección:
 
 \begin{itemize}
-    \item Se valorará la sencillez en cuanto instalación del lenguaje en modo \emph{headless}.
-    \item Se valorará la simpleza en cuanto a ejecución de los archivos ejecutables.
+    \item La instalación del lenguaje en modo \emph{headless} debe ser lo más simple posible.
+    \item La ejecución de código debe de ser lo más simple posible.
+    \item Se valorará positivamente el haberse estudiado en algún momento a lo largo del grado.
 \end{itemize}
 
 \subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
@@ -262,6 +267,8 @@ los siguientes criterios de selección:
 \begin{itemize}
     \item \href{https://www.java.com/es/}{Java}.
     \item \href{https://kotlinlang.org/}{Kotlin}.
+    \item \href{https://groovy-lang.org/}{Groovy}
+    \item \href{https://www.scala-lang.org/}{Scala}
 \end{itemize}
 
 Ambos lenguajes soportan nativamente las bibliotecas de Java, ya que Kotlin tiene
@@ -286,6 +293,11 @@ compatibilidad nativa con Java al ejecutarse también en una JVM.
     con ejecutar el comando ``java'' seguido del archivo con el código, sin
     necesidad de añadir flags ni generar binarios para su posterior ejecución
     manual. Por lo que cumple este requisito.
+    \item[\xcmark] Java es un lenguaje bastante utilizado a lo largo del grado,
+    en asignaturas como PDOO (Programación y Diseño Orientado a Objetos), FR
+    (Fundamentos de Redes)y SM (Sistemas Multimedia); por lo que la curva
+    inicial de aprendizaje ya ha sido sobrepasada y no es un lenguaje en el que
+    se tenga que empezar de 0.
 \end{todolist}
 
 \subsubsection{Kotlin}
@@ -294,9 +306,10 @@ compatibilidad nativa con Java al ejecutarse también en una JVM.
     \item Para instalar Kotlin, dado que es un lenguaje mucho más moderno que
     Java, aún no ha sido añadido a los repositorios que vienen por defecto en
     las distribuciones Linux. Por lo que para instalarlo habrá que descargar los
-    binarios pre compilados accesibles oficialmente desde GitHub o instalarlo
-    desde un repositorio de terceros llamado \emph{SDKMAN} el cual si trae el
-    paquete de Kotlin en su catálogo, pero que para usarlo es necesario
+    binarios pre compilados accesibles oficialmente desde GitHub según la
+    versión específica a emplear o instalarlo desde un repositorio de terceros
+    llamado \emph{SDKMAN} el cual si trae el paquete de Kotlin en su catálogo, y
+    permite especificar la versión deseada, pero que para usarlo es necesario
     instalarlo previamente también. Por lo que si bien estos pasos no son
     complicados, al ponerlo en comparación con Java, este queda en peor lugar,
     por lo que no cumple este requisito.
@@ -311,7 +324,49 @@ compatibilidad nativa con Java al ejecutarse también en una JVM.
     comparamos con el otro lenguaje analizado, el proceso de Java sigue teniendo
     un proceso más simple para ejecutar el código. Por lo que Kotlin tampoco
     cumple este requisito. 
+    \item Kotlin se estudia durante el grado en la asignatura PDM (Programación
+    de Dispositivos Móviles), sin embargo, esta asignatura es una optativa de
+    cuarto año, y en mi caso no la cursé, por lo que no es un lenguaje que haya
+    utilizado previamente en el grado.
 \end{todolist}
+
+\subsubsection{Groovy}
+
+\begin{todolist}
+    \item Al igual que en Kotlin, para instalar Groovy hay que hacerlo
+    descargando desde su web el binario de la versión específica que deseamos
+    usar y configurar el path manualmente, o hacerlo también igual que para
+    Kotlin, a través de \emph{SDKMAN} especificando la versión concreta a
+    instalar si es necesario. Por lo que a pesar de ser un método no muy
+    complejo, sigue siendo más laborioso que el de Java.
+    \item[\xcmark] Una vez instalado, para ejecutar código en Groovy es tan
+    simple como ejecutar el comando ``groovy'' seguido del archivo con el
+    código. Por lo que al igual que Java, cumple este requisito.
+    \item Groovy no se ha estudiado en ninguna asignatura durante la carrera, al
+    menos no en ninguna de las troncales, ni de las optativas que yo haya
+    cursado, por lo que no cumple este requisito.
+\end{todolist}
+
+\subsubsection{Scala}
+
+\begin{todolist}
+    \item Scala se puede instalar descargando el binario manualmente, o a través
+    de \emph{Coursier}, el cual es un gestor de dependencias, aplicaciones y
+    paquetes para Scala, con la capacidad de preparar el entorno de
+    Scala e instalarlo. Además, \emph{Coursier} permite especificar el \emph{tag} de la
+    versión a instalar. Sin embargo, \emph{Coursier} también necesita ser
+    instalado manualmente por lo que de nuevo, al comparar con el proceso de
+    instalación de Java, este es un poco más laborioso.
+    \item Para ejecutar código de Scala normalmente hay que crear y construir
+    los proyectos con \href{https://www.scala-sbt.org/}{sbt} el cual es una
+    herramienta de construcción de proyectos para Scala. Por lo que no cumple
+    este requisito al tener que estar construyendo proyectos para ejecutarse.
+    (Para códigos simples se puede usar el comando ``scala'' seguido del
+    archivo, pero no es una práctica recomendada si se usan librerías, como es
+    el caso)
+    \item Al igual que Groovy, Scala no ha sido usado previamente en la carrera.
+\end{todolist}
+
 
 \subsubsection{Conclusión}
 
