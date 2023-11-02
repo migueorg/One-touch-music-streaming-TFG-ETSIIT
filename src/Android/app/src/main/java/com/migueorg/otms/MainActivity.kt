@@ -12,11 +12,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
 
     var foregroundService: Intent? = null
+    var audio: AudioCapture = AudioCapture()
 
     private val requestOnePermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java)
         var mediaProjection : MediaProjection
+        var file = File(getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
 
 
 
@@ -65,6 +68,9 @@ class MainActivity : AppCompatActivity() {
                 mediaProjection = mediaProjectionManager
                     .getMediaProjection(result.resultCode, result.data!!)
                 Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show()
+
+                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
+                audio.startAudioCapture(mediaProjection, file)
             }
         }
 

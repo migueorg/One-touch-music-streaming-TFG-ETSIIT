@@ -96,10 +96,24 @@ class AudioCapture : Service() {
 
 
         audioRecord!!.startRecording()
+        audioCaptureThread = thread(start = true) {
 
+            writeAudioToFile(file)
+        }
     }
 
+    private fun writeAudioToFile(outputFile: File) {
+        val data = ByteArray(BUFFER_SIZE_RECORDING / 2)
+        var outputStream = FileOutputStream(outputFile)
 
+        while (!audioCaptureThread.isInterrupted) {
+            val read = audioRecord!!.read(data, 0, data.size)
+            outputStream!!.write(data, 0, read)
+
+        }
+        outputStream!!.flush()
+        outputStream!!.close()
+    }
 
 
 }
