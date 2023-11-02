@@ -12,15 +12,20 @@ import android.media.AudioPlaybackCaptureConfiguration
 import android.media.AudioRecord
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.os.Environment
 import android.os.IBinder
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import java.io.File
+import java.io.FileOutputStream
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 import kotlin.concurrent.thread
+import kotlin.experimental.and
 
 class AudioCapture : Service() {
 
@@ -28,6 +33,17 @@ class AudioCapture : Service() {
     val NOTIFICATION_CHANNEL_ID = "OTMS"
     private lateinit var mediaProjectionManager: MediaProjectionManager
     private var mediaProjection: MediaProjection? = null
+
+    private lateinit var audioCaptureThread: Thread
+    private var audioRecord: AudioRecord? = null
+
+    private val sampleRate = 16000
+    private val channelConfig = AudioFormat.CHANNEL_IN_MONO
+    private val audioFormat = AudioFormat.ENCODING_PCM_16BIT
+    private val BUFFER_SIZE_IN_BYTES = 2048
+    private val NUM_SAMPLES_PER_READ = 1024
+
+    private val BUFFER_SIZE_RECORDING = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
 
 
 
@@ -59,4 +75,31 @@ class AudioCapture : Service() {
         val manager = getSystemService(NotificationManager::class.java) as NotificationManager
         manager.createNotificationChannel(serviceChannel)
     }
+
+    public fun startAudioCapture(mediaProjection2: MediaProjection, file: File) {
+
+        val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection2!!)
+            .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
+            .build()
+
+        val audioFormat = AudioFormat.Builder()
+            .setEncoding(audioFormat)
+            .setSampleRate(sampleRate)
+            .setChannelMask(channelConfig)
+            .build()
+
+        audioRecord = AudioRecord.Builder()
+            .setAudioFormat(audioFormat)
+            .setBufferSizeInBytes(BUFFER_SIZE_IN_BYTES)
+            .setAudioPlaybackCaptureConfig(config)
+            .build()
+
+
+        audioRecord!!.startRecording()
+
+    }
+
+
+
+
 }
