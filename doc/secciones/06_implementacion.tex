@@ -4,6 +4,58 @@ La implementación del software se ha dividido en hitos. Estos han sido definido
 y cada uno de ellos contiene un grupo de \textit{issues} que se corresponden con las distintas
 mejoras que se han ido incorporando al software a lo largo de su desarrollo.\\
 
+\section{Primeros planteamientos para el proyecto}
+
+\subsection{Proyecto como aplicación final}
+
+Los primeros pasos para afrontar este proyecto se hicieron proponiendo crear dos
+aplicaciones reproductoras de audio, una para Android y otra para Linux. Ambas
+tendrían acceso a una misma biblioteca compartida de archivos MP3, la cual
+estaría en red, por lo que ambos reproductores tendrían conocimiento y acceso a
+la misma colección de audio. En dicha biblioteca todos los elementos estaría
+asociados a un identificador, por lo que cuando el móvil y el altavoz se
+comunicasen a través del NFC, se transferiría el identificador del archivo de la
+reproducción actual, además del segundo actual. De esta forma el altavoz sabría
+que elemento de la biblioteca reproducir y en que segundo comenzar.
+
+El problema de esta solución era que la biblioteca dependía del usuario final,
+por lo que conllevaba andar añadiendo canciones y podcast manualmente, como si
+de 2008 se tratase... Por tanto, generaba más problemas de los que solucionaba,
+por lo que se decidió darle al proyecto un enfoque como servicio en lugar una
+aplicación para un usuario final.
+
+De esta manera, el proyecto como servicio sería integrado por otras apliaciones
+de reproducción, dejando el tema de proveer el contenido a cargo de las mismas.
+
+\subsection{Proyecto como servicio - Google Cast}
+
+Al enfocarlo como servicio se propuso emplear algún protocolo amplio y conocido
+como es \emph{Google Cast} \cite{google-cast}, de forma que el receptor de audio
+fuese un servidor de \emph{Google Cast}, y el servicio en \emph{Android}
+estuviese a la espera de una interacción NFC para conectarse mediante
+\emph{Cast} al servidor con el que se hubiese comunicado. 
+
+El problema que hubo con este planteamiento y por lo que también se descartó es
+que Google no permite que dispositivos ``no genuinos'' sean usados como
+servidores de \emph{Google Cast}. Esto significa que únicamente se permite dotar
+de servidor \emph{Cast} a los dispositivos licenciados por \emph{Google} como
+pueden ser los \emph{Google Chromecast, Google Home, Google Nest, etc}. Por lo
+que hubo que desechar ese protocolo de transmisión y buscar otra alternativa
+libre.
+
+\subsection{Proyecto como servicio - HLS/WebRTC/RTSP}
+
+Al desechar el uso de \emph{Google Cast} hubo que bajar un nivel de abstracción
+para buscar alternativas libres y desarrollar un \emph{Google Cast} propio que
+permitiese enviar el audio a un servidor. Tras el estudio de las \emph{API} de
+\emph{Android} se optó por emplear la \emph{API} existente en \emph{Android 10
+(SDK29)} llamada \emph{AudioPlaybackCapture} \cite{api-audio-capture}, la cual
+permite capturar el audio interno de \emph{Android}, para posteriormente
+procesarlo, grabarlo, o trabajar libremente con él. Por lo que el nuevo enfoque
+sería enviarlo a través de cualquier protocolo de streaming como puede ser \emph{HLS,
+WebRTC o RTSP} tras capturarlo con la mencionada \emph{API}.
+
+
 \section{Selección del lenguaje de programación}
 
 Dentro del proyecto se ven involucrados más de un dispositivo, ya que coexisten
