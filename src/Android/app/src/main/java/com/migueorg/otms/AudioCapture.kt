@@ -31,8 +31,8 @@ class AudioCapture : Service() {
 
     val SERVICE_ID = 1318
     val NOTIFICATION_CHANNEL_ID = "OTMS"
-    private lateinit var mediaProjectionManager: MediaProjectionManager
-    private var mediaProjection: MediaProjection? = null
+    private lateinit var mediaProjectionManager: MediaProjectionManager 
+    private var mediaProjection: MediaProjection? = null 
 
     private lateinit var audioCaptureThread: Thread
     private var audioRecord: AudioRecord? = null
@@ -54,27 +54,27 @@ class AudioCapture : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
-        startForeground(
-            SERVICE_ID,
-            NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).build()
-        )
+        startForeground( 
+            SERVICE_ID, 
+            NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).build() 
+        ) 
 
-        mediaProjectionManager =
-            applicationContext.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        mediaProjectionManager = 
+            applicationContext.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager 
 
     }
 
 
-    private fun createNotificationChannel() {
-        val serviceChannel = NotificationChannel(
-            NOTIFICATION_CHANNEL_ID,
-            "OTMS",
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
+    private fun createNotificationChannel() { 
+        val serviceChannel = NotificationChannel( 
+            NOTIFICATION_CHANNEL_ID, 
+            "OTMS", 
+            NotificationManager.IMPORTANCE_DEFAULT 
+        ) 
 
-        val manager = getSystemService(NotificationManager::class.java) as NotificationManager
-        manager.createNotificationChannel(serviceChannel)
-    }
+        val manager = getSystemService(NotificationManager::class.java) as NotificationManager 
+        manager.createNotificationChannel(serviceChannel) 
+    } 
 
     public fun startAudioCapture(mediaProjection2: MediaProjection, file: File) {
 

@@ -17,7 +17,7 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    var foregroundService: Intent? = null
+    var foregroundService: Intent? = null 
     var audio: AudioCapture = AudioCapture()
 
     private val requestOnePermission = 
@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        foregroundService = Intent(this, AudioCapture::class.java)
+        foregroundService = Intent(this, AudioCapture::class.java) 
 
-        startForegroundService(foregroundService)
+        startForegroundService(foregroundService) 
 
         if(!hasAudioPermission()){ 
             requestOnePermission.launch(Manifest.permission.RECORD_AUDIO) 
