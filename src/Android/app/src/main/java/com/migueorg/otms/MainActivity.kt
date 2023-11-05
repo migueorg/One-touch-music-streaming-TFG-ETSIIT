@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
  
         val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java) 
         var mediaProjection : MediaProjection 
-        var file = File(getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
+        var file = File(getExternalFilesDir(null).toString()+"/"+"Capture.pcm") 
 
 
 
@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity() {
                     .getMediaProjection(result.resultCode, result.data!!) 
                 Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show() 
 
-                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
-                audio.startAudioCapture(mediaProjection, file)
+                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm") 
+                audio.startAudioCapture(mediaProjection, file) 
             } 
         } 
 
