@@ -496,3 +496,65 @@ Finalmente, si usamos un software compatible con audio en \emph{RAW} como es
 \emph{Audacity} \cite{software-audacity}, vemos que el audio ha sido capturado
 correctamente y que es reproducible, por lo que, podemos dar como listo el
 milestone 2 al tener satisfecho el PMV asignado al mismo. 
+
+\section{Desplegando el receptor de audio: Milestone 3}
+
+Como ya mencioné al inicio de la implementación, el receptor de audio sería un
+dispositivo que corra \emph{Linux} ya que esto abriría muchas posibilidades en
+cuanto a lenguajes y librerías a usar; por lo que realmente la elección de un
+hardware u otro es indiferente mientras ejecute \emph{Linux} y tenga algún
+módulo NFC conectado, por ello es que no se ha necesitado un proceso de
+selección para este apartado.
+
+En mi caso emplearé una \emph{Raspberry Pi 1b} debido al bajo coste de la misma, su
+extensa comunidad y sus puertos de entrada y salida de propósito general
+\emph{(GPIO)} [REFERENCIAR AQUÍ LOS GPIO] los cuales de cara al desarrollo abren
+las puertas a muchos protocolos de manera fácil y rápida. 
+
+% Insertar foto de la raspberry pi 1b
+
+En cuanto al módulo NFC opté por un PN532 [REFERENCIAR AQUI AL PN532], el cual
+tiene un bajo coste y su vez admite varios protocolos de conexión diferentes con
+la Raspberry.
+
+% Insertar foto del módulo
+
+Hacer funcionar un chip PN532 en una Raspbery Pi o Arduino es una tarea
+sencilla y trivial, sin embargo, durante el desarrollo, tras instalar todo lo
+necesario, configurar los drivers y conectar ambos dispositivos; la Raspberry
+seguía sin detectar el módulo, independientemente del protocolo de conexión
+usado. Por lo que sustituí la Raspberry Pi 1b que estaba empleando por otra
+Raspberry Pi 2 
+
+% Insertar foto de la raspberry pi 2
+
+Pero el resultado seguía siendo el mismo incluso después de reinstalar el
+sistema y reinstalar los drivers desde cero en la nueva Raspberry. Por lo que
+sustituí el módulo PN532 por otro de un fabricante difernte, en este caso uno de
+\href{https://www.waveshare.com/wiki/PN532_NFC_HAT}{Waveshare}
+
+% Insertar foto del HAT PN532 de Waveshare
+
+El cual finalmente si que funcionó por lo que saqué como conlusión que el primer
+módulo PN532 llegó roto. Lo cual provocó una semana de trabajo perdido entre
+pruebas, intentos y tiempos de espera.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/nfc_poll.jpeg}
+    \caption{nfc-poll detectando el PN532 via UART en la Raspberry}
+\end{figure}
+
+Para conectar un módulo PN532 a una Raspberry, como mencioné antes, existen
+varios protocolos disponibles, los cuales son \emph{UART}, \emph{I2C} y
+\emph{SPI}. Sin embargo, tras hacer un estudio de los protocolos compatibles con
+la librería \emph{NFC} seleccionada tras un proceso de selección al inicio,
+comprobé que el único protocolo compatible con la misma era el de \emph{UART}
+(conexión serie), por lo que tampoco fue necesario realizar un proceso de
+selección sobre los protocolos disponibles.\\
+
+Una vez operativa la Raspberry y el módulo \emph{NFC}, instalé los lenguajes
+elegidos en los procesos de selección que se llevaron a cabo, así como la
+librería \emph{NFC (NfcPy)} seleccionada, los cuales no presentaron ningún
+problema. Por lo que tras esto, el despliegue y configuración del dispositivo
+receptor ya se encontraba listo.
