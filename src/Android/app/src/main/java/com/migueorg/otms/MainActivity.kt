@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Ya están los permisos dados.", Toast.LENGTH_SHORT).show() 
         } 
 
-        requestPantalla()
+        requestPantalla() 
     }
 
 
@@ -53,29 +53,29 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED 
     } 
 
-    private fun requestPantalla(){
-
-        val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java)
-        var mediaProjection : MediaProjection
+    private fun requestPantalla(){ 
+ 
+        val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java) 
+        var mediaProjection : MediaProjection 
         var file = File(getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
 
 
 
-        val startMediaProjection = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                mediaProjection = mediaProjectionManager
-                    .getMediaProjection(result.resultCode, result.data!!)
-                Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show()
+        val startMediaProjection = registerForActivityResult( 
+            ActivityResultContracts.StartActivityForResult() 
+        ) { result -> 
+            if (result.resultCode == RESULT_OK) { 
+                mediaProjection = mediaProjectionManager 
+                    .getMediaProjection(result.resultCode, result.data!!) 
+                Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show() 
 
                 println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
                 audio.startAudioCapture(mediaProjection, file)
-            }
-        }
+            } 
+        } 
 
-        startMediaProjection.launch(mediaProjectionManager.createScreenCaptureIntent())
-
-    }
+        startMediaProjection.launch(mediaProjectionManager.createScreenCaptureIntent()) 
+ 
+    } 
 
 }
