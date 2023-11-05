@@ -20,14 +20,14 @@ class MainActivity : AppCompatActivity() {
     var foregroundService: Intent? = null
     var audio: AudioCapture = AudioCapture()
 
-    private val requestOnePermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()){
-            if (it) {
-                Log.d(TAG, "onActivityResult: PERMISSION GRANTED")
-            } else {
-                Log.e(TAG, "onActivityResult: PERMISSION DENIED")
-            }
-        }
+    private val requestOnePermission = 
+        registerForActivityResult(ActivityResultContracts.RequestPermission()){ 
+            if (it) { 
+                Log.d(TAG, "onActivityResult: PERMISSION GRANTED") 
+            } else { 
+                Log.e(TAG, "onActivityResult: PERMISSION DENIED") 
+            } 
+        } 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,20 +38,20 @@ class MainActivity : AppCompatActivity() {
 
         startForegroundService(foregroundService)
 
-        if(!hasAudioPermission()){
-            requestOnePermission.launch(Manifest.permission.RECORD_AUDIO)
-        }else{
-            Toast.makeText(this@MainActivity, "Ya están los permisos dados.", Toast.LENGTH_SHORT).show()
-        }
+        if(!hasAudioPermission()){ 
+            requestOnePermission.launch(Manifest.permission.RECORD_AUDIO) 
+        }else{ 
+            Toast.makeText(this@MainActivity, "Ya están los permisos dados.", Toast.LENGTH_SHORT).show() 
+        } 
 
         requestPantalla()
     }
 
 
-    private fun hasAudioPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(this,
-            Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-    }
+    private fun hasAudioPermission(): Boolean { 
+        return ActivityCompat.checkSelfPermission(this, 
+            Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED 
+    } 
 
     private fun requestPantalla(){
 
