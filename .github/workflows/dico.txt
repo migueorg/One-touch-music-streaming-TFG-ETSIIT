@@ -148,3 +148,14 @@ Verify
 AssertPy
 PyTruth
 Grappa
+Jython
+JGo
+JRuby
+PDOO
+FR
+SM
+groovy
+Coursier
+sbt
+scala
+tag
