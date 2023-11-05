@@ -311,3 +311,14 @@ typings/
 
 #macOS Files
 .DS_*
+
+#Android Studio Files
+*.iml
+/src/Android/.gradle/
+/src/Android/.idea/
+/src/Android/build
+/src/Android/captures
+/src/Android/.externalNativeBuild
+/src/Android/.cxx
+/src/Android/local.properties
+/src/Android/app/build/
