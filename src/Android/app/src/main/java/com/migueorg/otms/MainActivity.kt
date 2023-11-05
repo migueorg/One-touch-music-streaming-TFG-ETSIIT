@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.AudioRecord
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
@@ -17,8 +18,9 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    var foregroundService: Intent? = null 
-    var audio: AudioCapture = AudioCapture()
+    var foregroundService: Intent? = null
+    var audio2: Adapters = Adapters()
+    var audioRecord: AudioRecord? = null
 
     private val requestOnePermission = 
         registerForActivityResult(ActivityResultContracts.RequestPermission()){ 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        foregroundService = Intent(this, AudioCapture::class.java) 
+        foregroundService = Intent(this, Adapters::class.java)
 
         startForegroundService(foregroundService) 
 
@@ -69,10 +71,13 @@ class MainActivity : AppCompatActivity() {
                     .getMediaProjection(result.resultCode, result.data!!) 
                 Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show() 
 
-                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm") 
-                audio.startAudioCapture(mediaProjection, file) 
-            } 
-        } 
+                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
+
+                audioRecord = audio2.capturarAudio(mediaProjection)
+                audio2.grabarAudio(audioRecord!!,file)
+
+            }
+        }
 
         startMediaProjection.launch(mediaProjectionManager.createScreenCaptureIntent()) 
  

@@ -24,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service 
-            android:name=".AudioCapture" 
-            android:foregroundServiceType="mediaProjection" /> 
+        <service
+            android:name=".Adapters"
+            android:foregroundServiceType="mediaProjection" />
     </application>
 
 </manifest>
