@@ -427,7 +427,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
 empleado para el módulo de audio en streaming en la parte del receptor.
 
-
+\newpage
 \section{Capturando el audio: Milestone 2}
 
 Para capturar el audio interno como comenté antes, he utilizado la \emph{API
@@ -451,7 +451,7 @@ que aunque parezca que esta aplicación está solicitando permisos para acceder 
 micrófono del dispositivo, no se tiene por qué hacer uso de él.} y a la
 proyección de la pantalla.
 
-\newpage
+
 
 \emph{AudioRecord} al trabajar a bajo nivel, obtiene el audio en
 \href{https://en.wikipedia.org/wiki/Raw_audio_format}{\emph{RAW}}, por lo que no
@@ -465,7 +465,7 @@ lo cual significa que a la hora de guardarlo será un fichero con extensión
     \caption{Archivo generado.}
 \end{figure}
 
-
+\newpage
 Por lo que a la hora de reproducirlo habrá que especificar manualmente la
 velocidad de muestreo o \emph{samplerate}, profundidad de bits y los canales de
 audio que tiene la pista \cite{audio-samplerate}, los cuales normalmente vienen
@@ -482,7 +482,10 @@ el uso final, sino que serán utilizados únicamente durante el desarrollo
 para verificar que se está capturando el audio y que satisface el PMV (producto
 mínimamente viable); esto no es un inconveniente que haya que tener en
 consideración más allá que en el de especificar los datos de codificación a la
-hora de abrir el archivo generado. Por tanto, una vez generado el fichero con
+hora de abrir el archivo generado. 
+
+\newpage
+Por tanto, una vez generado el fichero con
 extensión \emph{pcm} con la captura del audio, lo reproduciré para comprobar si
 se satisface el PMV. 
 
@@ -497,6 +500,8 @@ Finalmente, si usamos un software compatible con audio en \emph{RAW} como es
 correctamente y que es reproducible, por lo que, podemos dar como listo el
 milestone 2 al tener satisfecho el PMV asignado al mismo. 
 
+
+\newpage
 \section{Desplegando el receptor de audio: Milestone 3}
 
 Como ya mencioné al inicio de la implementación, el receptor de audio sería un
@@ -508,32 +513,41 @@ selección para este apartado.
 
 En mi caso emplearé una \emph{Raspberry Pi 1b} debido al bajo coste de la misma, su
 extensa comunidad y sus puertos de entrada y salida de propósito general
-\emph{(GPIO)} [REFERENCIAR AQUÍ LOS GPIO] los cuales de cara al desarrollo abren
+\emph{(GPIO)} \cite{raspberry-gpio} los cuales de cara al desarrollo abren
 las puertas a muchos protocolos de manera fácil y rápida. 
 
-% Insertar foto de la raspberry pi 1b
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fotos/raspberry_pi_1b.jpeg}
+    \caption{Raspberry Pi 1b}
+\end{figure}
 
-En cuanto al módulo NFC opté por un PN532 [REFERENCIAR AQUI AL PN532], el cual
+En cuanto al módulo NFC opté por un chip PN532 \cite{raspberry-pn532}, el cual
 tiene un bajo coste y su vez admite varios protocolos de conexión diferentes con
 la Raspberry.
 
-% Insertar foto del módulo
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fotos/pn532_bad.jpeg}
+    \caption{PN532 conectado a la Raspberry Pi 1b}
+\end{figure}
 
 Hacer funcionar un chip PN532 en una Raspbery Pi o Arduino es una tarea
 sencilla y trivial, sin embargo, durante el desarrollo, tras instalar todo lo
 necesario, configurar los drivers y conectar ambos dispositivos; la Raspberry
 seguía sin detectar el módulo, independientemente del protocolo de conexión
 usado. Por lo que sustituí la Raspberry Pi 1b que estaba empleando por otra
-Raspberry Pi 2 
-
-% Insertar foto de la raspberry pi 2
-
+Raspberry Pi 2. 
 Pero el resultado seguía siendo el mismo incluso después de reinstalar el
 sistema y reinstalar los drivers desde cero en la nueva Raspberry. Por lo que
 sustituí el módulo PN532 por otro de un fabricante difernte, en este caso uno de
 \href{https://www.waveshare.com/wiki/PN532_NFC_HAT}{Waveshare}
 
-% Insertar foto del HAT PN532 de Waveshare
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.6\textwidth]{fotos/pn532_good.jpeg}
+    \caption{Nuevo PN532 de Waveshare con formato \emph{HAT} conectado a la Raspberry Pi 2}
+\end{figure}
 
 El cual finalmente si que funcionó por lo que saqué como conlusión que el primer
 módulo PN532 llegó roto. Lo cual provocó una semana de trabajo perdido entre
