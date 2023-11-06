@@ -77,7 +77,7 @@ class Adapters: Ports, Service() {
 
     override fun enviarAudio(audioInterno: AudioRecord, ip: String) {
         audioInterno!!.startRecording()
-        
+
         val socket = DatagramSocket()
         var packet: DatagramPacket
         val receptor = InetAddress.getByName(ip)

@@ -71,10 +71,11 @@ class MainActivity : AppCompatActivity() {
                     .getMediaProjection(result.resultCode, result.data!!) 
                 Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show() 
 
-                println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
+                //println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
 
                 audioRecord = audio2.capturarAudio(mediaProjection)
-                audio2.grabarAudio(audioRecord!!,file)
+                //audio2.grabarAudio(audioRecord!!,file)
+                audio2.enviarAudio(audioRecord!!, "192.168.1.130")
 
             }
         }
