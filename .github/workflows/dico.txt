@@ -133,3 +133,8 @@ _AUDIO
 RAW
 samplerate
 pcm
+1b
+Waveshare
+UART
+I2C
+SPI
