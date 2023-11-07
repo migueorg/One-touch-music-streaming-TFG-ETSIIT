@@ -1,3 +1,6 @@
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
@@ -8,9 +11,13 @@ public class Adapters implements Ports {
     static AudioFormat formato;
 
     @Override
-    public byte[] iniciaServidorAudio() {
+    public void iniciaServidorAudio(int puertoEscucha, int sampleRate)  throws Exception{
         new UnsupportedOperationException("Not implemented yet");
-        return new byte[0];
+    }
+    
+    @Override
+    public void recibeAudio(DatagramSocket serverSocket, DatagramPacket receivePacket) throws Exception{
+        new UnsupportedOperationException("Not implemented yet");
     }
 
     @Override
