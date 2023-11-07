@@ -12,7 +12,12 @@ public class Adapters implements Ports {
 
     @Override
     public void iniciaServidorAudio(int puertoEscucha, int sampleRate)  throws Exception{
-        new UnsupportedOperationException("Not implemented yet");
+        
+        DatagramSocket serverSocket = new DatagramSocket(puertoEscucha);
+        byte[] receiveData = new byte[8192];
+        formato = new AudioFormat(sampleRate, 16, 1, true, false);
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+    
     }
     
     @Override
