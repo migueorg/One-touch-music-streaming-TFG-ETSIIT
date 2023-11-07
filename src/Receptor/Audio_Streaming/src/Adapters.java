@@ -18,11 +18,22 @@ public class Adapters implements Ports {
         formato = new AudioFormat(sampleRate, 16, 1, true, false);
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
     
+        recibeAudio(serverSocket,receivePacket);
     }
     
     @Override
     public void recibeAudio(DatagramSocket serverSocket, DatagramPacket receivePacket) throws Exception{
-        new UnsupportedOperationException("Not implemented yet");
+        while (true) {
+
+            serverSocket.receive(receivePacket);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    reproduceAudio(receivePacket.getData());
+                }
+            }).start();
+        }
     }
 
     @Override
