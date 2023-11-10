@@ -5,20 +5,29 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioPlaybackCaptureConfiguration
 import android.media.AudioRecord
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.nfc.NdefMessage
+import android.nfc.NfcAdapter
+import android.nfc.Tag
 import android.os.IBinder
+import android.os.Parcelable
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import java.io.File
 import java.io.FileOutputStream
+import java.io.UnsupportedEncodingException
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
+import java.nio.charset.Charset
 import kotlin.concurrent.thread
+import kotlin.experimental.and
 
 class Adapters: Ports, Service() {
 
@@ -95,7 +104,15 @@ class Adapters: Ports, Service() {
         }
     }
 
-    override fun lecturaNFC(): String {
+    override fun lecturaNFC(intent: Intent): String {
+        var ip = ""
+        if (intent.action == NfcAdapter.ACTION_TECH_DISCOVERED) {
+            ip = traduceNDEFaTexto(intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES))
+        }
+        return ip
+    }
+
+    override fun traduceNDEFaTexto(lecturaRaw: Array<Parcelable>?): String {
         TODO("Not yet implemented")
     }
 
