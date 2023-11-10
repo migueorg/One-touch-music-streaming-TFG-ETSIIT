@@ -113,7 +113,34 @@ class Adapters: Ports, Service() {
     }
 
     override fun traduceNDEFaTexto(lecturaRaw: Array<Parcelable>?): String {
-        TODO("Not yet implemented")
+
+        var msgs = mutableListOf<NdefMessage>()
+        var traduccion = ""
+
+        if (lecturaRaw != null) {
+
+            for (i in lecturaRaw.indices) {
+                msgs.add(i, lecturaRaw[i] as NdefMessage)
+            }
+
+            val payload = msgs[0].records[0].payload
+            val textEncoding: Charset = if ((payload[0] and 128.toByte()).toInt() == 0) Charsets.UTF_8 else Charsets.UTF_16 // Get the Text Encoding
+            val languageCodeLength: Int = (payload[0] and 51).toInt() // Get the Language Code, e.g. "en"
+
+            try {
+                traduccion = String(
+                    payload,
+                    languageCodeLength + 1,
+                    payload.size - languageCodeLength - 1,
+                    textEncoding
+                )
+            } catch (e: UnsupportedEncodingException) {
+                Log.e("UnsupportedEncoding", e.toString())
+            }
+
+        }
+
+        return traduccion
     }
 
     override fun grabarAudio(audioInterno: AudioRecord, outputFile: File){
