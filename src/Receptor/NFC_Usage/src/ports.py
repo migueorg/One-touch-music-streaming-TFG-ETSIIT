@@ -1,7 +1,7 @@
 class NfcUsagePort:
 
-    def readNfc(self):
-        raise NotImplementedError
-
     def sendNfc(self, text: str):
+        raise NotImplementedError
+    
+    def createNdefFile(self, ip: str):
         raise NotImplementedError
