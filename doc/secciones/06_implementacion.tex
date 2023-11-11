@@ -427,7 +427,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
 empleado para el módulo de audio en streaming en la parte del receptor.
 
-
+\newpage
 \section{Capturando el audio: Milestone 2}
 
 Para capturar el audio interno como comenté antes, he utilizado la \emph{API
@@ -451,15 +451,13 @@ que aunque parezca que esta aplicación está solicitando permisos para acceder 
 micrófono del dispositivo, no se tiene por qué hacer uso de él.} y a la
 proyección de la pantalla.
 
-\newpage
-
 \emph{AudioRecord} al trabajar a bajo nivel, obtiene el audio en
 \href{https://en.wikipedia.org/wiki/Raw_audio_format}{\emph{RAW}}, por lo que no
 tendrá compresión ni tendrá cabeceras para ser identificado por reproductores;
 lo cual significa que a la hora de guardarlo será un fichero con extensión
 \emph{RAW} o \emph{PCM} \cite{audio-pcm}.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
     \centering
     \includegraphics{fotos/archivo_generado.png}
     \caption{Archivo generado.}
@@ -471,9 +469,9 @@ velocidad de muestreo o \emph{samplerate}, profundidad de bits y los canales de
 audio que tiene la pista \cite{audio-samplerate}, los cuales normalmente vienen
 incrustados en las cabeceras de los formatos de audio procesado.
 
-\begin{figure}[htb]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{fotos/importando_datos_en_bruto_audacity.png}
+    \includegraphics[width=0.9\textwidth]{fotos/importando_datos_en_bruto_audacity.png}
     \caption{Especificando la composición del audio.}
 \end{figure}
 
@@ -486,9 +484,9 @@ hora de abrir el archivo generado. Por tanto, una vez generado el fichero con
 extensión \emph{pcm} con la captura del audio, lo reproduciré para comprobar si
 se satisface el PMV. 
 
-\begin{figure}[htb]
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=\textwidth]{fotos/muestra_captura_audacity.png}
+    \includegraphics[width=0.9\textwidth]{fotos/muestra_captura_audacity.png}
     \caption{Muestra del audio correctamente capturado.}
 \end{figure}
 
