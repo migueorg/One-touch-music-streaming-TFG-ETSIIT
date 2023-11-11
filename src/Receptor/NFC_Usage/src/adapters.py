@@ -1,10 +1,13 @@
+import os
 from ports import NfcUsagePort
 from binascii import unhexlify
 
 class NfcUsageAdapter(NfcUsagePort):
 
     def sendNfc(self, text: str):
-        pass
+        self.createNdefFile(text)
+        emulador_nfc = 'python tagtool.py --device "tty:AMA0:pn532" emulate -l ip_actual.ndef tt3 &'
+        os.system(emulador_nfc)
 
     def createNdefFile(self, ip):
         file = open("ip_actual.ndef","wb")
