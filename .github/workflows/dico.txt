@@ -133,3 +133,7 @@ _AUDIO
 RAW
 samplerate
 pcm
+socket
+timestamp
+SourceDataLine
+array

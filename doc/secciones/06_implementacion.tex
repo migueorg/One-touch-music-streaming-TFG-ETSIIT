@@ -520,16 +520,16 @@ codificación en tiempo real al audio, lo cual consumiría una cantidad elevada 
 recursos adicionales y batería al dispositivo, además de añadir un retraso en el
 audio. Por supuesto, también requeriría el uso de bibliotecas externas, ya que
 Android de forma nativa no tiene soporte para codificar algunos formatos como
-podría ser MP3 (lo tiene para decodificar pero no para codificar). Lo cual
+podría ser MP3 (lo tiene para decodificar, no obstante, no para codificar). Lo cual
 también llevaría un tiempo de desarrollo extra, pues habría que realizar el
 proceso de estudio y selección correspondiente sobre las bibliotecas existentes.\\
 
 Por tanto, llegados a este punto, antes de tener que re codificar el audio en
-tiempo real, decidí probar a usar un socket y enviar el audio de la misma forma
+tiempo real, decidí probar a usar un socket y enviar el audio de la misma manera
 que mandaría un archivo, cosa que además ya había hecho previamente en la
 asignatura Fundamentos de Redes. Para ello empleé un socket TCP para poder tener
 un control de pérdidas a causa de la red, sin embargo, esta solución volvió a
-presentar otro problema; al estar usando TCP, el archivo de audio se mandaba
+presentar otro problema; al estar empleando TCP, el archivo de audio se mandaba
 correctamente al receptor, pero no se seguía enviando si el archivo crecía, y al
 ser la captura de audio en tiempo real, el archivo con extensión PCM que
 contenía el audio en RAW estaba en constante expansión. Por lo que el audio que
@@ -543,27 +543,28 @@ durante el tiempo deseado sin tener que limitarme al tiempo de envío de un
 fichero. Sin embargo, una vez programado el cambio de TCP a UDP, a pesar de que
 ahora el archivo sí se iba actualizando mientras iba creciendo, este llegaba al
 receptor como un fichero corrupto, por lo que solo se escuchaba durante unos
-segundos y dejaba de escucharse, a pesar de seguir contando el timestamp.\\
+segundos y dejaba de escucharse, a pesar de seguir contando el \emph{timestamp}.\\
 
 Esto llevó a muchas horas de pruebas, búsquedas de algo mal programado, etc. y
-para ello, dado que trabajar con audio no es algo tan visible, utilicé un
-fichero de texto simulando un archivo de audio, buscando que se actualizase en
-tiempo real en ambos lados, y que el resultado final tuviese un comportamiento
-similar al de Google Docs cuando se edita un fichero compartido. Gracias a esto
-pude encontrar lo que estaba generando que el archivo llegase corrupto, lo cual
-estaba provocado por el tamaño de los datagramas que se enviaban, ya que estos
-tienen un tamaño fijo, y en ocasiones el datagrama era mayor que la información
-a enviar, por lo que en esos momentos, junto con los bytes de información, se
-enviaba basura que hacía que el archivo al reconstruirse en el lado del receptor
-estuviese corrupto, pues estaba formado por bytes basura.\\
+para ello, dado que trabajar con audio no es algo tan visible, realicé las
+pruebas un fichero de texto simulando un archivo de audio, buscando que se
+actualizase en tiempo real en ambos lados, y que el resultado final tuviese un
+comportamiento similar al de Google Docs cuando se edita un fichero compartido.
+Gracias a esto pude encontrar lo que estaba generando que el archivo llegase
+corrupto, lo cual estaba provocado por el tamaño de los datagramas que se
+enviaban, ya que estos tienen un tamaño fijo, y en ocasiones el datagrama era
+mayor que la información a enviar, por lo que en esos momentos, junto con los
+bytes de información, se enviaba basura que hacía que el archivo al
+reconstruirse en el lado del receptor estuviese corrupto, pues estaba formado
+por bytes basura.\\
 
 Esta conclusión dio lugar a más pruebas en busca de un tamaño de datagrama
 óptimo que se ajustase con el tamaño con el que crecía el archivo, sin embargo,
 dado que el archivo no crecía de forma regular, no había forma de ajustar el
 tamaño de los datagramas. Por esto, se probó a ajustar los datagramas al tamaño
 mínimo de los mismos, para asegurar que nunca fuese  necesario rellenar con
-bytes basura. Sin embargo, a pesar de que de esta forma el fichero de audio sí
-que llegaba y crecía en tiempo real de forma correcta, la velocidad no era capaz
+bytes basura. Sin embargo, a pesar de que de con este método el fichero de audio sí
+que llegaba y crecía en tiempo real correctamente, la velocidad no era capaz
 de mantener una reproducción en tiempo real, por lo que la reproducción se
 paraba, pues llegaba al final del fichero.\\
 
@@ -587,17 +588,19 @@ segundos de silencio, sin embargo, se mantenía en el tiempo. Por lo que jugando
 con la frecuencia de muestreo del audio para aligerar el tamaño del audio, junto
 con el tamaño del buffer a enviar, se pudo mejorar bastante el resultado,
 teniendo en cuenta las limitaciones, y es que UDP no permite enviar datagramas
-mayores a 64Kb, por lo que para transmitir audio sin procesar se crea un muy
-alto volumen de paquetes, lo cual también va a hacer muy propensa la pérdida de
-los mismos, y al no tener implementado ningún método para el control de pérdidas
-ni para el dimensionado dinámico de paquetes, como otros protocolos destinados a
-streaming si son capaces de gestionar, nos vamos a seguir encontrando frente a
-cortes de audio frecuentes. 
+mayores a 64 kB, por lo que para transmitir audio sin procesar se crea un muy
+alto volumen de paquetes, lo cual hará muy propensa la pérdida de los mismos.
+Todo esto sumado al no tener implementado ningún método para el control de
+pérdidas, ni para el dimensionado dinámico de paquetes (como otros protocolos
+destinados a streaming si hacen), provocará que ocurran ciertos cortes, y que la
+calidad de audio no pueda ser excesivamente alta pues aumentaría mucho más el
+tamaño.
 
-Sin embargo, a pesar de los cortes, la transmisión a tiempo real y sin retardo en
-el audio (ante unas mínimas condiciones de red aceptables), por lo que
-finalmente y tras muchos cambios, replanteamientos y semanas de investigación y
-desarrollo que parecían no llevar a ningún lugar; los objetivo de envío y
-recepción de audio cumplían los requisitos para un PMV.
+Sin embargo, a pesar de los micro cortes puntuales y la disminución de la
+calidad, la transmisión es estable, a tiempo real y sin retardo en el audio (ante unas
+mínimas condiciones de red aceptables), por lo que finalmente y tras muchos
+cambios, replanteamientos y semanas de investigación y desarrollo que parecían
+no llevar a ningún lugar; los objetivo de envío y recepción de audio cumplen
+los requisitos para un PMV.
 
 
