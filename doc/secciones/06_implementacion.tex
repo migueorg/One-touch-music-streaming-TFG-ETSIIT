@@ -505,7 +505,7 @@ inconvenientes han ido surgiendo.
 Para empezar con el desarrollo, este milestone se puede dividir a su vez en 4
 objetivos, de los cuales 2 y 2 irán de la mano. Envío de audio en la parte del
 móvil, recepción de audio en la parte del receptor para el módulo del streaming
-de audio, así como lectura de NFC por la parte del dispositivo móvil y escritura
+de audio; así como lectura de NFC por la parte del dispositivo móvil y escritura
 NFC por la parte del receptor para el módulo de NFC.
 
 \subsection{Transmisión de audio entre móvil y receptor}
@@ -522,16 +522,16 @@ codificación en tiempo real al audio, lo cual consumiría una cantidad elevada 
 recursos adicionales y batería al dispositivo, además de añadir un retraso en el
 audio. Por supuesto, también requeriría el uso de bibliotecas externas, ya que
 Android de forma nativa no tiene soporte para codificar algunos formatos como
-podría ser MP3 (lo tiene para decodificar pero no para codificar). Lo cual
+podría ser MP3 (lo tiene para decodificar, no obstante, no para codificar). Lo cual
 también llevaría un tiempo de desarrollo extra, pues habría que realizar el
 proceso de estudio y selección correspondiente sobre las bibliotecas existentes.\\
 
 Por tanto, llegados a este punto, antes de tener que re codificar el audio en
-tiempo real, decidí probar a usar un socket y enviar el audio de la misma forma
+tiempo real, decidí probar a usar un socket y enviar el audio de la misma manera
 que mandaría un archivo, cosa que además ya había hecho previamente en la
 asignatura Fundamentos de Redes. Para ello empleé un socket TCP para poder tener
 un control de pérdidas a causa de la red, sin embargo, esta solución volvió a
-presentar otro problema; al estar usando TCP, el archivo de audio se mandaba
+presentar otro problema; al estar empleando TCP, el archivo de audio se mandaba
 correctamente al receptor, pero no se seguía enviando si el archivo crecía, y al
 ser la captura de audio en tiempo real, el archivo con extensión PCM que
 contenía el audio en RAW estaba en constante expansión. Por lo que el audio que
@@ -545,27 +545,28 @@ durante el tiempo deseado sin tener que limitarme al tiempo de envío de un
 fichero. Sin embargo, una vez programado el cambio de TCP a UDP, a pesar de que
 ahora el archivo sí se iba actualizando mientras iba creciendo, este llegaba al
 receptor como un fichero corrupto, por lo que solo se escuchaba durante unos
-segundos y dejaba de escucharse, a pesar de seguir contando el timestamp.\\
+segundos y dejaba de escucharse, a pesar de seguir contando el \emph{timestamp}.\\
 
 Esto llevó a muchas horas de pruebas, búsquedas de algo mal programado, etc. y
-para ello, dado que trabajar con audio no es algo tan visible, utilicé un
-fichero de texto simulando un archivo de audio, buscando que se actualizase en
-tiempo real en ambos lados, y que el resultado final tuviese un comportamiento
-similar al de Google Docs cuando se edita un fichero compartido. Gracias a esto
-pude encontrar lo que estaba generando que el archivo llegase corrupto, lo cual
-estaba provocado por el tamaño de los datagramas que se enviaban, ya que estos
-tienen un tamaño fijo, y en ocasiones el datagrama era mayor que la información
-a enviar, por lo que en esos momentos, junto con los bytes de información, se
-enviaba basura que hacía que el archivo al reconstruirse en el lado del receptor
-estuviese corrupto, pues estaba formado por bytes basura.\\
+para ello, dado que trabajar con audio no es algo tan visible, realicé las
+pruebas un fichero de texto simulando un archivo de audio, buscando que se
+actualizase en tiempo real en ambos lados, y que el resultado final tuviese un
+comportamiento similar al de Google Docs cuando se edita un fichero compartido.
+Gracias a esto pude encontrar lo que estaba generando que el archivo llegase
+corrupto, lo cual estaba provocado por el tamaño de los datagramas que se
+enviaban, ya que estos tienen un tamaño fijo, y en ocasiones el datagrama era
+mayor que la información a enviar, por lo que en esos momentos, junto con los
+bytes de información, se enviaba basura que hacía que el archivo al
+reconstruirse en el lado del receptor estuviese corrupto, pues estaba formado
+por bytes basura.\\
 
 Esta conclusión dio lugar a más pruebas en busca de un tamaño de datagrama
 óptimo que se ajustase con el tamaño con el que crecía el archivo, sin embargo,
 dado que el archivo no crecía de forma regular, no había forma de ajustar el
 tamaño de los datagramas. Por esto, se probó a ajustar los datagramas al tamaño
 mínimo de los mismos, para asegurar que nunca fuese  necesario rellenar con
-bytes basura. Sin embargo, a pesar de que de esta forma el fichero de audio sí
-que llegaba y crecía en tiempo real de forma correcta, la velocidad no era capaz
+bytes basura. Sin embargo, a pesar de que de con este método el fichero de audio sí
+que llegaba y crecía en tiempo real correctamente, la velocidad no era capaz
 de mantener una reproducción en tiempo real, por lo que la reproducción se
 paraba, pues llegaba al final del fichero.\\
 
@@ -580,7 +581,7 @@ reproducción de audio en el lado del receptor.\\
 
 
 Una vez estudiado y programado como lograr dicho proceso usando la clase
-SourceDataLine de Java [REFERENCIAR AQUÍ A ESA CLASE], la cual es capaz de
+SourceDataLine de Java \cite{java-SourceDataLine}, la cual es capaz de
 reproducir audio a partir de un array de bytes especificando previamente el
 formato en el que ese audio ha sido obtenido (frecuencia de muestreo, canales,
 etc.); pude comprobar que el streaming de audio en tiempo real, sin embargo, la
@@ -603,3 +604,190 @@ desarrollo que parecían no llevar a ningún lugar; los objetivo de envío y
 recepción de audio cumplían los requisitos para un PMV.
 
 
+\subsection{Comunicación NFC entre móvil y receptor}
+
+Dado que la transmisión de audio va a través de la red, el uso de NFC se reduce
+a dos funciones: iniciar la actividad e identificar a que dispositivo se debe de
+transmitir el audio. Por tanto, para una tarea tan simple, la lista de
+tecnologías candidatas es amplia. Por ello, se llevó a cabo un análisis de las
+posibles alternativas para llevar a cabo las dos tareas que se mencionaron
+antes, la cual acabó resultando en el NFC como mejor vía posible.
+
+\subsubsection{Eligiendo la tecnología a usar}
+
+En primera instancia, si nos fijamos en el estado del arte, la opción que más se
+acerca a la solución del problema es la que implementa \emph{Apple}, por lo que
+analizando su forma de llevar a cabo las dos tareas iniciales, descubrí que lo
+hacen a través de su chip llamado \emph{Apple U1}; el cual no es más que un chip
+de \emph{UWB} \cite{uwb-explicado} de fabricación propia, cuyo fin es el de
+posicionar espacialmente sus dispositivos, tal y como vemos que hacen con los
+\emph{Apple AirTags}. De esta manera, gracias a este chip, saben cuando un
+dispositivo está al lado de otro con mucha precisión, ya que no solo pueden
+conocer la distancia entre ambos, sino también la orientación de los mismos. Así
+pues, gracias a dicho chip, saben cuando un \emph{iPhone} está tocando a un
+\emph{HomePod}, para a continuación iniciar el \emph{streaming} de audio. Sin
+embargo, el empleo de esta tecnología para un proyecto destinado a
+\emph{Android} no es algo viable, pues a pesar de que el \emph{UWB} no es una
+tecnología propietaria o exclusiva de \emph{Apple}, esta no está presente
+normalmente en \emph{Android}, de hecho, únicamente está presente en un total de 8
+dispositivos \cite{uwb-android}. \\
+
+Valorando otras tecnologías existentes en (al menos) la gran mayoría de
+dispositivos \emph{Android} encontramos el wifi y el bluetooth. El problema es
+que estas tecnologías tienen un gran alcance, y es por esto que no son ideales
+para emplearlas en técnicas de posicionamiento a escasos centímetros, lo cual es
+lo que se está buscando. La elección de las mencionadas tecnologías provocaría que se
+activase en ocasiones en las que realmente no se desea. Además, son redes que
+por lo general suelen estar ocupadas para otros fines, por lo que el empleo de las
+mismas para este proyecto podría interferir con el uso real del dispositivo (por
+ejemplo tener que desconectarse del wifi para usarse, etc.).\\
+
+Sin embargo, dentro de la familia del \emph{Bluetooth}, existe una variante
+denominada \href{https://en.wikipedia.org/wiki/Bluetooth_Low_Energy}{BLE
+\emph{(Bluetooth Low Energy)}}, la cual es una derivación del propio
+\emph{Bluetooth} tradicional, pero enfocado en un bajo consumo de energía,
+sacrificando el alcance y velocidad. Esta tecnología permite varias clases de
+funcionamiento dentro de \emph{BLE}, donde la clase 4 del mismo (el más bajo)
+establece un alcance de medio metro. Sin embargo, medio metro sigue
+pareciendo demasiada distancia como para que pueda activarse involuntariamente.
+Además, también hay que tener en cuenta con que el descubrimiento \emph{Bluetooth} suele
+precisar unos segundos, sin contar con los que además sean necesarios en la
+propia comunicación. Haciendo que esta tecnología quede descartada.\\
+
+Finalmente, encontramos el ya conocido e involucrado a diario para pagos,
+\href{https://es.wikipedia.org/wiki/Comunicaci%C3%B3n_de_campo_cercano}{NFC}, 
+el cual si bien no está tan expandido en móviles como el \emph{Bluetooth}, a día
+de hoy ya es raro encontrar dispositivos \emph{Android} que carezcan de esta
+tecnología. El \emph{NFC} tiene un alcance que va desde escasos milímetros hasta
+no más de 20cm y no requiere tiempo de descubrimiento pues en cuanto existe el
+contacto se inicia la comunicación, lo cual lo convierte en una alternativa
+viable para emplearla en este proyecto. 
+
+\subsubsection{Implementando la transferencia}
+
+En los primeros planteamientos del proyecto se propuso que el móvil enviase la
+URL del \emph{streaming} al receptor por NFC, sin embargo, el uso de
+\emph{sockets} eliminó esa necesidad; por lo que la única información necesaria
+era la de conocer por parte del dispositivo móvil, la dirección IP del
+\emph{socket} al que enviar los paquetes. Así pues, lo necesario a implementar
+era el anunciado de la IP del receptor, y la lectura de la misma por parte del
+dispositivo móvil.\\
+
+Como primer acercamiento, utilicé la ya presentada biblioteca NFC para Python,
+nfcpy para enviar la dirección IP del receptor. Para ello, empleé los archivos y
+comandos de ejemplo que proporcionan para casos simples, como era el de enviar
+texto por NFC a través de
+\href{https://nfcpy.readthedocs.io/en/latest/examples/beam.html}{beam}. Sin
+embargo, este método \emph{send} presentaba un error en la negociación inicial
+con el teléfono al acercarlo, por lo que no llegaban a realizar ninguna
+transferencia. Y dado que \emph{Google} discontinuó la \emph{API} de
+transferencia de archivos mediante NFC llamada \emph{Android Beam} en Android 10
+\cite{android-beam-deprecated}, supuse que podrían tener relación, por lo que
+decidí buscar otro camino evitando la transferencia de archivos.\\
+
+Para un siguiente enfoque, propuse que en vez de efectuar una transferencia con
+la que enviar la IP al móvil, esta fuese una simple lectura, al igual que cuando
+se lee una etiqueta simple de NFC, cuyo funcionamiento y compatibilidad sí que
+están disponibles aún en \emph{Android}. El problema es que la biblioteca nfcpy
+permite leer y escribir dichas etiquetas, pero no simular una etiqueta al gusto.
+Sin embargo, una función que si implementa esta biblioteca y que se acerca a
+esta solución es la de emular una tarjeta NFC, para la cual es necesario cargar
+un archivo con extensión \emph{ndef}, el cual debe contener el volcado de la
+memoria de una etiqueta NFC, es decir, cabeceras y mensaje. De esta forma, sería
+posible emular una tarjeta NFC, de la cual el \emph{Android} sí que podría leer
+fácilmente.\\
+
+De nuevo, el siguiente problema fue que no hay ningún volcado de la memoria de
+una tarjeta NFC público por internet, ni algún archivo \emph{ndef} descargable
+que usar como plantilla, por lo que, lo que tuve que hacer fue conseguir unas
+etiquetas o tarjetas NFC vírgenes, las cuales usando la biblioteca nfcpy,
+gracias al flag ``dump'', pude hacerles un volcado de la memoria, y a partir de
+los cuales obtener un archivo \emph{ndef} que poder emular.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{fotos/etiqueta_nfc.jpeg}
+    \caption{Etiquetas NFC vírgenes.}
+\end{figure}
+
+Esto funcionó, ya que con ese archivo \emph{ndef} extraído, la Raspberry Pi
+emuló la tarjeta \emph{NFC}, pero el problema era que se emulaba con la
+información que tuviese en el momento del volcado de la etiqueta, por lo que no
+me permitía reescribir la información que tuviese escrita, o seleccionar un
+mensaje diferente.
+
+Por lo que el siguiente paso fue el de hacerle ingeniería inversa a la memoria de
+las etiquetas para ver como almacenaban la información, y así poder crear un
+archivo ndef al gusto. Para esto, fui haciendo reescribiendo etiquetas, variando
+ligeramente el mensaje entre ellas, volcar la memoria de las mismas usando nfcpy
+y abriendo los dump con un visor hexadecimal como
+\href{https://hexed.it/}{HexEd.it}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/muestra_dumps.png}
+    \caption{Cambios en la cabecera de varias muestras.}
+\end{figure}
+
+Tras analizar varios volcados de memoria y entender la estructura interna de
+\emph{NDEF} \cite{ndef-explicado}, pude apreciar que los primeros 7 bytes son
+dedicados a cabeceras que describen el \emph{payload}, y los siguientes iban
+destinados enteramente al \emph{payload} o carga útil de información, que es
+donde se almacena el mensaje. De esos 7 bytes de las cabeceras, 5 eran fijos en
+todos los volcados, y 2 cambiaban cuando se modificaba el tamaño del mensaje
+almacenado, por lo que pude identificar los bytes que almacenaban el tamaño del
+\emph{payload}.\\
+
+Llegado a este punto, programé un pequeño código que escribiese en hexadecimal
+dentro de un archivo binario las cabeceras fijas junto con el tamaño del
+mensaje, seguido del mensaje deseado:\\
+
+\begin{lstlisting}[style=codigo,label={lst:listing-python},language=Python]
+def crea_ndef_hexadecimal(ip):
+    file = open("ip_actual.ndef","wb")
+
+    if(len(ip)==11): #Longitud para IP 192.168.1.x
+        tam = '0E'
+    elif(len(ip)==12): #Longitud para IP 192.168.1.xx
+         tam = '0F'
+    else: #Longitud para IP 192.168.1.xxx
+         tam = '10'
+    
+    hex_1 = 'D101' + tam + '5402656E' #Cabecera
+    hex_2 = ip.encode("utf-8").hex() #IP
+    bin_s = unhexlify(hex_1+hex_2)
+
+    file.write(bin_s)
+    file.close()
+\end{lstlisting}
+
+\newpage
+Y efectivamente, teniendo en cuenta de hacer coincidir el tamaño en hexadecimal
+del mensaje, el archivo \emph{ndef} era un archivo válido y podía ser leído correctamente:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{fotos/lectura_raspberry.png}
+    \caption{Lectura del módulo NFC de la Raspberry Pi con el fichero \emph{ndef} generado.}
+\end{figure}
+
+Con la creación de la tarjeta NFC con la IP de la Raspberry Pi hecha, ya solo
+quedaba programar la lectura de la misma desde el móvil. Para ello, no hay más
+que extraer el mensaje recibido del intent y ``traducir'' el mensaje, ya que
+estos al enviarse se envían siguiendo la estructura de \emph{NDEF}. Para ello
+hay que obtener la codificación del mensaje original así como el idioma,
+información que viene dada en las propias cabeceras, y que de nuevo el libro de
+O'Reilly \cite{ndef-explicado} se explica muy bien de forma gráfica:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{fotos/estructura_ndef.png}
+    \caption{Estructura interna de NDEF del libro de O’Reill \cite{ndef-explicado}.}
+\end{figure}
+
+De esta forma, y tras ser capaz de leer la IP del dispositivo receptor
+correctamente, podemos dar por satisfecha esta necesidad, cumpliendo así el
+``sub milestone'' de la comunicación NFC entre móvil y receptor.\\
+
+Por lo que, en compañía del ya completado ``sub milestone'' anterior destinado a
+la transmisión de audio, podemos dar por satisfecho de igual manera este PMV. 
