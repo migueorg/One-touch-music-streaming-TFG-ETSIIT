@@ -497,7 +497,7 @@ milestone 2 al tener satisfecho el PMV asignado al mismo.
 
 \section{Comunicación entre dispositivo móvil y receptor: Milestone 4}
 
-Esta ha sido con diferencia la parte del desarrollo en la que más problemas e
+Esta ha sido con diferencia la parte del desarrollo en la que más retos e
 inconvenientes han ido surgiendo.
 
 Para empezar con el desarrollo, este milestone se puede dividir a su vez en 4
@@ -511,96 +511,92 @@ NFC por la parte del receptor para el módulo de NFC.
 En una primera instancia se propuso enviar el audio capturado usando algún
 protocolo pensado y dedicado al streaming, como pueden ser WebRTC, RTSP, HLS,
 etc. los cuales a día de hoy son ampliamente usados y conocidos. Sin embargo, se
-presentó el primer problema; estos codecs no son compatibles con audio en RAW,
-cada protocolo tiene una lista de codecs soportados para audio y video, cuya
-lista es más bien escasa, soportando nada más que un par de codecs cada uno,
-pero por supuesto, nada de audio sin procesar en ninguno de estos protocolos.
+presentó el primer problema; estos no son compatibles con audio en RAW (sin
+procesar). Cada uno de estos protocolos tienen una lista de codecs soportados
+para audio y video, cuya lista es más bien escasa, soportando nada más que un
+par de codecs cada uno, pero por supuesto, nada de audio sin procesar en ninguno
+de estos protocolos.\\
+
 Para poder utilizar estos protocolos ideales de streaming, habría que añadir una
 codificación en tiempo real al audio, lo cual consumiría una cantidad elevada de
-recursos adicionales y batería al dispositivo, además de añadir un retraso en el
-audio. Por supuesto, también requeriría el uso de bibliotecas externas, ya que
-Android de forma nativa no tiene soporte para codificar algunos formatos como
-podría ser MP3 (lo tiene para decodificar, no obstante, no para codificar). Lo cual
-también llevaría un tiempo de desarrollo extra, pues habría que realizar el
-proceso de estudio y selección correspondiente sobre las bibliotecas existentes.\\
+recursos adicionales y batería al dispositivo, además de añadir una latencia
+extra en el audio. Por supuesto, también requeriría el uso de bibliotecas
+externas, ya que Android de forma nativa no tiene soporte para codificar ciertos
+formatos como podría ser MP3 (lo tiene para decodificar, no obstante, no para
+codificar). Lo cual también llevaría un tiempo de desarrollo extra, pues habría
+que realizar el proceso de estudio y selección correspondiente sobre las
+bibliotecas existentes.\\
 
-Por tanto, llegados a este punto, antes de tener que re codificar el audio en
-tiempo real, decidí probar a usar un socket y enviar el audio de la misma manera
-que mandaría un archivo, cosa que además ya había hecho previamente en la
-asignatura Fundamentos de Redes. Para ello empleé un socket TCP para poder tener
-un control de pérdidas a causa de la red, sin embargo, esta solución volvió a
-presentar otro problema; al estar empleando TCP, el archivo de audio se mandaba
-correctamente al receptor, pero no se seguía enviando si el archivo crecía, y al
-ser la captura de audio en tiempo real, el archivo con extensión PCM que
-contenía el audio en RAW estaba en constante expansión. Por lo que el audio que
-se enviaba era una copia del audio capturado hasta el momento en el que se
-iniciaba la transferencia, así que no servía como una solución para un uso en
-tiempo real.\\
+Debido a esto, y con el fin de evitar tener que codificar en tiempo real todo el
+audio interno, se ha optado por emplear un socket y tratar el audio como si
+fuese un archivo a enviar en lugar de emplear alguno de los protocolos ya
+mencionados.\\
 
-Rápidamente, decidí replantear la solución y utilizar un socket UDP en lugar de
-TCP, ya que la principal ventaja iba a ser el poder mantener la conexión activa
-durante el tiempo deseado sin tener que limitarme al tiempo de envío de un
-fichero. Sin embargo, una vez programado el cambio de TCP a UDP, a pesar de que
-ahora el archivo sí se iba actualizando mientras iba creciendo, este llegaba al
-receptor como un fichero corrupto, por lo que solo se escuchaba durante unos
-segundos y dejaba de escucharse, a pesar de seguir contando el \emph{timestamp}.\\
+A la hora de crear un socket existen dos posibilidades, emplear el protocolo TCP
+o UDP:
 
-Esto llevó a muchas horas de pruebas, búsquedas de algo mal programado, etc. y
-para ello, dado que trabajar con audio no es algo tan visible, realicé las
-pruebas un fichero de texto simulando un archivo de audio, buscando que se
-actualizase en tiempo real en ambos lados, y que el resultado final tuviese un
-comportamiento similar al de Google Docs cuando se edita un fichero compartido.
-Gracias a esto pude encontrar lo que estaba generando que el archivo llegase
-corrupto, lo cual estaba provocado por el tamaño de los datagramas que se
-enviaban, ya que estos tienen un tamaño fijo, y en ocasiones el datagrama era
-mayor que la información a enviar, por lo que en esos momentos, junto con los
-bytes de información, se enviaba basura que hacía que el archivo al
-reconstruirse en el lado del receptor estuviese corrupto, pues estaba formado
-por bytes basura.\\
-
-Esta conclusión dio lugar a más pruebas en busca de un tamaño de datagrama
-óptimo que se ajustase con el tamaño con el que crecía el archivo, sin embargo,
-dado que el archivo no crecía de forma regular, no había forma de ajustar el
-tamaño de los datagramas. Por esto, se probó a ajustar los datagramas al tamaño
-mínimo de los mismos, para asegurar que nunca fuese  necesario rellenar con
-bytes basura. Sin embargo, a pesar de que de con este método el fichero de audio sí
-que llegaba y crecía en tiempo real correctamente, la velocidad no era capaz
-de mantener una reproducción en tiempo real, por lo que la reproducción se
-paraba, pues llegaba al final del fichero.\\
-
-En este punto, me replanteé el trabajar con un fichero regular debido a la
-facilidad de corrupción de los mismos, ya que todo este tiempo estaba tratando
-de transmitir el archivo con extensión PCM que contenía el audio capturado, por
-lo que en busca de un elemento que tolerase mejor las pérdidas, retrocedí un
-paso en la implementación y decidí enviar el objeto AudioRecord de Java, el cual
-contenía el flujo de audio y a partir del cual se creaba el fichero regular. Por
-lo que para este enfoque, tendría que reconstruir el objeto AudioRecord en una
-reproducción de audio en el lado del receptor.\\
+\begin{itemize}
+    \item El protocolo TCP es orientado a conexión, por lo que incorpora un
+    control de paquetes y de pérdidas, que asegura el correcto envío, recepción
+    de manera ordenada y negociación de los mismos. Esto hace que cuando
+    hablemos del envío de archivos de gran tamaño, la red se vea más saturada,
+    pues dicho control de sesión agrega un tamaño a las cabeceras de los
+    paquetes y un volumen considerable al aumentar la cantidad de los mismos que
+    se precisarán para la transferencia.
+    \item El protocolo UDP, por otro lado, no es orientado a conexión, por lo
+    que no asegura la recepción de los paquetes, ni incorpora control de
+    pérdidas, sin embargo, esto hace que tanto las cabeceras como el volumen de
+    paquetes sean mucho menores, pues no necesita llevar a cabo ningún tipo de
+    control ni negociación continua. Provocando que las velocidades de
+    transferencia sean mayores y que, por tanto, el envío y recepción tenga
+    menos latencia, aunque puedan presentarse ciertas pérdidas.
+\end{itemize}
 
 
-Una vez estudiado y programado como lograr dicho proceso usando la clase
-SourceDataLine de Java \cite{java-SourceDataLine}, la cual es capaz de
-reproducir audio a partir de un array de bytes especificando previamente el
-formato en el que ese audio ha sido obtenido (frecuencia de muestreo, canales,
-etc.); pude comprobar que el streaming de audio en tiempo real, sin embargo, la
-calidad era pésima, pues solo conseguía escucharse 1 segundo de audio por cada 5
-segundos de silencio, sin embargo, se mantenía en el tiempo. Por lo que jugando
-con la frecuencia de muestreo del audio para aligerar el tamaño del audio, junto
-con el tamaño del buffer a enviar, se pudo mejorar bastante el resultado,
-teniendo en cuenta las limitaciones, y es que UDP no permite enviar datagramas
-mayores a 64 kB, por lo que para transmitir audio sin procesar se crea un muy
-alto volumen de paquetes, lo cual hará muy propensa la pérdida de los mismos.
-Todo esto sumado al no tener implementado ningún método para el control de
-pérdidas, ni para el dimensionado dinámico de paquetes (como otros protocolos
-destinados a streaming si hacen), provocará que ocurran ciertos cortes, y que la
-calidad de audio no pueda ser excesivamente alta pues aumentaría mucho más el
-tamaño.
+Es por esto que, dado las necesidades del proyecto de una comunicación en tiempo
+real para la reproducción de audio en streaming, se ha optado por implementar un
+socket UDP en lugar de TCP.\\
+
+Puesto que UDP no incorpora un control de pérdidas, ni asegura la correcta
+recepción de los paquetes; trabajar con ficheros regulares sería un error debido
+a la facilidad de corrupción de los mismos en el momento de la pérdida de algún
+paquete. Por lo que el fichero con extensión PCM con la captura de audio en RAW
+que se creó en el milestone 2 no es válido para este enfoque, así pues, habrá
+que enviar el flujo de audio del objeto AudioRecord a través del socket UDP en
+lugar de guardarlo en un fichero pcm.\\
+
+Este nuevo enfoque de enviar el objeto de flujo de bytes de audio en lugar de un
+fichero regular, provoca que en el lado del receptor, en lugar de recrear y
+reproducir el archivo reproducible por cualquier reproductor de audio, haya que
+implementar un método que reproduzca sonido a partir de un objeto de flujo bytes
+de audio. Para ello existe una clase llamada SourceDataLine en Java
+\cite{java-SourceDataLine}, con la cual ya había trabajado en otras asignaturas,
+que permite la reproducción de audio a partir de un array de bytes especificando
+previamente el formato en el que ese audio ha sido obtenido (frecuencia de
+muestreo, canales, etc.) por lo que debido a esto, y tal y como se comentó en el
+proceso de selección [REFERENCIAR DICHO PROCESO DE SELECCIÓN] se decidió emplear
+Java en el lado del receptor.\\
+
+Una vez programada la recepción de datagramas socket y la recreación del objeto
+de audio, pude comprobar que el streaming era funcional y mantenida en tiempo
+real, sin embargo, había muchísimos micro cortes, que llegaban a imposibilitar
+la escucha de audio.\\
+
+Para solventar esto se fue variando la frecuencia de muestreo del audio (para
+aligerar las muestras de sonido sacrificando calidad) y el tamaño de los
+datagramas UDP (para reducir el número de paquetes, aumentando el tamaño de los
+mismos y evitar saturar la red).\\
+
+Gracias a esto finalmente se ha conseguido un resultado más aceptable, teniendo
+en cuenta las limitaciones, y es que UDP no permite enviar datagramas mayores a
+64 kB, por lo que al estar transmitiendo audio sin procesar, se crea un muy alto
+volumen de paquetes, lo cual hará muy propensa la pérdida de los mismos. Todo
+esto sumado al no tener implementado ningún método para el control de pérdidas,
+ni para el dimensionado dinámico de paquetes (como otros protocolos destinados a
+streaming si hacen), provocará que ocurran ciertos cortes, y que la calidad de
+audio no pueda ser excesivamente alta, pues aumentaría mucho más el tamaño.\\
 
 Sin embargo, a pesar de los micro cortes puntuales y la disminución de la
-calidad, la transmisión es estable, a tiempo real y sin retardo en el audio (ante unas
-mínimas condiciones de red aceptables), por lo que finalmente y tras muchos
-cambios, replanteamientos y semanas de investigación y desarrollo que parecían
-no llevar a ningún lugar; los objetivo de envío y recepción de audio cumplen
-los requisitos para un PMV.
-
-
+calidad, la transmisión es estable, a tiempo real y sin retardo en el audio
+(ante unas mínimas condiciones de red aceptables), por lo que los objetivo de
+envío y recepción de audio cumplen los requisitos para un PMV.
