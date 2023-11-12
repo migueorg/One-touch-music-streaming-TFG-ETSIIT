@@ -278,7 +278,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Python con la librería nfcpy}. Por lo que este
 será el lenguaje empleado para el módulo NFC en la parte del receptor.
 
-\subsection{Dispositivo receptor: módulo audio streaming}
+\subsection{Dispositivo receptor: módulo audio streaming} \label{seleccion-streaming-receptor}
 
 Este dispositivo es el mismo que el que ejecutará el módulo de NFC, sin embargo,
 para reproducir el audio en streaming se tendrán unos requisitos diferentes que
@@ -509,13 +509,15 @@ NFC por la parte del receptor para el módulo de NFC.
 \subsection{Transmisión de audio entre móvil y receptor}
 
 En una primera instancia se propuso enviar el audio capturado usando algún
-protocolo pensado y dedicado al streaming, como pueden ser WebRTC, RTSP, HLS,
+protocolo pensado y dedicado al streaming, como pueden ser WebRTC
+\cite{protocolo-webrtc}, RTSP \cite{protocolo-rtsp}, HLS \cite{protocolo-hls},
 etc. los cuales a día de hoy son ampliamente usados y conocidos. Sin embargo, se
-presentó el primer problema; estos no son compatibles con audio en RAW (sin
-procesar). Cada uno de estos protocolos tienen una lista de codecs soportados
-para audio y video, cuya lista es más bien escasa, soportando nada más que un
-par de codecs cada uno, pero por supuesto, nada de audio sin procesar en ninguno
-de estos protocolos.\\
+presentó el primer problema; estos no son compatibles con audio en
+\href{https://en.wikipedia.org/wiki/Raw_audio_format}{RAW} (sin procesar). Cada
+uno de estos protocolos tienen una lista de codecs soportados para audio y
+video \cite{protocolo-codecs}, cuya lista es más bien escasa, soportando nada más que un par de codecs
+cada uno, pero por supuesto, nada de audio sin procesar en ninguno de estos
+protocolos.\\
 
 Para poder utilizar estos protocolos ideales de streaming, habría que añadir una
 codificación en tiempo real al audio, lo cual consumiría una cantidad elevada de
@@ -523,17 +525,17 @@ recursos adicionales y batería al dispositivo, además de añadir una latencia
 extra en el audio. Por supuesto, también requeriría el uso de bibliotecas
 externas, ya que Android de forma nativa no tiene soporte para codificar ciertos
 formatos como podría ser MP3 (lo tiene para decodificar, no obstante, no para
-codificar). Lo cual también llevaría un tiempo de desarrollo extra, pues habría
+codificar) \cite{android-mp3}. Lo cual también llevaría un tiempo de desarrollo extra, pues habría
 que realizar el proceso de estudio y selección correspondiente sobre las
 bibliotecas existentes.\\
 
 Debido a esto, y con el fin de evitar tener que codificar en tiempo real todo el
-audio interno, se ha optado por emplear un socket y tratar el audio como si
+audio interno, se ha optado por emplear un socket \cite{protocolo-socket} y tratar el audio como si
 fuese un archivo a enviar en lugar de emplear alguno de los protocolos ya
 mencionados.\\
 
-A la hora de crear un socket existen dos posibilidades, emplear el protocolo TCP
-o UDP:
+A la hora de crear un socket \cite{protocolo-socket} existen dos posibilidades,
+emplear el protocolo TCP \cite{protocolo-tcp} o UDP \cite{protocolo-udp}:
 
 \begin{itemize}
     \item El protocolo TCP es orientado a conexión, por lo que incorpora un
@@ -573,9 +575,9 @@ de audio. Para ello existe una clase llamada SourceDataLine en Java
 \cite{java-SourceDataLine}, con la cual ya había trabajado en otras asignaturas,
 que permite la reproducción de audio a partir de un array de bytes especificando
 previamente el formato en el que ese audio ha sido obtenido (frecuencia de
-muestreo, canales, etc.) por lo que debido a esto, y tal y como se comentó en el
-proceso de selección [REFERENCIAR DICHO PROCESO DE SELECCIÓN] se decidió emplear
-Java en el lado del receptor.\\
+muestreo, canales, etc.) por lo que debido a esto, y tal y como se comentó en
+\hyperref[seleccion-streaming-receptor]{el proceso de selección} se decidió
+emplear Java en el lado del receptor.\\
 
 Una vez programada la recepción de datagramas socket y la recreación del objeto
 de audio, pude comprobar que el streaming era funcional y mantenida en tiempo
