@@ -427,7 +427,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
 empleado para el módulo de audio en streaming en la parte del receptor.
 
-
+\newpage
 \section{Capturando el audio: Milestone 2}
 
 Para capturar el audio interno como comenté antes, he utilizado la \emph{API
@@ -441,7 +441,7 @@ de otras alternativas como \emph{MediaPlayer} \cite{clase-mediaplayer} que son
 soluciones de más alto nivel, habrá que programar manualmente métodos como por
 ejemplo el de grabar el audio a un fichero, cosa que \emph{MediaPlayer} si hace
 sin tener que incluir nada extra. Sin embargo, al trabajar con bajo nivel
-obtendremos un mejor rendimiento. 
+obtendremos un mejor rendimiento.\\
 
 Los requisitos de esta \emph{API} son que la
 aplicación tenga permisos para acceder al micrófono \footnote{Por la forma en la
@@ -451,7 +451,7 @@ que aunque parezca que esta aplicación está solicitando permisos para acceder 
 micrófono del dispositivo, no se tiene por qué hacer uso de él.} y a la
 proyección de la pantalla.
 
-\newpage
+
 
 \emph{AudioRecord} al trabajar a bajo nivel, obtiene el audio en
 \href{https://en.wikipedia.org/wiki/Raw_audio_format}{\emph{RAW}}, por lo que no
@@ -459,21 +459,20 @@ tendrá compresión ni tendrá cabeceras para ser identificado por reproductores
 lo cual significa que a la hora de guardarlo será un fichero con extensión
 \emph{RAW} o \emph{PCM} \cite{audio-pcm}.
 
-\begin{figure}[htb]
+\begin{figure}[h!]
     \centering
     \includegraphics{fotos/archivo_generado.png}
     \caption{Archivo generado.}
 \end{figure}
-
 
 Por lo que a la hora de reproducirlo habrá que especificar manualmente la
 velocidad de muestreo o \emph{samplerate}, profundidad de bits y los canales de
 audio que tiene la pista \cite{audio-samplerate}, los cuales normalmente vienen
 incrustados en las cabeceras de los formatos de audio procesado.
 
-\begin{figure}[htb]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{fotos/importando_datos_en_bruto_audacity.png}
+    \includegraphics[width=0.9\textwidth]{fotos/importando_datos_en_bruto_audacity.png}
     \caption{Especificando la composición del audio.}
 \end{figure}
 
@@ -482,13 +481,15 @@ el uso final, sino que serán utilizados únicamente durante el desarrollo
 para verificar que se está capturando el audio y que satisface el PMV (producto
 mínimamente viable); esto no es un inconveniente que haya que tener en
 consideración más allá que en el de especificar los datos de codificación a la
-hora de abrir el archivo generado. Por tanto, una vez generado el fichero con
+hora de abrir el archivo generado. 
+
+Por tanto, una vez generado el fichero con
 extensión \emph{pcm} con la captura del audio, lo reproduciré para comprobar si
 se satisface el PMV. 
 
-\begin{figure}[htb]
+\begin{figure}[hb]
     \centering
-    \includegraphics[width=\textwidth]{fotos/muestra_captura_audacity.png}
+    \includegraphics[width=0.9\textwidth]{fotos/muestra_captura_audacity.png}
     \caption{Muestra del audio correctamente capturado.}
 \end{figure}
 
@@ -496,3 +497,76 @@ Finalmente, si usamos un software compatible con audio en \emph{RAW} como es
 \emph{Audacity} \cite{software-audacity}, vemos que el audio ha sido capturado
 correctamente y que es reproducible, por lo que, podemos dar como listo el
 milestone 2 al tener satisfecho el PMV asignado al mismo. 
+
+
+\newpage
+\section{Desplegando el receptor de audio: Milestone 3}
+
+Como ya mencioné al inicio de la implementación, el receptor de audio sería un
+dispositivo que corra \emph{Linux}, ya que esto abriría muchas posibilidades en
+cuanto a lenguajes y librerías disponibles; por lo que realmente la elección de un
+hardware u otro es indiferente mientras ejecute \emph{Linux} y tenga algún
+módulo NFC conectado, por ello es que no se ha necesitado un proceso de
+selección para este apartado.
+
+En mi caso emplearé una \emph{Raspberry Pi 1b} debido al bajo coste de la misma, su
+extensa comunidad y sus puertos de entrada y salida de propósito general
+\emph{(GPIO)} \cite{raspberry-gpio} los cuales de cara al desarrollo abren
+las puertas a muchos protocolos de manera fácil y rápida. 
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fotos/raspberry_pi_1b.jpeg}
+    \caption{Raspberry Pi 1b.}
+\end{figure}
+
+En cuanto al módulo NFC opté por un chip PN532 \cite{raspberry-pn532}, el cual
+tiene un bajo coste y su vez admite varios protocolos de conexión diferentes con
+la Raspberry Pi.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{fotos/pn532_bad.jpeg}
+    \caption{PN532 conectado a la Raspberry Pi 1b.}
+\end{figure}
+
+Hacer funcionar un chip PN532 en una Raspberry Pi o Arduino es una tarea
+sencilla y trivial, sin embargo, durante el desarrollo, tras instalar todo lo
+necesario, configurar los drivers y conectar ambos dispositivos; la Raspberry Pi
+seguía sin detectar el módulo, independientemente del protocolo de conexión
+usado. Por lo que sustituí la Raspberry Pi 1b que estaba utilizando por otra
+Raspberry Pi 2. 
+Pero el resultado seguía siendo el mismo incluso después de reinstalar el
+sistema y reinstalar los drivers desde cero en la nueva Raspberry Pi. Por lo que
+sustituí el módulo PN532 por otro de un fabricante diferente, en este caso uno de
+\href{https://www.waveshare.com/wiki/PN532_NFC_HAT}{Waveshare}
+
+\begin{figure}[hb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{fotos/pn532_good.jpeg}
+    \caption{Nuevo PN532 de Waveshare con formato \emph{HAT} conectado a la Raspberry Pi 2.}
+\end{figure}
+
+El cual finalmente sí que funcionó por lo que saqué como conclusión que el primer
+módulo PN532 llegó roto. Lo cual provocó una semana de trabajo perdido entre
+pruebas, intentos y tiempos de espera.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/nfc_poll.jpeg}
+    \caption{nfc-poll detectando el PN532 via UART en la Raspberry Pi 2.}
+\end{figure}
+
+Para conectar un módulo PN532 a una Raspberry Pi, como mencioné antes, existen
+varios protocolos disponibles, los cuales son \emph{UART}, \emph{I2C} y
+\emph{SPI}. Sin embargo, tras hacer un estudio de los protocolos compatibles con
+la librería \emph{NFC} seleccionada tras un proceso de selección al inicio,
+comprobé que el único protocolo compatible con la misma era el de \emph{UART}
+(conexión serie), por lo que tampoco fue necesario realizar un proceso de
+selección sobre los protocolos disponibles.\\
+
+Una vez operativa la Raspberry Pi y el módulo \emph{NFC}, instalé los lenguajes
+elegidos en los procesos de selección que se llevaron a cabo, así como la
+librería \emph{NFC (NfcPy)} seleccionada, los cuales no presentaron ningún
+problema. Por lo que tras esto, el despliegue y configuración del dispositivo
+receptor ya se encontraba listo.
