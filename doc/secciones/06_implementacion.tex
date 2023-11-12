@@ -610,7 +610,7 @@ Dado que la transmisión de audio va a través de la red, el uso de NFC se reduc
 a dos funciones: 
 
 \begin{itemize}
-    \item Iniciar la actividad de captura y transmisión.
+    \item Iniciar la actividad de captura de audio y transmisión del mismo.
     \item Identificar a que dispositivo se debe de transmitir el audio.
 \end{itemize}
 
@@ -724,9 +724,9 @@ mensaje diferente.
 
 Por lo que el siguiente paso fue el de hacerle ingeniería inversa a la memoria de
 las etiquetas para ver como almacenaban la información, y así poder crear un
-archivo ndef al gusto. Para esto, fui haciendo reescribiendo etiquetas, variando
+archivo ndef al gusto. Para esto, fui reescribiendo etiquetas \emph{NFC}, variando
 ligeramente el mensaje entre ellas, volcar la memoria de las mismas usando nfcpy
-y abriendo los dump con un visor hexadecimal como
+y abriendo los \emph{dump} de las mismas con un visor hexadecimal como
 \href{https://hexed.it/}{HexEd.it}.
 
 \begin{figure}[H]
@@ -744,30 +744,10 @@ todos los volcados, y 2 cambiaban cuando se modificaba el tamaño del mensaje
 almacenado, por lo que pude identificar los bytes que almacenaban el tamaño del
 \emph{payload}.\\
 
-Llegado a este punto, programé un pequeño código que escribiese en hexadecimal
-dentro de un archivo binario las cabeceras fijas junto con el tamaño del
-mensaje, seguido del mensaje deseado:\\
+Llegado a este punto, programé un \hyperref[codigo_ndef]{pequeño código} que
+escribiese en hexadecimal dentro de un archivo binario las cabeceras fijas junto
+con el tamaño del mensaje, seguido del mensaje deseado. 
 
-\begin{lstlisting}[style=codigo,label={lst:listing-python},language=Python]
-def crea_ndef_hexadecimal(ip):
-    file = open("ip_actual.ndef","wb")
-
-    if(len(ip)==11): #Longitud para IP 192.168.1.x
-        tam = '0E'
-    elif(len(ip)==12): #Longitud para IP 192.168.1.xx
-         tam = '0F'
-    else: #Longitud para IP 192.168.1.xxx
-         tam = '10'
-    
-    hex_1 = 'D101' + tam + '5402656E' #Cabecera
-    hex_2 = ip.encode("utf-8").hex() #IP
-    bin_s = unhexlify(hex_1+hex_2)
-
-    file.write(bin_s)
-    file.close()
-\end{lstlisting}
-
-\newpage
 Y efectivamente, teniendo en cuenta de hacer coincidir el tamaño en hexadecimal
 del mensaje, el archivo \emph{ndef} era un archivo válido y podía ser leído correctamente:
 
@@ -785,7 +765,7 @@ hay que obtener la codificación del mensaje original así como el idioma,
 información que viene dada en las propias cabeceras, y que de nuevo el libro de
 O'Reilly \cite{ndef-explicado} se explica muy bien de forma gráfica:
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{fotos/estructura_ndef.png}
     \caption{Estructura interna de NDEF del libro de O’Reill \cite{ndef-explicado}.}

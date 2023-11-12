@@ -1,0 +1,21 @@
+\chapter{Código destacado en el documento}
+
+	\section{Creación ficheros NDEF personalizables} \label{codigo_ndef}
+    \begin{lstlisting}[style=codigo,label={lst:listing-python},language=Python]
+        def crea_ndef_hexadecimal(ip):
+            file = open("ip_actual.ndef","wb")
+        
+            if(len(ip)==11): #Longitud para IP 192.168.1.x
+                tam = '0E'
+            elif(len(ip)==12): #Longitud para IP 192.168.1.xx
+                 tam = '0F'
+            else: #Longitud para IP 192.168.1.xxx
+                 tam = '10'
+            
+            hex_1 = 'D101' + tam + '5402656E' #Cabecera
+            hex_2 = ip.encode("utf-8").hex() #IP
+            bin_s = unhexlify(hex_1+hex_2)
+        
+            file.write(bin_s)
+            file.close()
+        \end{lstlisting}
