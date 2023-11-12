@@ -44,9 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         if(!hasAudioPermission()){ 
             requestOnePermission.launch(Manifest.permission.RECORD_AUDIO) 
-        }/*else{
-            Toast.makeText(this@MainActivity, "Ya están los permisos dados.", Toast.LENGTH_SHORT).show() 
-        }*/
+        }
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -74,7 +72,6 @@ class MainActivity : AppCompatActivity() {
  
         val mediaProjectionManager = getSystemService(MediaProjectionManager::class.java) 
         var mediaProjection : MediaProjection 
-        //var file = File(getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
 
 
 
@@ -84,12 +81,8 @@ class MainActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) { 
                 mediaProjection = mediaProjectionManager 
                     .getMediaProjection(result.resultCode, result.data!!) 
-                //Toast.makeText(this@MainActivity, "Pantalla aceptada correctamente", Toast.LENGTH_SHORT).show()
-
-                //println("UBICACION: "+getExternalFilesDir(null).toString()+"/"+"Capture.pcm")
 
                 audioRecord = adaptador.capturarAudio(mediaProjection)
-                //audio2.grabarAudio(audioRecord!!,file)
                 adaptador.enviarAudio(audioRecord!!, ip)
 
             }
