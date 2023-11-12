@@ -26,12 +26,12 @@ class Adapters: Ports, Service() {
     override lateinit var mediaProjectionManager: MediaProjectionManager
     override lateinit var audioCaptureThread: Thread
 
-    override val sampleRate: Int = 16000
-    override val channelConfig: Int = AudioFormat.CHANNEL_IN_MONO
-    override val audioFormat: Int = AudioFormat.ENCODING_PCM_16BIT
+    override val SAMPLE_RATE: Int = 16000
+    override val CHANNEL_CONFIG: Int = AudioFormat.CHANNEL_IN_MONO
+    override val AUDIO_FORMAT: Int = AudioFormat.ENCODING_PCM_16BIT
 
     override val BUFFER_SIZE_IN_BYTES: Int = 2048
-    override val BUFFER_SIZE_RECORDING: Int = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
+    override val BUFFER_SIZE_RECORDING: Int = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
 
     override fun onCreate() {
         super.onCreate()
@@ -45,15 +45,15 @@ class Adapters: Ports, Service() {
             applicationContext.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
 
     }
-    override fun capturarAudio(mediaProjection2: MediaProjection): AudioRecord {
-        val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection2!!)
+    override fun capturarAudio(mediaProjection: MediaProjection): AudioRecord {
+        val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection!!)
             .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
             .build()
 
         val audioFormat = AudioFormat.Builder()
-            .setEncoding(audioFormat)
-            .setSampleRate(sampleRate)
-            .setChannelMask(channelConfig)
+            .setEncoding(AUDIO_FORMAT)
+            .setSampleRate(SAMPLE_RATE)
+            .setChannelMask(CHANNEL_CONFIG)
             .build()
 
         var audioRecord = AudioRecord.Builder()
