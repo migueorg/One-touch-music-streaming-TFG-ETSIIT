@@ -4,6 +4,58 @@ La implementación del software se ha dividido en hitos. Estos han sido definido
 y cada uno de ellos contiene un grupo de \textit{issues} que se corresponden con las distintas
 mejoras que se han ido incorporando al software a lo largo de su desarrollo.\\
 
+\section{Primeros planteamientos para el proyecto}
+
+\subsection{Proyecto como aplicación final}
+
+Los primeros pasos para afrontar este proyecto se hicieron proponiendo crear dos
+aplicaciones reproductoras de audio, una para Android y otra para Linux. Ambas
+tendrían acceso a una misma biblioteca compartida de archivos MP3, la cual
+estaría en red, por lo que ambos reproductores tendrían conocimiento y acceso a
+la misma colección de audio. En dicha biblioteca todos los elementos estaría
+asociados a un identificador, por lo que cuando el móvil y el altavoz se
+comunicasen a través del NFC, se transferiría el identificador del archivo de la
+reproducción actual, además del segundo actual. De esta forma el altavoz sabría
+que elemento de la biblioteca reproducir y en que segundo comenzar.
+
+El problema de esta solución era que la biblioteca dependía del usuario final,
+por lo que conllevaba andar añadiendo canciones y podcast manualmente, como si
+de 2008 se tratase... Por tanto, generaba más problemas de los que solucionaba,
+por lo que se decidió darle al proyecto un enfoque como servicio en lugar una
+aplicación para un usuario final.
+
+De esta manera, el proyecto como servicio sería integrado por otras aplicaciones
+de reproducción, dejando el tema de proveer el contenido a cargo de las mismas.
+
+\subsection{Proyecto como servicio - Google Cast}
+
+Al enfocarlo como servicio se propuso emplear algún protocolo amplio y conocido
+como es \emph{Google Cast} \cite{google-cast}, de modo que el receptor de audio
+fuese un servidor de \emph{Google Cast}, y el servicio en \emph{Android}
+estuviese a la espera de una interacción NFC para conectarse mediante
+\emph{Cast} al servidor con el que se hubiese comunicado. 
+
+El problema que hubo con este planteamiento y por lo que también se descartó es
+que Google no permite que dispositivos ``no genuinos'' sean usados como
+servidores de \emph{Google Cast}. Esto significa que únicamente se permite dotar
+de servidor \emph{Cast} a los dispositivos licenciados por \emph{Google} como
+pueden ser los \emph{Google Chromecast, Google Home, Google Nest, etc}. Por lo
+que hubo que desechar ese protocolo de transmisión y buscar otra alternativa
+libre.
+
+\subsection{Proyecto como servicio - HLS/WebRTC/RTSP}
+
+Al desechar el uso de \emph{Google Cast} hubo que bajar un nivel de abstracción
+para buscar alternativas libres y desarrollar un \emph{Google Cast} propio que
+permitiese enviar el audio a un servidor. Tras el estudio de las \emph{API} de
+\emph{Android} se optó por emplear la \emph{API} existente en \emph{Android 10
+(SDK29)} llamada \emph{AudioPlaybackCapture} \cite{api-audio-capture}, la cual
+permite capturar el audio interno de \emph{Android}, para posteriormente
+procesarlo, grabarlo, o trabajar libremente con él. Por lo que el nuevo enfoque
+sería enviarlo a través de cualquier protocolo de streaming como puede ser \emph{HLS,
+WebRTC o RTSP} tras capturarlo con la mencionada \emph{API}.
+
+
 \section{Selección del lenguaje de programación}
 
 Dentro del proyecto se ven involucrados más de un dispositivo, ya que coexisten
@@ -374,3 +426,73 @@ Tras valorar mediante los criterios de selección los lenguajes principales
 encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
 empleado para el módulo de audio en streaming en la parte del receptor.
+
+
+\section{Capturando el audio: Milestone 2}
+
+Para capturar el audio interno como comenté antes, he utilizado la \emph{API
+AudioPlaybackCapture} \cite{api-audio-capture} que proporciona \emph{Android} a
+partir de \emph{Android 10 (SDK29)}, la cual permite crear un objeto
+\emph{AudioRecord} \cite{clase-audiorecord} con la captura del audio del
+dispositivo, especificándole la velocidad de muestreo del audio y canales a
+partir de la cual podremos trabajar. El inconveniente (y a la vez ventaja según
+se mire) de \emph{AudioRecord} es que trabaja a muy bajo nivel, y a diferencia
+de otras alternativas como \emph{MediaPlayer} \cite{clase-mediaplayer} que son
+soluciones de más alto nivel, habrá que programar manualmente métodos como por
+ejemplo el de grabar el audio a un fichero, cosa que \emph{MediaPlayer} si hace
+sin tener que incluir nada extra. Sin embargo, al trabajar con bajo nivel
+obtendremos un mejor rendimiento. 
+
+Los requisitos de esta \emph{API} son que la
+aplicación tenga permisos para acceder al micrófono \footnote{Por la forma en la
+que está diseñado Android internamente, se agrupan bajo el mismo permiso de
+\emph{RECORD\_AUDIO} el acceso al micrófono y el acceso al audio interno, por lo
+que aunque parezca que esta aplicación está solicitando permisos para acceder al
+micrófono del dispositivo, no se tiene por qué hacer uso de él.} y a la
+proyección de la pantalla.
+
+\newpage
+
+\emph{AudioRecord} al trabajar a bajo nivel, obtiene el audio en
+\href{https://en.wikipedia.org/wiki/Raw_audio_format}{\emph{RAW}}, por lo que no
+tendrá compresión ni tendrá cabeceras para ser identificado por reproductores;
+lo cual significa que a la hora de guardarlo será un fichero con extensión
+\emph{RAW} o \emph{PCM} \cite{audio-pcm}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics{fotos/archivo_generado.png}
+    \caption{Archivo generado.}
+\end{figure}
+
+
+Por lo que a la hora de reproducirlo habrá que especificar manualmente la
+velocidad de muestreo o \emph{samplerate}, profundidad de bits y los canales de
+audio que tiene la pista \cite{audio-samplerate}, los cuales normalmente vienen
+incrustados en las cabeceras de los formatos de audio procesado.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/importando_datos_en_bruto_audacity.png}
+    \caption{Especificando la composición del audio.}
+\end{figure}
+
+Sin embargo, puesto que dichos ficheros con extensión pcm no serán empleados para
+el uso final, sino que serán utilizados únicamente durante el desarrollo
+para verificar que se está capturando el audio y que satisface el PMV (producto
+mínimamente viable); esto no es un inconveniente que haya que tener en
+consideración más allá que en el de especificar los datos de codificación a la
+hora de abrir el archivo generado. Por tanto, una vez generado el fichero con
+extensión \emph{pcm} con la captura del audio, lo reproduciré para comprobar si
+se satisface el PMV. 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/muestra_captura_audacity.png}
+    \caption{Muestra del audio correctamente capturado.}
+\end{figure}
+
+Finalmente, si usamos un software compatible con audio en \emph{RAW} como es
+\emph{Audacity} \cite{software-audacity}, vemos que el audio ha sido capturado
+correctamente y que es reproducible, por lo que, podemos dar como listo el
+milestone 2 al tener satisfecho el PMV asignado al mismo. 

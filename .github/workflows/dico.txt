@@ -159,3 +159,12 @@ Coursier
 sbt
 scala
 tag
+Milestone
+milestone
+AudioRecord
+MediaPlayer
+RECORD
+_AUDIO
+RAW
+samplerate
+pcm
