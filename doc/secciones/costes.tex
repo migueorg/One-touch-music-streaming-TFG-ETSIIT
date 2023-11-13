@@ -4,11 +4,13 @@ en cuenta las inversiones que han sido necesarias para poder realizarlo. Así
 como el de producto, teniendo en cuenta el coste de implementar el
 proyecto por un usuario externo una vez desarrollado.
 
-\section{Costes de desarrollo o producción}
+\section{Costes de desarrollo}
 
 \subsection{Hardware}
 
-Para poder llevar a cabo este proyecto se ha necesitado el siguiente hardware:
+Para poder llevar a cabo este proyecto se ha necesitado el siguiente hardware, con el respectivo coste:
+
+\subsubsection{Costes de equipo de desarrollo}
 
 \begin{table}[H]
     \begin{center}
@@ -18,27 +20,61 @@ Para poder llevar a cabo este proyecto se ha necesitado el siguiente hardware:
         MacBook Pro & 2.029,00\euro & \href{https://www.apple.com/es/shop/buy-mac/macbook-pro/14-pulgadas-gris-espacial-chip-m3-de-apple-con-cpu-de-8-n%C3%BAcleos-y-gpu-de-10-n%C3%BAcleos-8gb-de-memoria-512gb}{Apple} & \\
         Monitor LG & 105,48\euro & \href{https://www.amazon.es/24MK430H-B-23-8-IPS-1920x1080-HDMI/dp/B0798QSKB1/ref=sr_1_12?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2NJEISOMEKIOL&keywords=monitor+lg&qid=1699840177&sprefix=monitor+l%2Caps%2C555&sr=8-12}{Amazon} & \\
         OnePlus 6 & 503,53\euro & \href{https://www.amazon.es/dp/B07CHQHFDZ?tag=kimovil0a-21&linkCode=osi&th=1&psc=1}{Amazon} & Para usar NFC no se puede usar Android Studio.\\
-        Router Asus & 21,99\euro & \href{https://www.amazon.es/ASUS-RT-N12E-Router-inal%C3%A1mbrico-repetidor/dp/B006FSLOVA/ref=sr_1_8?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1HGOZFTRRTMWP&keywords=router+asus&qid=1699840479&s=electronics&sprefix=router+asus%2Celectronics%2C102&sr=1-8}{Amazon} & Para conectar Raspberry Pi con el Android.\\
+        NFC Tags & 3,53\euro & \href{https://es.aliexpress.com/item/1005005873037105.html?spm=a2g0o.productlist.main.83.35605d3e04gFqc&algo_pvid=f5c01eb1-a333-4e0a-981b-568097780c60&algo_exp_id=f5c01eb1-a333-4e0a-981b-568097780c60-41&pdp_npi=4%40dis%21EUR%213.53%210.99%21%21%213.68%21%21%402101fb1016998407662147024e7c50%2112000034654474995%21sea%21ES%210%21AB&curPageLogUid=Li1SKU3buAXD}{AlieExpress} & Para volcar su memoria y genera archi ndef.\\
+        Router Asus & 21,99\euro & \href{https://www.amazon.es/ASUS-RT-N12E-Router-inal%C3%A1mbrico-repetidor/dp/B006FSLOVA/ref=sr_1_8?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1HGOZFTRRTMWP&keywords=router+asus&qid=1699840479&s=electronics&sprefix=router+asus%2Celectronics%2C102&sr=1-8}{Amazon} & Para conectar Raspberry Pi con el Android.\\ \hline
+        \textbf{Total:} & 2.663,53\euro \\ 
+        \cline{1-2}
+    \end{tabular}
+    \caption{Hardware empleado.}
+    \label{tab:costes-hardware-desarrollo}
+    \end{center}
+\end{table} 
+
+\subsubsection{Costes del hardware desarrollado}
+
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{| l | c | c | l |}
+        \hline
+        \textbf{Hardware} & \textbf{Precio} & \textbf{Link compra} & \textbf{Observaciones} \\ \hline
         PN532 defectuoso & 5,68\euro & \href{https://es.aliexpress.com/item/4001169120990.html?spm=a2g0o.productlist.main.3.1373a970Bq2vId&algo_pvid=a03541c9-012e-4322-8a96-1d616775bc64&algo_exp_id=a03541c9-012e-4322-8a96-1d616775bc64-1&pdp_npi=4%40dis%21EUR%214.87%214.38%21%21%215.08%21%21%402103205216998406149955402ee3ba%2110000015015464836%21sea%21ES%210%21AB&curPageLogUid=L7L6DK7DBqn7}{AliExpress} & Módulo NFC que llegó roto.\\
         PN532 funcional & 23,95\euro & \href{https://www.amazon.es/Raspberry-Interface-Communication-Supports-Provided/dp/B07WCRTKSF/ref=sr_1_9?crid=2U2OEGA5PBY45&keywords=pn532&qid=1699840719&sprefix=pn%2Caps%2C1270&sr=8-9&th=1}{Amazon} & Módulo NFC operativo.\\
         Cables jumper H-H & 3,47\euro & \href{https://es.aliexpress.com/item/32825558073.html?spm=a2g0o.productlist.main.3.77ef6976H8wvFc&algo_pvid=8816e97a-1a7e-4ce4-8444-8640a432a291&algo_exp_id=8816e97a-1a7e-4ce4-8444-8640a432a291-1&pdp_npi=4%40dis%21EUR%210.92%210.67%21%21%210.96%21%21%40210313e916998409290625278e091f%2112000036201923577%21sea%21ES%210%21AB&curPageLogUid=HLzROKKGNukF}{AliExpress} & Para conectar el PN532 con la Raspberry Pi.\\
         Cable ethernet 1m & 2,02\euro & \href{https://www.amazon.es/NANOCABLE-10-20-0405-Cable-Ethernet-latiguillo/dp/B00AKBSB1E/ref=sr_1_11?crid=1VAW2QPU0GXCA&keywords=cable%2Bethernet&qid=1699842769&sprefix=cable%2Bet%2Caps%2C538&sr=8-11&th=1}{Amazon} & Para conectar la Raspberry Pi con el router.\\
-        NFC Tags & 3,53\euro & \href{https://es.aliexpress.com/item/1005005873037105.html?spm=a2g0o.productlist.main.83.35605d3e04gFqc&algo_pvid=f5c01eb1-a333-4e0a-981b-568097780c60&algo_exp_id=f5c01eb1-a333-4e0a-981b-568097780c60-41&pdp_npi=4%40dis%21EUR%213.53%210.99%21%21%213.68%21%21%402101fb1016998407662147024e7c50%2112000034654474995%21sea%21ES%210%21AB&curPageLogUid=Li1SKU3buAXD}{AlieExpress} & Para volcar su memoria y genera archi ndef.\\
         Alimentador 5V & 13,50\euro & \href{https://www.kubii.com/es/fuentes-de-alimentacion/3456-fuente-de-alimentacion-raspberry-pi-micro-usb-125w-3272496308534.html#/337-version_d_alimentation-union_europea_u_e_?src=raspberrypi}{Kubii} & Adaptador oficial.\\
         Micro SD 32GB & 11,37\euro & \href{https://www.amazon.es/SanDisk-Extreme-microSDHC-Adaptador-Velocidad/dp/B06XWMQ81P/ref=sr_1_5?qid=1699841213&refinements=p_n_feature_browse-bin%3A948154031&s=computers&sr=1-5}{Amazon} & Para el SO de la Raspberry Pi.\\
         Altavoz jack 3.5 & 4,89\euro & \href{https://www.amazon.es/Tacens-Anima-AS1-Altavoces-alimentaci%C3%B3n/dp/B00II0QHX8/ref=sr_1_14?crid=PJIDP8E6RSZL&keywords=altavoces%2Bpc&qid=1699843171&sprefix=alta%2Caps%2C161&sr=8-14&th=1}{Amazon} & Para conectar a la Raspberry Pi \\
         Raspberry Pi 1b & 45,78\euro & \href{https://es.aliexpress.com/item/1005004697682601.html?spm=a2g0o.productlist.main.15.33eb6bfd05rMkD&algo_pvid=07c626ee-31e1-410d-bcb8-42ab1a6963f9&algo_exp_id=07c626ee-31e1-410d-bcb8-42ab1a6963f9-7&pdp_npi=4%40dis%21EUR%2150.87%2145.78%21%21%2153.02%21%21%4021059dbe16998414418033546e3554%2112000030138165340%21sea%21ES%210%21AB&curPageLogUid=0G4zog4X6MqN}{AliExpress} & Sustituida pensando que estaba rota.\\ 
         Raspberry Pi 2 & 47,63\euro & \href{https://www.amazon.es/Raspberry-Pi-Model-Placa-Quad-Core/dp/B00T2U7R7I}{Amazon} & \\ \hline
-        \textbf{Total:} & 2.816,93\euro \\ 
+        \textbf{Total:} & 158,29\euro \\ 
         \cline{1-2}
     \end{tabular}
-    \caption{Hardware empleado.}
-    \label{tab:costes-hard}
+    \caption{Hardware desarrollado.}
+    \label{tab:costes-hardware-desarrollado}
     \end{center}
 \end{table} 
 
 \subsection{Software}
 Para desarrollar este proyecto no ha sido necesario ningún software ni biblioteca de pago.
+
+\section{Análisis de amortización de los costes}
+Por lo que una vez detallado los costes de los componentes involucrados y su fin, atendiendo al calculo de amortización de equipos informáticos \cite{costes-explicacion}, y siguiendo los criterios establecidos por el marco legal decreado en el BOE \cite{costes-boe}
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{| l | c | l | c |}
+        \hline
+        \textbf{Concepto} & \textbf{Precio neto} & \textbf{Amortización} & \textbf{Coste anual}\\ \hline
+        Hardware utilizado & 2.663,53\euro  & 20\% durante 5 años. & 532,71\euro/año.\\ 
+        Hardware desarrollado & 158,29\euro  & 20\% durante 5 años. & 31,66\euro/año.\\ 
+        Software utilizado & 0\euro  &  & \\ \hline
+        \textbf{Total:} & 2.821,82\euro & & \textbf{564,37\euro/año} \\ \hline
+    \end{tabular}
+    \caption{Amortización de los costes.}
+    \label{tab:analisis-amortizacion}
+    \end{center}
+\end{table} 
+
+
 
 \section{Costes de producto}
 
@@ -98,4 +134,4 @@ Para esta configuración se empleará una Raspberry Pi en lugar de un portátil.
 
 Estos precios serían los mínimos para poder utilizar el proyecto, sin embargo,
 si ya se posee alguno de los componentes necesarios se podría omitir su compra,
-reduciendo así los costes-
+reduciendo así los costes.
