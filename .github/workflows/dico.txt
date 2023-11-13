@@ -197,6 +197,17 @@ Waveshare
 UART
 I2C
 SPI
+branches
+Kanban
+hyperref
+migueorg
+One
+touch
+music
+ETSIIT
+projects
+requests
+git
 Plug
 It
 Yourself

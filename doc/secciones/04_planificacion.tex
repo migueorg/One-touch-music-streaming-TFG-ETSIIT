@@ -13,6 +13,72 @@ A continuación documentaremos que herramientas y métodos se ha ido empleando
 durante el proyecto para ir guiando su desarrollo. Asegurando de esta forma, que 
 con el tiempo no se pierda el enfoque y los objetivos iniciales. 
 
+\subsection{Control de versiones}
+
+La metodología que ha servido de motor principal sobre el que desarrollar este
+proyecto ha sido \emph{git}. Gracias a esto, no solo hemos podido llevar un
+histórico detallado para el código y documentación durante todo el desarrollo,
+sino que hemos podido aprovechar sus múltiples herramientas como las
+\emph{branches}, \emph{pull request}, etc. para agilizar el proyecto. Así mismo,
+\emph{GitHub} ha sido el alojamiento para este proyecto.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fotos/control_versiones.png}
+    \caption{Muestra de histórico de cambios.}
+\end{figure}
+
+\subsection{Kanban}
+
+\emph{Kanban} es una metodología para organizar equipos, con la que representar
+de manera gráfica los flujos y la carga de trabajo. Así pues con un simple
+vistazo se puede comprobar que hay pendiente por hacer, en que se está
+trabajando actualmente y que es lo que se lleva hecho. \emph{GitHub} cuenta con
+la posibilidad de incorporar una (y varias) \emph{Kanban} a un repositorio, bajo
+el apartado \emph{projects} del mismo, la cual se vaya actualizando con los
+\emph{issues, commits, pull request, etc.}
+
+Por esto, se ha utilizado una \emph{Kanban} en el desarrollo de este proyecto:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fotos/kanban.png}
+    \caption{Kanban del proyecto.}
+\end{figure}
+
+\subsection{Issues}
+
+A través de los propios \emph{issues} de \emph{GitHub} se ha ido seguimiento de
+las tareas a realizar, así como los \emph{bugs} o posibles mejoras pendientes.
+Durante el desarrollo, todos los \emph{commits} han ido referenciando a un
+\emph{issue}, al igual que todos los \emph{commits} han sido los encargados de cerrar
+todos los \emph{issues} cuando la tarea estaba finalizada. Además, las
+\hyperref[historias-usuario]{historias de usuario de las que hablamos en el
+capítulo de introducción} han sido representadas en forma de issue.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{fotos/issues.png}
+    \caption{Ejemplo de issue del proyecto.}
+\end{figure}
+
+\subsection{Pull requests}
+
+Cada proceso de añadir cualquier elemento al proyecto, primero ha pasado por un
+\emph{pull request}; de este método, se ha podido llevar un control y revisión
+exhausto de absolutamente todo lo que se ha añadido al mismo, por mínima
+funcionalidad, o cambio que fuese. Detallando en el propio \emph{pull request}
+que commit (y por tanto parte de que \emph{issue}) modificaba cada línea.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fotos/pull_request.png}
+    \caption{Pull request ya aceptada y fusionada.}
+\end{figure}
+
+
+\section{Asegurando y verificando la calidad}
+
 \subsection{Corrector ortográfico}
 Para poder asegurar la calidad que buscamos siguiendo los principios del manifiesto
 ágil \cite{agile-manifiesto}, no solo del código, sino también del documento
@@ -451,7 +517,3 @@ de AssertPy, por defecto se utilizará dicha librería excepto si se da el caso 
 necesitar ``mockear'' algún dispositivo externo y encontrar una librería que sea
 más adecuada para dicho caso concreto.
 
-
-\section{Temporización}
-
-\section{Seguimiento del desarrollo}
