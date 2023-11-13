@@ -19,18 +19,17 @@ interface Ports {
 
     var audioCaptureThread: Thread
 
-    val sampleRate: Int
-    val channelConfig: Int
-    val audioFormat: Int
+    val SAMPLE_RATE: Int
+    val CHANNEL_CONFIG: Int
+    val AUDIO_FORMAT: Int
     val BUFFER_SIZE_IN_BYTES: Int
-
     val BUFFER_SIZE_RECORDING: Int
 
 
     /**
      * Método que devuelve el audio interno del dispositivo en un objeto AudioRecord
      */
-    fun capturarAudio(mediaProjection2: MediaProjection): AudioRecord
+    fun capturarAudio(mediaProjection: MediaProjection): AudioRecord
 
     /**
      * Método que envía un objeto AudioRecord a una IP dada

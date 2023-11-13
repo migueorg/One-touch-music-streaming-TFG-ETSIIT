@@ -81,25 +81,376 @@ en que lugar queda:
 \begin{todolist}
     \item[\xcmark] Debe tener una comunidad activa por si es necesario hacer
     alguna pregunta o consulta en el futuro. Cumple este requisito pues se
-    mantiene activo en GitHub resolviendo los issues y PR de la comunidad.
+    mantiene activo en GitHub resolviendo los \emph{issues} y \emph{PR} de la
+    comunidad.
     \item[\xcmark] Los informes sobre los fallos existentes deben ser lo más
     legible y fácil de entender posible. Cumple este requisito pues genera un
-    reporte en HTML con los problemas resaltados en colores llamativos.
+    reporte en \emph{HTML} con los problemas resaltados en colores llamativos.
     \item[\xcmark] Se valorará que ofrezca posibles correcciones. Cumple este
     requisito pues en dicho reporte al poner el cursor encima te sugiere
     revisiones.
     \item[\xcmark] Se valorará la posibilidad de excluir palabras del análisis.
     Cumple el requisito aunque bastante raspado, ya que permite excluir palabras
-    mediante un diccionario de palabras excluidas, pero no permite excluir una
-    única aparición puntual de la misma.
+    mediante un diccionario de palabras excluidas, sin embargo, no permite
+    excluir una única aparición puntual de la misma.
 \end{todolist}
 
 \subsubsection{Conclusión}
 Finalmente, dado que es la única alternativa que se ajusta completamente a los
 requisitos de búsqueda y además cumple en mayor o menor medida con los
 requisitos de selección establecidos, se ha implementado esta solución como
-GitHub Action en el repositorio, para asegurar la calidad del documento
+\emph{GitHub Action} en el repositorio, para asegurar la calidad del documento
 entregable.
+
+\subsection{Test runner: Java y Kotlin}
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Se buscarán test runners que sean compatibles con Java y Kotlin.
+    Puesto que vamos a trabajar con dos lenguajes distintos, pero que a su vez
+    comparten muchas similitudes y bibliotecas, con el fin de ahorrar en tener
+    que invertir tiempo en aprender y comprender dos frameworks de testing
+    diferentes, buscaremos uno que se pueda incluir en ambos lenguajes,
+    ahorrando de esta manera tiempo y código. 
+    \item Se buscará que no estén centrados en BDD, ya que, algunos test runners
+    están centrados en dicho enfoque y basan su sintaxis en el \emph{Scenario,
+    Given, When y Then}, lo cual se aleja del enfoque DDD empleado en este proyecto.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Los criterios bajo los cuales evaluaremos los candidatos encontrados en la
+búsqueda anterior para finalmente seleccionar el que más se adecúe son:
+\begin{itemize}
+    \item Se valorará el nivel de documentación que tenga así como de los
+    ejemplos y tutoriales hechos por la comunidad.
+    \item Se tendrá en cuenta la compatibilidad con IDE.
+\end{itemize}
+
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+Tras buscar \emph{test runners} que cumplan los requisitos de búsqueda encontramos:
+
+\begin{itemize}
+    \item \href{https://junit.org/junit5/}{JUnit}
+    \item \href{https://testng.org/doc/index.html}{TestNG}
+\end{itemize}
+
+Otros \emph{test runners} encontrados, pero que no cumplían los requisitos de búsqueda son:
+\begin{itemize}
+    \item \href{https://spockframework.org/}{Spock}: Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}, aunque se puede añadir gracias a Groovy.
+    \item \href{https://cucumber.io/}{Cucumber} Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}.
+    \item \href{https://github.com/karatelabs/karate}{Karate} Centrado en BDD y \href{https://kotlinlang.org/api/latest/kotlin.test/}{no es soportado nativamente por Kotlin}.
+\end{itemize}
+
+
+\subsubsection{Proceso de selección y estudio}
+
+\subsubsection{JUnit}
+
+\begin{todolist}
+    \item[\xcmark] Se valorará el nivel de documentación que tenga así como de
+    los ejemplos y tutoriales hechos por la comunidad: Cumple encarecidamente
+    este requisito, ya que, es el \emph{test runner} por excelencia en Java, por
+    tanto, es el más usado y el que más ejemplos, tutoriales y documentación
+    posee.
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDE: Cumple este
+    requisito sin problemas, puesto que, existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{esta extensión para
+    Visual Studio Code} que lo hace compatible y además
+    \href{https://www.jetbrains.com/help/idea/junit.html}{viene por defecto con
+    IntelliJ IDEA}
+\end{todolist}
+
+
+\subsubsection{TestNG}
+
+\begin{todolist}
+    \item Se valorará el nivel de documentación que tenga así como de los
+    ejemplos y tutoriales hechos por la comunidad: A pesar de que hay bastante
+    bibliografía y ejemplos, no está al nivel de JUnit y de hecho incluso la
+    página oficial tiene un aspecto más antiguo y descuidado que el de JUnit.
+    \item[\xcmark] Se tendrá en cuenta la compatibilidad con IDE: Cumple este
+    requisito sin problemas, pues, existe
+    \href{https://code.visualstudio.com/docs/java/java-testing}{esta extensión para
+    Visual Studio Code} que lo hace compatible y además
+    \href{https://www.jetbrains.com/help/idea/testng.html}{viene por defecto con
+    IntelliJ IDEA}
+\end{todolist}
+
+
+Por lo que tras valorar mediante los criterios de selección los \emph{test
+runners} principales encontrados según los criterios de búsqueda, podemos ver
+que el que satisface todos los criterios es \textbf{JUnit}. Por lo que este será
+el \emph{test runner} empleado para Java y para Kotlin.
+
+
+\subsection{Biblioteca de aserciones: Java y Kotlin}
+
+La elección de una biblioteca de aserciones no es excluyente de prescindir de
+otras, ya que, puede haber conjuntamente más de una a la vez en un mismo
+proyecto. Por lo que se empleará la resulte más conveniente según lo que se esté
+testeando. Así pues este proceso de selección no buscará quedarse con una sola
+opción, sino consultar las existentes para tenerlas en conocimiento y poder
+optar por una o por otra en el momento en el que se necesiten.
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Bibliotecas de aserciones que sean compatibles con JUnit (el
+    \emph{test runner} que estamos usando)
+\end{itemize}
+
+\subsubsection{Resultados tras la búsqueda}
+
+Las diferentes opciones que se han encontrado compatibles con nuestros criterios
+de búsqueda son:
+
+\begin{itemize}
+    \item La biblioteca que proporciona JUnit: Básica y con una sintaxis poco
+    natural. Pero suficiente para cosas simples o sencillas.
+    \item \href{https://github.com/assertj/assertj}{AssertJ}: Mucho más completa
+    que la que incorpora JUnit, con sintaxis mucho más natural y con la
+    posibilidad de crear tus propias aserciones. Es una de las más empleadas.
+    \item \href{http://www.awaitility.org/}{Awaitility}: Se centra en brindar y
+    facilitar los test de manera legible para sistemas asíncronos.
+    \item \href{https://site.mockito.org/}{Mockito}: Utilizado por excelencia para
+    ``mockear'', tiene la ventaja de que se adapta tanto a escenarios simples
+    como para escenarios más complejos y avanzados o específicos. Se suele
+    añadir en conjunto a AssertJ y es otro de los más frecuentados por la comunidad.
+    \item \href{https://github.com/voodoodyne/subethasmtp}{Wiser}: Librería de
+    uso exclusivo para ``mockear'' un servidor SMTP. 
+    \item \href{https://github.com/marschall/memoryfilesystem}{Memoryfilesystem}
+    y \href{https://github.com/google/jimfs}{Jimfs}: Librerías para
+    ``mockear'' entrada y salida de memoria. 
+    \item \href{https://wiremock.org/docs/overview/}{WireMock}: Librería para
+    ``mockear'' servidores HTTP
+    \item \href{https://testcontainers.com/}{Testcontainers}: Framework muy
+    interesante para ``mockear'' cualquier cosa que pueda ejecutarse en un
+    contendor Docker. 
+\end{itemize}
+
+Se han añadido librerías para ``mockear'' a pesar de no ser bibliotecas de
+aserciones como tal, pero que pueden ser requeridas igualmente según lo que se
+esté testeando. Igualmente, existirán más librerías y frameworks específicos para hacer
+\emph{mocks} más concretos según necesidad.
+
+
+
+\subsection{Test runner: Python}
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Se buscará cualquier test runner que sea compatible con Python.
+\end{itemize}
+
+\subsubsection{Criterios de selección}
+
+Los criterios bajo los cuales evaluaremos los candidatos encontrados en la
+búsqueda anterior para finalmente seleccionar el que más se adecúe son:
+\begin{itemize}
+    \item Comunidad Activa (se tendrá en cuenta la frecuencia con la que hacen
+    commits, fecha de la última versión, cantidad de \emph{PR} e \emph{issues}
+    abiertos, forma de contestar ante aportaciones de la comunidad, número de
+    personas que mantienen el proyecto, etc.)
+    \item Claridad en los informes de los test (se valorará la salida que nos dé
+    al finalizar los test, la facilidad para ver que ha salido bien y que ha
+    salido mal, etc.)
+    \item Documentación concisa (se valorarán los ejemplos proporcionados en la
+    documentación, organización de las secciones, la facilidad para buscar dudas
+    o problemas, existencia de FAQ, así como utilidad de la misma)
+    \item Facilidad de uso (se tendrá en cuenta la curva inicial de dificultad
+    para usar el framework, simplicidad para desplegarlo así como la complejidad
+    para añadir los test)
+    \item Debe tener la posibilidad de usar fixtures, pues aunque no se vayan a
+    usar de momento, es un añadido que en el futuro puede ser útil para poder
+    simular contextos o situaciones específicas para testear comportamientos
+    concretos de forma cómoda y rápida.
+\end{itemize}
+
+
+\subsubsection{Opciones encontradas según los criterios de búsqueda establecidos}
+
+Tras buscar \emph{test runners} que cumplan los requisitos de búsqueda encontramos:
+
+\begin{itemize}
+    \item \href{https://github.com/pytest-dev/pytest}{Pytest}
+    \item \href{https://github.com/nose-devs/nose2}{Nose2}
+    \item \href{https://github.com/CleanCut/green}{Green}
+    \item \href{https://github.com/nestorsalceda/mamba}{Mamba}
+\end{itemize}
+
+\subsubsection{Proceso de selección y estudio}
+
+\subsubsection{Pytest}
+
+\begin{todolist}
+    \item[\xcmark] Cumple con una comunidad activa. De hecho al ser uno de los
+    más conocidos, tiene una gran actividad tanto en \emph{issues} como en
+    \emph{PR}, y en medida de lo posible por el gran volumen, se ve como
+    contestan con rapidez y los atienden. Además, también tienen una gran
+    cantidad de commits, todos con bastante frecuencia, y el equipo de
+    desarrollo no está compuesto o mantenido por una sola persona.
+    \item[\xcmark] Dispone de una salida bastante fácil de comprender y rápida
+    de detectar el error, resaltando la línea que provoca el fallo y el motivo
+    de una manera ordenada e intuitiva, por lo que sí que cumple este requisito.
+    \item A pesar de tener una documentación correcta, no tiene ejemplos
+    concretos ni un modo organizado de mostrarla, así como explicaciones
+    suficientes que acompañen a algunos de los ejemplos. Por tanto, no cumple
+    este criterio.
+    \item[\xcmark] Los pasos iniciales son bastante simples y rápidos, como
+    consecuencia, tiene una curva inicial bastante simple a pesar de una
+    documentación que deja que desear, por lo que si cumple este requisito.
+    \item[\xcmark]
+    \href{https://docs.pytest.org/en/latest/explanation/fixtures.html}{Soporta
+    el uso de fixtures}, por lo que si cumple este requisito. 
+\end{todolist}
+
+
+\subsubsection{Nose2}
+
+\begin{todolist}
+    \item No cumple con mis criterios de tener una comunidad activa, a pesar de
+    que su commit más reciente es de hace 2 días y no tienen muchos
+    \emph{issues} ni \emph{PR} abiertos, pero realmente sus commits son de muy
+    cuando en cuando, por lo que se aprecia que el desarrollo va por rachas y no
+    es demasiado activo, y además de esto, solo lo mantiene activo una persona.
+    Por lo que según lo mencionado en los criterios, no lo cumple. 
+    \item Como se basa en Unittest, tiene una salida casi idéntica al mismo, por
+    lo que de igual manera no tiene una salida amigable. 
+    \item Tiene una mala documentación de cara a gente novata, pocos ejemplos
+    prácticos o supuestos reales, y una muy mala organización.
+    \item No tiene para nada un inicio sencillo, el cual se complica por su
+    documentación tan mal organizada y escasa. De hecho de sus primeros
+    comentarios en la documentación es que si eres un usuario novato consideres
+    usar pytest en su lugar.
+    \item[\xcmark]
+    \href{https://docs.nose2.io/en/latest/plugins/layers.html?highlight=fixtures#organizing-test-fixtures-into-layers}{Permite
+    el uso de fixtures} mediante lo que ellos llaman plug-ins. Por lo que si
+    cumple este requisito. 
+\end{todolist}
+
+\subsubsection{Green}
+
+\begin{todolist}
+    \item[\xcmark] Cumple, aunque con un par de inconvenientes. Tiene +160 \emph{issues}
+    cerrados y solo 2 abiertos, de los cuales, ambos atendidos, repitiendo la
+    misma fórmula para los PR así que por esa parte si cumple. Sin embargo,
+    lleva sin recibir commits desde julio de 2021, es decir 6 meses desde el
+    último commit en el momento en el que se hace el análisis, lo cual, no está
+    del todo mal, pero además de eso el proyecto está mantenido por una única
+    persona, cosa que no inspira mucha confianza. A pesar de estos detalles, como
+    dije al principio, cumple el requisito.
+    \item[\xcmark] Se basa en unittest, sin embargo, a diferencia del anterior, este
+    trae añadidos como colorear y mostrar de una forma más clara y visible la
+    salida de los informes, por lo que cubre el requisito a pesar de basarse en
+    unittest.
+    \item Tiene la peor documentación de todas las alternativas vistas, no
+    dispone de web dedicada para la documentación, sino que utiliza el README
+    del repositorio para ello, siendo bastante escueta, mala y sin ejemplos.
+    Tampoco usa la Wiki del propio repositorio, en su lugar te venden
+    \href{https://www.udemy.com/course/python-testing-with-green/}{un curso de
+    Udemy}, por lo que no cumple para nada este requisito.
+    \item Debido a la mala documentación y poca claridad de la misma, tiene unos
+    primeros pasos bastante complicados, así que tampoco cumple este requisito.
+    \item Al igual que en el requisito anterior, debido a la mala documentación
+    que tienen, ha sido difícil averiguar si es compatible con fixtures,
+    pero finalmente se ha llegado a la conclusión de que no lo es, ya que no
+    aparece nada al respecto en su documentación visible gratuita (desconozco si
+    en su curso de pago los mencionarán), y además un usuario en un \emph{issue}
+    \href{https://github.com/CleanCut/green/issues/60#issuecomment-112241525}{menciona
+    que con fixtures sería fácil de hacer}, de lo que deduzco que no los
+    soportan. Por lo que no cumple este requisito
+\end{todolist}
+
+
+\subsubsection{Mamba}
+
+\begin{todolist}
+    \item  No cumple el tener una comunidad activa, de hecho a pesar de no
+    serlo, parece un proyecto abandonado. No tiene commits desde noviembre de
+    2020, y tiene una gran cantidad de \emph{PR} e \emph{issues} abiertos o
+    pendientes en comparación con los cerrados.
+    \item A pesar de expresar de una forma adecuada el lugar en el que falla, y
+    el tiempo de ejecución, no da una salida muy amigable o ``user friendly'', sobre
+    todo en comparación con el resto de alternativas, por lo que no cumple este
+    requisito.
+    \item Tiene una documentación muy escasa y pobre. Sí que tiene un par de
+    ejemplos concretos de como empezar, pero poco más. Por lo que no cumple este
+    requisito.
+    \item[\xcmark] A pesar de tener una documentación mala, los primeros pasos y
+    el cómo crear un test simple si está documentado de manera aceptable, por lo
+    que el cómo empezar no es excesivamente complicado, cumpliendo este
+    requisito. 
+    \item No es compatible con el uso de fixtures, ya que en su documentación
+    oficial no hay ni mención sobre como implementarlos. Por lo que no cumple
+    este requisito.
+\end{todolist}
+
+\subsubsection{Conclusión}
+
+Tras analizar los posibles test runners encontrados, vemos que pocos de ellos
+cumplen varios de los requisitos establecidos, siendo Pytest el que más cumple
+de todos, por lo que ha sido el elegido finalmente a pesar de no cumplir el
+100\% de los requisitos.
+
+
+\subsection{Biblioteca de aserciones: Python}
+
+Al igual que para la biblioteca de aserciones de Java y Kotlin, en este proceso
+de selección no se limitará las bibliotecas a usar, sino que se mostrarán las
+bondades de cada una para hacer una elección según las necesidades del momento.
+
+
+\subsubsection{Criterios de búsqueda}
+
+Los criterios a través de los cuales buscaremos los candidatos para
+posteriormente evaluar si cumplen los requisitos de selección:
+\begin{itemize}
+    \item Bibliotecas de aserciones que sean compatibles con Pytest (el
+    \emph{test runner} que estamos usando)
+\end{itemize}
+
+\subsubsection{Resultados tras la búsqueda}
+
+Las diferentes opciones que se han encontrado compatibles con nuestros criterios
+de búsqueda son:
+
+\begin{itemize}
+    \item La biblioteca que proporciona Unittest: Al igual que pasaba con la que
+    proporcionaba JUnit para Java, es muy básica y con una sintaxis poco
+    natural. Pero suficiente para cosas simples o sencillas y con bastante buen
+    soporte y documentación.
+    \item \href{https://github.com/dgilland/verify}{Verify}: Tiene una sintaxis
+    intuitiva y que pretende ser lo más natural posible, pero lleva sin recibir
+    soporte desde 2017 y su documentación es bastante escasa y deja que desear.
+    \item \href{https://github.com/assertpy/assertpy}{AssertPy}: Es la más empleada
+    en Python con diferencia, tiene una sintaxis fácil de entender y sencilla.
+    Tiene buen soporte y buena documentación.
+    \item \href{https://github.com/google/pytruth}{PyTruth} Tiene una sintaxis
+    muy simple y fácil de entender. Sin embargo, está abandonada y no tiene
+    documentación.
+    \item \href{https://github.com/grappa-py/grappa}{Grappa} Trata de imitar lo
+    más posible la sintaxis del lenguaje natural, por lo que se hace muy fácil
+    de comprender. Sin embargo, también está abandonada.
+\end{itemize}
+
+\subsubsection{Conclusión}
+
+Debido a las múltiples ventajas en cuanto a facilidad, soporte y documentación
+de AssertPy, por defecto se utilizará dicha librería excepto si se da el caso de
+necesitar ``mockear'' algún dispositivo externo y encontrar una librería que sea
+más adecuada para dicho caso concreto.
+
 
 \section{Temporización}
 
