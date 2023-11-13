@@ -278,7 +278,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Python con la librería nfcpy}. Por lo que este
 será el lenguaje empleado para el módulo NFC en la parte del receptor.
 
-\subsection{Dispositivo receptor: módulo audio streaming}
+\subsection{Dispositivo receptor: módulo audio streaming} \label{seleccion-streaming-receptor}
 
 Este dispositivo es el mismo que el que ejecutará el módulo de NFC, sin embargo,
 para reproducir el audio en streaming se tendrán unos requisitos diferentes que
@@ -427,7 +427,7 @@ encontrados según los criterios de búsqueda, podemos ver que el lenguaje que
 satisface todos los criterios es \textbf{Java}. Por lo que este será el lenguaje
 empleado para el módulo de audio en streaming en la parte del receptor.
 
-\newpage
+
 \section{Capturando el audio: Milestone 2}
 
 Para capturar el audio interno como comenté antes, he utilizado la \emph{API
@@ -450,8 +450,6 @@ que está diseñado Android internamente, se agrupan bajo el mismo permiso de
 que aunque parezca que esta aplicación está solicitando permisos para acceder al
 micrófono del dispositivo, no se tiene por qué hacer uso de él.} y a la
 proyección de la pantalla.
-
-
 
 \emph{AudioRecord} al trabajar a bajo nivel, obtiene el audio en
 \href{https://en.wikipedia.org/wiki/Raw_audio_format}{\emph{RAW}}, por lo que no
@@ -487,7 +485,7 @@ Por tanto, una vez generado el fichero con
 extensión \emph{pcm} con la captura del audio, lo reproduciré para comprobar si
 se satisface el PMV. 
 
-\begin{figure}[hb]
+\begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{fotos/muestra_captura_audacity.png}
     \caption{Muestra del audio correctamente capturado.}
@@ -499,7 +497,6 @@ correctamente y que es reproducible, por lo que, podemos dar como listo el
 milestone 2 al tener satisfecho el PMV asignado al mismo. 
 
 
-\newpage
 \section{Desplegando el receptor de audio: Milestone 3}
 
 Como ya mencioné al inicio de la implementación, el receptor de audio sería un
@@ -566,7 +563,117 @@ comprobé que el único protocolo compatible con la misma era el de \emph{UART}
 selección sobre los protocolos disponibles.\\
 
 Una vez operativa la Raspberry Pi y el módulo \emph{NFC}, instalé los lenguajes
-elegidos en los procesos de selección que se llevaron a cabo, así como la
+elegidos en los procesos de selección que se llevaron a cabo, además de la
 librería \emph{NFC (NfcPy)} seleccionada, los cuales no presentaron ningún
 problema. Por lo que tras esto, el despliegue y configuración del dispositivo
 receptor ya se encontraba listo.
+
+
+\section{Comunicación entre dispositivo móvil y receptor: Milestone 4}
+
+Esta ha sido con diferencia la parte del desarrollo donde hemos tenido que
+aplicar más a fondo metodologías de programación para poder superar los retos
+
+Para empezar con el desarrollo, este milestone se puede dividir a su vez en 4
+objetivos, de los cuales 2 y 2 irán de la mano. Envío de audio en la parte del
+móvil, recepción de audio en la parte del receptor para el módulo del streaming
+de audio, así como lectura de NFC por la parte del dispositivo móvil y escritura
+NFC por la parte del receptor para el módulo de NFC.
+
+\subsection{Transmisión de audio entre móvil y receptor}
+
+En una primera instancia se propuso enviar el audio capturado mediante algún
+protocolo pensado y dedicado al streaming, como pueden ser WebRTC
+\cite{protocolo-webrtc}, RTSP \cite{protocolo-rtsp}, HLS \cite{protocolo-hls},
+etc. los cuales a día de hoy son ampliamente usados y conocidos. Sin embargo, se
+presentó el primer problema; estos no son compatibles con audio en
+\href{https://en.wikipedia.org/wiki/Raw_audio_format}{RAW} (sin procesar). Cada
+uno de estos protocolos tienen una lista de codecs soportados para audio y
+video \cite{protocolo-codecs}, cuya lista es más bien escasa, soportando nada más que un par de codecs
+cada uno, pero por supuesto, nada de audio sin procesar en ninguno de estos
+protocolos.\\
+
+Para poder utilizar estos protocolos ideales de streaming, habría que añadir una
+codificación en tiempo real al audio, lo cual consumiría una cantidad elevada de
+recursos adicionales y batería al dispositivo, además de añadir una latencia
+extra en el audio. Por supuesto, también requeriría el uso de bibliotecas
+externas, ya que Android de forma nativa no tiene soporte para codificar ciertos
+formatos como podría ser MP3 (lo tiene para decodificar, no obstante, no para
+codificar) \cite{android-mp3}. Lo cual también llevaría un tiempo de desarrollo extra, pues habría
+que realizar el proceso de estudio y selección correspondiente sobre las
+bibliotecas existentes.\\
+
+Debido a esto, y con el fin de evitar tener que codificar en tiempo real todo el
+audio interno, se ha optado por emplear un socket \cite{protocolo-socket} y tratar el audio como si
+fuese un archivo a enviar en lugar de emplear alguno de los protocolos ya
+mencionados.\\
+
+A la hora de crear un socket \cite{protocolo-socket} existen dos posibilidades,
+emplear el protocolo TCP \cite{protocolo-tcp} o UDP \cite{protocolo-udp}:
+
+\begin{itemize}
+    \item El protocolo TCP es orientado a conexión, por lo que incorpora un
+    control de paquetes y de pérdidas, que asegura el correcto envío, recepción
+    de manera ordenada y negociación de los mismos. Esto hace que cuando
+    hablemos del envío de archivos de gran tamaño, la red se vea más saturada,
+    pues dicho control de sesión agrega un tamaño a las cabeceras de los
+    paquetes y un volumen considerable al aumentar la cantidad de los mismos que
+    se precisarán para la transferencia.
+    \item El protocolo UDP, por otro lado, no es orientado a conexión, por lo
+    que no asegura la recepción de los paquetes, ni incorpora control de
+    pérdidas, sin embargo, esto hace que tanto las cabeceras como el volumen de
+    paquetes sean mucho menores, pues no necesita llevar a cabo ningún tipo de
+    control ni negociación continua, provocando que las velocidades de
+    transferencia sean mayores y que, por tanto, el envío y recepción tenga
+    menos latencia, aunque puedan presentarse ciertas pérdidas.
+\end{itemize}
+
+
+Es por esto que, dado las necesidades del proyecto de una comunicación en tiempo
+real para la reproducción de audio en streaming, se ha optado por implementar un
+socket UDP en lugar de TCP.\\
+
+Puesto que UDP no incorpora un control de pérdidas, ni asegura la correcta
+recepción de los paquetes; trabajar con ficheros regulares sería un error debido
+a la facilidad de corrupción de los mismos en el momento de la pérdida de algún
+paquete. Por lo que el fichero con extensión PCM con la captura de audio en RAW
+que se creó en el milestone 2 no es válido para este enfoque, así pues, habrá
+que enviar el flujo de audio del objeto AudioRecord a través del socket UDP en
+lugar de guardarlo en un fichero pcm.\\
+
+Este nuevo enfoque de enviar el objeto de flujo de bytes de audio en lugar de un
+fichero regular, provoca que en el lado del receptor, en lugar de recrear y
+reproducir el archivo reproducible por cualquier reproductor de audio, haya que
+implementar un método que reproduzca sonido a partir de un objeto de flujo bytes
+de audio. Para ello existe una clase llamada SourceDataLine en Java
+\cite{java-SourceDataLine}, con la cual ya había trabajado en otras asignaturas,
+que permite la reproducción de audio a partir de un array de bytes especificando
+previamente el formato en el que ese audio ha sido obtenido (frecuencia de
+muestreo, canales, etc.) por lo que debido a esto, y tal y como se comentó en
+\hyperref[seleccion-streaming-receptor]{el proceso de selección} se decidió
+emplear Java en el lado del receptor.\\
+
+Una vez programada la recepción de datagramas socket y la recreación del objeto
+de audio, pude comprobar que el streaming era funcional y mantenida en tiempo
+real, sin embargo, había muchísimos micro cortes, que llegaban a imposibilitar
+la escucha de audio.\\
+
+Para solventar esto se fue variando la frecuencia de muestreo del audio (para
+aligerar las muestras de sonido sacrificando calidad) y el tamaño de los
+datagramas UDP (para reducir el número de paquetes, aumentando el tamaño de los
+mismos y evitar saturar la red).\\
+
+Gracias a esto finalmente se ha conseguido un resultado más aceptable, teniendo
+en cuenta las limitaciones, y es que UDP no permite enviar datagramas mayores a
+64 kB, por lo que al estar transmitiendo audio sin procesar, se crea un muy alto
+volumen de paquetes, lo cual hará muy propensa la pérdida de los mismos. Todo
+esto sumado al no tener implementado ningún método para el control de pérdidas,
+ni para el dimensionado dinámico de paquetes (como otros protocolos destinados a
+streaming si hacen), provocará que ocurran ciertos cortes, y que la calidad de
+audio no pueda ser excesivamente alta, pues aumentaría mucho más el tamaño.\\
+
+Sin embargo, a pesar de los micro cortes puntuales y la disminución de la
+calidad, la transmisión es estable, a tiempo real y sin retardo en el audio
+(ante unas mínimas condiciones de red aceptables), por lo que los objetivo de
+envío y recepción de audio cumplen los requisitos para un PMV.
+

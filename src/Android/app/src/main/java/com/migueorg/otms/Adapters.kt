@@ -15,6 +15,9 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import java.io.File
 import java.io.FileOutputStream
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
 import kotlin.concurrent.thread
 
 class Adapters: Ports, Service() {
@@ -32,6 +35,11 @@ class Adapters: Ports, Service() {
 
     override val BUFFER_SIZE_IN_BYTES: Int = 2048
     override val BUFFER_SIZE_RECORDING: Int = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
+    private val PORT: Int = 49200
+
+
+    private var bufferSize: Int = 8192
+    private var buffer: ByteArray = ByteArray(bufferSize)
 
     override fun onCreate() {
         super.onCreate()
@@ -67,14 +75,26 @@ class Adapters: Ports, Service() {
     }
 
     override fun enviarAudio(audioInterno: AudioRecord, ip: String) {
-        TODO("Not yet implemented")
+        audioInterno!!.startRecording()
+
+        val socket = DatagramSocket()
+        var packet: DatagramPacket
+        val receptor = InetAddress.getByName(ip)
+
+        audioCaptureThread = thread(start = true) {
+
+            while (!audioCaptureThread.isInterrupted) {
+
+                audioInterno.read(buffer, 0, buffer.size)
+
+                packet = DatagramPacket(buffer, buffer.size, receptor, PORT)
+
+                socket.send(packet)
+            }
+        }
     }
 
     override fun lecturaNFC(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun onBind(p0: Intent?): IBinder? {
         TODO("Not yet implemented")
     }
 
@@ -104,5 +124,9 @@ class Adapters: Ports, Service() {
 
         val manager = getSystemService(NotificationManager::class.java) as NotificationManager
         manager.createNotificationChannel(serviceChannel)
+    }
+
+    override fun onBind(p0: Intent?): IBinder? {
+        TODO("Not yet implemented")
     }
 }

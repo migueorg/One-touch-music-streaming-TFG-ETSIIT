@@ -168,6 +168,12 @@ _AUDIO
 RAW
 samplerate
 pcm
+socket
+timestamp
+SourceDataLine
+array
+hyperref
+seleccion
 1b
 Waveshare
 UART
