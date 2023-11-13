@@ -35,10 +35,10 @@ class Adapters: Ports, Service() {
 
     override val BUFFER_SIZE_IN_BYTES: Int = 2048
     override val BUFFER_SIZE_RECORDING: Int = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)
-    private val PORT = 49200
+    private val PORT: Int = 49200
 
 
-    private var bufferSize = 8192
+    private var bufferSize: Int = 8192
     private var buffer: ByteArray = ByteArray(bufferSize)
 
 
