@@ -1,9 +1,11 @@
 package com.migueorg.otms
 
+import android.content.Intent
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.os.Parcelable
 import java.io.File
 
 interface Ports {
@@ -42,5 +44,10 @@ interface Ports {
     /**
      * Método que devuelve lo que lee desde el NFC
      */
-    fun lecturaNFC(): String
+    fun lecturaNFC(intent: Intent): String
+
+    /**
+     * Método que traduce de estándar NDEF a texto legible
+     */
+    fun traduceNDEFaTexto(lecturaRaw: Array<Parcelable>?): String
 }

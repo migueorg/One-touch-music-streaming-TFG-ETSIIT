@@ -1,0 +1,100 @@
+\chapter{Costes}
+En este capítulo se analizarán los costes de desarrollo del proyecto, teniendo
+en cuenta las inversiones que han sido necesarias para poder realizarlo. Así
+como el de producto, teniendo en cuenta el coste de implementar el
+proyecto por un usuario externo una vez desarrollado.
+
+\section{Costes de desarrollo}
+
+\subsection{Hardware}
+
+Para poder llevar a cabo este proyecto se ha necesitado el siguiente hardware,
+con el respectivo coste:
+
+\subsubsection{Costes de equipo de desarrollo}
+
+Atendiendo al cálculo de amortización de equipos informáticos
+\cite{costes-explicacion}, y siguiendo los criterios establecidos por el marco
+legal decretado en el BOE \cite{costes-boe}, aplicando una amortización lineal.
+
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{| l | c | c | c |}
+        \hline
+        \textbf{Hardware} & \textbf{Precio} & \textbf{Amortización} & \textbf{Coste} \\ \hline
+        MacBook Pro & 2.029,00\euro & 12,5\% en 8 años. & 253,63\euro/año.\\
+        Monitor LG & 105,48\euro & 12,5\% en 8 años. & 13,19\euro/año.\\
+        OnePlus 6 & 503,53\euro & 25\% en 4 años. & 125,89\euro/año.\\ \hline
+        \textbf{Coste equipo completo}: & & & 392,71\euro/año \\ \hline
+        \textbf{Tiempo de desarrollo}: & & 9 meses (2 años fiscales diferentes) & \textbf{Total: 785,42\euro} \\ \hline
+    \end{tabular}
+    \caption{Amortización de los costes.}
+    \label{tab:costes-hardware-desarrollo}
+    \end{center}
+\end{table} 
+
+\subsection{Software}
+Para desarrollar este proyecto no ha sido necesario ningún software ni
+biblioteca de pago.
+
+\section{Costes de producto}
+
+Para una persona que desea implementar este proyecto una vez desarrollado, como
+mínimo (se especificarán las alternativas más baratas que se encuentren) tendría
+el siguiente coste:
+
+\subsection{Opción \emph{Plug \& Play}}
+
+Para esta configuración lo más barata y a la vez simple posible se empleará un
+portátil. \footnote{Se ha elegido un portátil porque de esta forma no hay que
+añadir teclado, ratón, pantalla y altavoz a la configuración.}
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{| l | c | c | l |}
+        \hline
+        \textbf{Hardware} & \textbf{Precio} & \textbf{Link compra} & \textbf{Observaciones} \\ \hline
+        
+        Android con versión 10 y NFC & 84,99\euro & \href{https://www.amazon.es/CUBOT-Tel%C3%A9fono-Smartphone-Expandir-Octa-Core/dp/B0CC238QJG/ref=sr_1_6?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2BYDWM54C15NI&keywords=android%2Bnfc&qid=1699844074&sprefix=android%2Bnfc%2Caps%2C137&sr=8-6&th=1}{Amazon}& CUBOT P50 \\ 
+        Portátil con Linux & 189\euro & \href{https://www.amazon.es/ASUS-Chromebook-CX1500CNA-BR0110-Ordenador-operativo/dp/B0BT537K12/ref=sr_1_11?crid=28A51ZD20XKEI&keywords=portatil&qid=1699843810&sprefix=portati%2Caps%2C365&sr=8-11&th=1}{Amazon} & ASUS CX1500CNA\\
+        Módulo NFC USB & 14,99\euro & \href{https://www.amazon.es/Digitalkey-PN532-Mdoulo-Lectura-Escritura/dp/B07ZWQ7Q32/ref=sr_1_2?crid=1M0R0S3UON8X3&keywords=pn532+usb&qid=1699844387&sprefix=pn532+%2Caps%2C107&sr=8-2}{Amazon} & PN532 a USB\\ \hline
+
+        \textbf{Total:} & 288,98\euro \\ 
+        \cline{1-2}
+    \end{tabular}
+    \caption{Coste producto \emph{Plug \& Play}.}
+    \label{tab:costes-product}
+    \end{center}
+\end{table} 
+
+\subsection{Opción \emph{DIY (Do It Yourself)}}
+Para esta configuración se empleará una Raspberry Pi en lugar de un portátil.
+
+
+\begin{table}[H]
+    \begin{center}
+    \begin{tabular}{| l | c | c | l |}
+        \hline
+        \textbf{Hardware} & \textbf{Precio} & \textbf{Link compra} & \textbf{Observaciones} \\ \hline
+        Android 10 y NFC & 84,99\euro & \href{https://www.amazon.es/CUBOT-Tel%C3%A9fono-Smartphone-Expandir-Octa-Core/dp/B0CC238QJG/ref=sr_1_6?__mk_es_ES=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2BYDWM54C15NI&keywords=android%2Bnfc&qid=1699844074&sprefix=android%2Bnfc%2Caps%2C137&sr=8-6&th=1}{Amazon}& CUBOT P50 \\ 
+        Raspberry Pi 1b & 45,78\euro & \href{https://es.aliexpress.com/item/1005004697682601.html?spm=a2g0o.productlist.main.15.33eb6bfd05rMkD&algo_pvid=07c626ee-31e1-410d-bcb8-42ab1a6963f9&algo_exp_id=07c626ee-31e1-410d-bcb8-42ab1a6963f9-7&pdp_npi=4%40dis%21EUR%2150.87%2145.78%21%21%2153.02%21%21%4021059dbe16998414418033546e3554%2112000030138165340%21sea%21ES%210%21AB&curPageLogUid=0G4zog4X6MqN}{AliExpress} & \\ 
+        PN532  & 5,68\euro & \href{https://es.aliexpress.com/item/4001169120990.html?spm=a2g0o.productlist.main.3.1373a970Bq2vId&algo_pvid=a03541c9-012e-4322-8a96-1d616775bc64&algo_exp_id=a03541c9-012e-4322-8a96-1d616775bc64-1&pdp_npi=4%40dis%21EUR%214.87%214.38%21%21%215.08%21%21%402103205216998406149955402ee3ba%2110000015015464836%21sea%21ES%210%21AB&curPageLogUid=L7L6DK7DBqn7}{AliExpress} & Módulo NFC.\\
+        Cables jumper H-H & 3,47\euro & \href{https://es.aliexpress.com/item/32825558073.html?spm=a2g0o.productlist.main.3.77ef6976H8wvFc&algo_pvid=8816e97a-1a7e-4ce4-8444-8640a432a291&algo_exp_id=8816e97a-1a7e-4ce4-8444-8640a432a291-1&pdp_npi=4%40dis%21EUR%210.92%210.67%21%21%210.96%21%21%40210313e916998409290625278e091f%2112000036201923577%21sea%21ES%210%21AB&curPageLogUid=HLzROKKGNukF}{AliExpress} & Conectan el PN532 con la Raspberry Pi.\\
+        Cable ethernet 1m & 2,02\euro & \href{https://www.amazon.es/NANOCABLE-10-20-0405-Cable-Ethernet-latiguillo/dp/B00AKBSB1E/ref=sr_1_11?crid=1VAW2QPU0GXCA&keywords=cable%2Bethernet&qid=1699842769&sprefix=cable%2Bet%2Caps%2C538&sr=8-11&th=1}{Amazon} & Conectan la Raspberry Pi con el router.\\
+        Alimentador 5V & 13,50\euro & \href{https://www.kubii.com/es/fuentes-de-alimentacion/3456-fuente-de-alimentacion-raspberry-pi-micro-usb-125w-3272496308534.html#/337-version_d_alimentation-union_europea_u_e_?src=raspberrypi}{Kubii} & Adaptador oficial.\\
+        Micro SD 32GB & 11,37\euro & \href{https://www.amazon.es/SanDisk-Extreme-microSDHC-Adaptador-Velocidad/dp/B06XWMQ81P/ref=sr_1_5?qid=1699841213&refinements=p_n_feature_browse-bin%3A948154031&s=computers&sr=1-5}{Amazon} & Para el SO de la Raspberry Pi.\\
+        Altavoz jack 3.5 & 4,89\euro & \href{https://www.amazon.es/Tacens-Anima-AS1-Altavoces-alimentaci%C3%B3n/dp/B00II0QHX8/ref=sr_1_14?crid=PJIDP8E6RSZL&keywords=altavoces%2Bpc&qid=1699843171&sprefix=alta%2Caps%2C161&sr=8-14&th=1}{Amazon} & Para conectar a la Raspberry Pi \\
+        \hline
+        \textbf{Total:} & 171,7\euro \\ 
+        \cline{1-2}
+    \end{tabular}
+    \caption{Coste producto \emph{DIY}.}
+    \label{tab:costes-diy}
+    \end{center}
+\end{table} 
+
+
+
+
+Estos precios serían los mínimos para poder utilizar el proyecto, sin embargo,
+si ya se posee alguno de los componentes necesarios se podría omitir su compra,
+reduciendo de esta manera los costes.
