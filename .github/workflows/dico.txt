@@ -173,7 +173,6 @@ Waveshare
 UART
 I2C
 SPI
-Git
 branches
 Kanban
 hyperref
