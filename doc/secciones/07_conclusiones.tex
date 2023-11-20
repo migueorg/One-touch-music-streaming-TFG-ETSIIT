@@ -1,2 +1,81 @@
 \chapter{Conclusiones y trabajos futuros}
 
+\section{Conclusiones}
+
+Finalmente, se ha conseguido llevar a cabo la solución propuesta, cumpliendo los
+objetivos que establecimos al principio en la
+\hyperref[introduccion]{introducción del proyecto}, los cuales han ido guiando
+el proyecto correctamente desde el inicio. Así pues, si sometemos a juicio el
+resultado final, con los objetivos iniciales:
+
+\begin{itemize}
+    \item \textit{Se deberá poder transmitir o mandar el sonido que se esté
+    reproduciendo en el dispositivo móvil hasta el dispositivo que haga de
+    altavoz o receptor}: \textbf{Se satisface el objetivo pues el envío es del
+    objeto con la captura de todo el audio interno del Android}
+    \item \textit{La comunicación entre ambos dispositivos (móvil y altavoz)
+    deberá de llevarse a cabo en menos de 3 segundos para poder mantener la
+    sensación de continuidad de la que hemos hablado antes. Más de 3 segundos
+    puede hacer creer al usuario que el servicio no está funcionando}: \textbf{Se
+    satisface el objetivo pues al emplear un protocolo que no es orientado a
+    conexión, la transferencia es inmediata.}
+    \item \textit{Facilidad de uso y sencillez a la hora de compartir el
+    contenido del reproductor al altavoz. El proceso de envío de sonido desde el
+    Android hasta el altavoz ha de poder realizarse sin interactuar con menús}:
+    \textbf{Se satisface el objetivo pues la única interacción es la de acercar
+    el dispositivo al altavoz y aceptar la captura de audio, siendo esto último
+    una medida de seguridad de Android.}
+\end{itemize}
+
+Por lo que podemos afirmar que con la realización de este proyecto se ha
+conseguido aportar una solución más al estado del arte, teniendo en cuenta las
+necesidades de los usuarios. 
+
+Algunas conclusiones que saco tras haber investigado la informática a bajo
+nivel, tanto para comprender el funcionamiento del NFC, como el del audio y el
+de los paquetes de red; es que es bastante más complicado de lo que parece desde
+fuera, ya que al estar acostumbrados a trabajar a un nivel de abstracción más
+superior gracias a las API, bibliotecas y frameworks, parece que olvidamos el
+nivel de complejidad que tiene una simple llamada a una función en una
+biblioteca. Como ventaja, el programar y trabajar a tan bajo nivel hace que las
+soluciones programando a bajo nivel sean más sofisticadas, y por lo general, si
+se implementa bien, puedan llegar a tener un mejor rendimiento.
+
+También me gustaría destacar, que a día de hoy da la impresión de que el NFC es
+una tecnología olvidada sobre la cual las empresas tecnológicas estiman que no
+hay más que exprimir más allá de su uso principal hoy en día para los pagos, sin
+embargo, y como hemos visto en este proyecto, pueden existir aplicaciones y usos
+muy interesantes. Sin olvidar, su coste tan reducido y la escasa necesidad de
+hardware para implementarlo.
+
+A nivel personal, creo que realizar este proyecto de ingeniería desde 0,
+siguiendo metodologías ágiles, me ha aportado unas muy buenas prácticas a la
+hora de afrontar cualquier proyecto, y una soltura a la hora de trabajar y
+desenvolverme con técnicas, herramientas y flujos de trabajo que se utilizan a
+día de hoy en los entornos reales de trabajo. 
+
+\section{Trabajos futuros}
+
+Como trabajos futuros pienso que hay bastante donde seguir experimentando y
+expandiendo el proyecto. Como por ejemplo:
+
+\begin{itemize}
+    \item Escribir los test creando mocks que verifiquen el comportamiento de
+    los dispositivos hardware involucrados.
+    \item Añadir un \emph{workflow} automatizado que ejecute los test cuando
+    detecte alguna modificación en el código.
+    \item Añadir un botón en la IU de la aplicación para detener correctamente
+    el streaming.
+    \item Añadir un \emph{linter} de \emph{Kotlin} en forma de \emph{GitHub
+    Action} que compile el código cada vez que se modifique.
+    \item Implementar una codificación de audio para emplear un protocolo
+    destinado a audio en streaming y comparar latencias frente a calidad de
+    audio y consumo de recursos.
+    \item Implementar el envío de la dirección IP e inicio de streaming usando
+    \emph{BLE} y comparar frente al \emph{NFC} en un entorno real. 
+\end{itemize}
+
+Definitivamente, todo esto es trabajo que tengo intención de realizar en el
+futuro, pues este proyecto era una idea que me entusiasmaba desde el primer
+momento que lo presenté, y la cual me gustaría seguir desarrollando e impulsando
+por mi cuenta.
